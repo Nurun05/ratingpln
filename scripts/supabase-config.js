@@ -5,12 +5,12 @@
  * ============================================================================
  */
 
-const SUPABASE_URL = (typeof window !== 'undefined' && window.ENV_SUPABASE_URL) 
-    ? window.ENV_SUPABASE_URL 
+const SUPABASE_URL = (typeof window !== 'undefined' && (window.ENV_SUPABASE_URL || window.NEXT_PUBLIC_SUPABASE_URL)) 
+    ? (window.ENV_SUPABASE_URL || window.NEXT_PUBLIC_SUPABASE_URL) 
     : '';
 
-const SUPABASE_ANON_KEY = (typeof window !== 'undefined' && window.ENV_SUPABASE_ANON_KEY) 
-    ? window.ENV_SUPABASE_ANON_KEY 
+const SUPABASE_ANON_KEY = (typeof window !== 'undefined' && (window.ENV_SUPABASE_ANON_KEY || window.NEXT_PUBLIC_SUPABASE_ANON_KEY)) 
+    ? (window.ENV_SUPABASE_ANON_KEY || window.NEXT_PUBLIC_SUPABASE_ANON_KEY) 
     : '';
 
 let supabaseClient = null;
