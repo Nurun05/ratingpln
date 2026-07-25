@@ -2,7 +2,7 @@
  * ============================================================================
  * ADMIN SCRIPT
  * Handles Corporate Admin Dashboard UI, AdminController interactions,
- * Date Range Filters, and SheetJS XLSX Exporter.
+ * Date Range Filters, Dynamic Chart renderers, and SheetJS XLSX Exporter.
  * ============================================================================
  */
 
@@ -13,11 +13,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkAdminAuth();
     setupEventListeners();
     initDynamicYear();
+    
+    // Default switch tab to dashboard
+    switchTab('dashboard');
 });
 
 function initDynamicYear() {
     const el = document.getElementById('currentYear');
     if (el) el.textContent = new Date().getFullYear();
+    const elArchive = document.getElementById('currentYearArchive');
+    if (elArchive) elArchive.textContent = new Date().getFullYear();
 }
 
 function checkAdminAuth() {
@@ -40,7 +45,10 @@ function handleAdminLogin(e) {
         if (errorMsg) errorMsg.style.display = 'none';
         checkAdminAuth();
     } else {
-        if (errorMsg) errorMsg.style.display = 'block';
+        if (errorMsg) {
+            errorMsg.style.display = 'block';
+            errorMsg.classList.remove('hidden');
+        }
     }
 }
 
@@ -147,6 +155,9 @@ function renderDashboard() {
     renderMetricCards();
     renderAnalyticsBars();
     renderDataTable();
+    renderTrendChart();
+    renderRecentComments();
+    renderDonutChart();
 }
 
 function renderMetricCards() {
@@ -211,7 +222,7 @@ function renderDataTable() {
         tbody.innerHTML = `
             <tr>
                 <td colspan="6" class="empty-state">
-                    <i class="fa-solid fa-inbox" style="font-size: 2.2rem; margin-bottom: 8px; opacity: 0.4;"></i>
+                    <span class="material-symbols-outlined text-4xl text-outline mb-2">inbox</span>
                     <p>Tidak ada data rating pada filter ini.</p>
                 </td>
             </tr>
@@ -228,30 +239,119 @@ function renderDataTable() {
                           item.penilaian_pelayanan === 'Cukup Baik' ? '😐' : '🙁';
 
         return `
-            <tr>
-                <td style="font-weight: 700; color: var(--pln-text-muted); width: 50px;">#${index + 1}</td>
-                <td style="white-space: nowrap;">${dateStr}</td>
-                <td>
+            <tr class="hover:bg-surface-container-low transition-colors group">
+                <td class="px-6 py-4 font-bold text-primary">#${index + 1}</td>
+                <td class="px-6 py-4 white-space-nowrap">${dateStr}</td>
+                <td class="px-6 py-4">
                     <span class="badge-star">
                         <span>${item.rating_bintang}</span>
                         <span style="color: var(--pln-yellow);">${stars}</span>
                     </span>
                 </td>
-                <td>
+                <td class="px-6 py-4">
                     <span class="badge-emoji ${emojiClass}">
                         <span>${emojiIcon}</span>
                         <span>${item.penilaian_pelayanan || '-'}</span>
                     </span>
                 </td>
-                <td style="max-width: 340px; line-height: 1.4;">${escapeHtml(item.deskripsi || '-')}</td>
-                <td style="text-align: center; width: 50px;">
-                    <button class="btn-delete-row" title="Hapus Data" onclick="deleteRatingItem('${item.id}')">
-                        <i class="fa-solid fa-trash-can"></i>
+                <td class="px-6 py-4 max-w-[340px] leading-relaxed break-words">${escapeHtml(item.deskripsi || '-')}</td>
+                <td class="px-6 py-4 text-center">
+                    <button class="btn-delete-row text-outline hover:text-error transition-all" title="Hapus Data" onclick="deleteRatingItem('${item.id}')">
+                        <span class="material-symbols-outlined">delete</span>
                     </button>
                 </td>
             </tr>
         `;
     }).join('');
+}
+
+function renderTrendChart() {
+    const container = document.getElementById('trendChartBars');
+    if (!container) return;
+    
+    // Group raw data by date for the last 15 days
+    const today = new Date();
+    let html = '';
+    for (let i = 14; i >= 0; i--) {
+        const d = new Date(today.getTime() - i * 24 * 3600 * 1000);
+        const dateStr = d.toISOString().split('T')[0];
+        // Count ratings on this day
+        const dayRatings = rawRatingsData.filter(r => r.created_at && r.created_at.startsWith(dateStr));
+        const count = dayRatings.length;
+        const avg = count > 0 ? (dayRatings.reduce((acc, r) => acc + (r.rating_bintang || 0), 0) / count).toFixed(1) : 0;
+        // Height as percentage of max ratings or up to 100%
+        const pct = count > 0 ? Math.min(30 + (avg * 14), 100) : 0;
+        const dayLabel = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+        
+        html += `
+            <div class="w-3.5 bg-secondary/20 rounded-t-sm hover:bg-secondary transition-all cursor-help group relative" style="height: ${pct > 0 ? pct : 5}%;" title="${dayLabel}: ${avg} ★ (${count} Rating)">
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 bg-[#0b1e33] text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none shadow-md">
+                    ${avg} ★ (${count} Ulasan)
+                </div>
+            </div>
+        `;
+    }
+    container.innerHTML = html;
+}
+
+function renderRecentComments() {
+    const container = document.getElementById('dashboardRecentComments');
+    if (!container) return;
+    const latest = rawRatingsData.slice(0, 3);
+    if (latest.length === 0) {
+        container.innerHTML = '<p class="text-xs text-on-surface-variant col-span-3 text-center py-4">Belum ada komentar.</p>';
+        return;
+    }
+    container.innerHTML = latest.map(item => {
+        const timeStr = item.created_at ? formatDateShort(new Date(item.created_at)) : '-';
+        const nameInitials = (item.penilaian_pelayanan || 'CS').slice(0, 2).toUpperCase();
+        const emoji = item.penilaian_pelayanan === 'Sangat Baik' ? '😊' :
+                      item.penilaian_pelayanan === 'Cukup Baik' ? '😐' : '🙁';
+        const borderSide = item.rating_bintang >= 4 ? 'border-l-4 border-l-tertiary-fixed-dim' : 'border-l-4 border-l-error';
+        return `
+            <div class="glass-card p-5 rounded-xl shadow-sm relative overflow-hidden group ${borderSide}">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed-variant text-xs">${nameInitials}</div>
+                        <div>
+                            <p class="text-label-lg font-bold">${item.penilaian_pelayanan || 'Pelanggan'}</p>
+                            <p class="text-[10px] text-on-surface-variant uppercase font-bold">Rating CS</p>
+                        </div>
+                    </div>
+                    <div class="text-xl flex gap-1">
+                        <span class="text-amber-500 text-sm font-bold">${item.rating_bintang} ★</span>
+                        <span>${emoji}</span>
+                    </div>
+                </div>
+                <p class="text-body-md text-on-surface mb-4 line-clamp-3 italic">
+                    "${escapeHtml(item.deskripsi || '-')}"
+                </p>
+                <div class="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
+                    <span>${timeStr}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderDonutChart() {
+    const donut = document.getElementById('serviceMoodDonut');
+    if (!donut) return;
+    const total = rawRatingsData.length || 1;
+    const sangatBaik = Math.round((rawRatingsData.filter(d => d.penilaian_pelayanan === 'Sangat Baik').length / total) * 100);
+    const cukupBaik = Math.round((rawRatingsData.filter(d => d.penilaian_pelayanan === 'Cukup Baik').length / total) * 100);
+    const buruk = 100 - sangatBaik - cukupBaik;
+    
+    // Set background gradient dynamically
+    donut.style.background = `conic-gradient(#2dbcfe 0% ${sangatBaik}%, #4ae183 ${sangatBaik}% ${sangatBaik + cukupBaik}%, #ba1a1a ${sangatBaik + cukupBaik}% 100%)`;
+    
+    // Update percentages in legends
+    const pSangatBaik = document.getElementById('legendSangatBaik');
+    const pCukupBaik = document.getElementById('legendCukupBaik');
+    const pBuruk = document.getElementById('legendBuruk');
+    if (pSangatBaik) pSangatBaik.textContent = `${sangatBaik}%`;
+    if (pCukupBaik) pCukupBaik.textContent = `${cukupBaik}%`;
+    if (pBuruk) pBuruk.textContent = `${buruk}%`;
 }
 
 function setupEventListeners() {
@@ -309,28 +409,35 @@ function exportToXLSX() {
 }
 
 function switchTab(tabName) {
+    // Hide all tabs
+    ['dashboard', 'feedback', 'analytics', 'ekspor'].forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.add('hidden');
+    });
+    
+    // Show active tab
+    const activeEl = document.getElementById(`tab-${tabName}`);
+    if (activeEl) activeEl.classList.remove('hidden');
+
+    // Update active class on sidebar links
     const links = document.querySelectorAll('.sidebar-link');
-    links.forEach(l => l.classList.remove('active'));
-
-    const analyticsSec = document.getElementById('analyticsSection');
-    const feedbackSec = document.getElementById('feedbackSection');
+    links.forEach(l => {
+        l.classList.remove('active');
+    });
+    
+    // Find link corresponding to tabName
+    const targetLink = document.getElementById(`link-${tabName}`);
+    if (targetLink) {
+        targetLink.classList.add('active');
+    }
+    
+    // Update top header title dynamically
     const pageTitle = document.getElementById('pageTitle');
-
-    if (tabName === 'dashboard') {
-        if (analyticsSec) analyticsSec.style.display = 'grid';
-        if (feedbackSec) feedbackSec.style.display = 'block';
-        if (pageTitle) pageTitle.textContent = 'Dashboard Pelayanan';
-        if (links[0]) links[0].classList.add('active');
-    } else if (tabName === 'feedback') {
-        if (analyticsSec) analyticsSec.style.display = 'none';
-        if (feedbackSec) feedbackSec.style.display = 'block';
-        if (pageTitle) pageTitle.textContent = 'Data Feedback Pelanggan';
-        if (links[1]) links[1].classList.add('active');
-    } else if (tabName === 'analytics') {
-        if (analyticsSec) analyticsSec.style.display = 'grid';
-        if (feedbackSec) feedbackSec.style.display = 'none';
-        if (pageTitle) pageTitle.textContent = 'Analisis Pelayanan';
-        if (links[2]) links[2].classList.add('active');
+    if (pageTitle) {
+        if (tabName === 'dashboard') pageTitle.textContent = 'Dashboard Overview';
+        else if (tabName === 'feedback') pageTitle.textContent = 'Feedback Pelanggan';
+        else if (tabName === 'analytics') pageTitle.textContent = 'Analisis Performa';
+        else if (tabName === 'ekspor') pageTitle.textContent = 'Ekspor Data Laporan';
     }
 }
 
