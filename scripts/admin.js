@@ -170,10 +170,12 @@ function renderMetricCards() {
     const totalCountEl = document.getElementById('metricTotalCount');
     const satisfactionEl = document.getElementById('metricSatisfaction');
     const latestTimeEl = document.getElementById('metricLatestTime');
+    const progressEl = document.getElementById('satisfactionProgressBar');
 
     if (totalCountEl) totalCountEl.textContent = metrics.total;
     if (avgScoreEl) avgScoreEl.textContent = `${metrics.avgScore} ★`;
     if (satisfactionEl) satisfactionEl.textContent = `${metrics.satisfactionPct}%`;
+    if (progressEl) progressEl.style.width = `${metrics.satisfactionPct}%`;
     if (latestTimeEl) {
         latestTimeEl.textContent = metrics.latestTimestamp ? formatDateShort(metrics.latestTimestamp) : '-';
     }

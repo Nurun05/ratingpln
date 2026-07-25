@@ -187,7 +187,7 @@
                 <span class="material-symbols-outlined font-bold">admin_panel_settings</span>
             </div>
             <h2 class="text-xl font-bold text-primary mb-1">PLN ULP Karebosi</h2>
-            <p class="text-xs text-on-surface-variant mb-6">Masuk untuk mengakses dashboard</p>
+            <p class="text-xs text-on-surface-variant mb-6">Masuk untuk mengakses dashboard admin</p>
 
             <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
                 <div class="text-left mb-4">
@@ -223,26 +223,26 @@
                     </div>
                     <div>
                         <h1 class="font-headline-md text-headline-md font-bold text-on-primary tracking-tight">PLN ULP KAREBOSI</h1>
-                        <p class="text-[10px] text-on-primary-fixed-variant uppercase font-bold tracking-widest opacity-80">Admin Panel</p>
+                        <p class="text-[10px] text-on-primary-fixed-variant uppercase font-bold tracking-widest opacity-80 font-bold">PANEL ADMIN LOKET</p>
                     </div>
                 </div>
             </div>
             <nav class="flex-grow flex flex-col">
                 <a id="link-dashboard" class="sidebar-link rounded-lg mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90 transition-all text-on-primary-fixed-variant opacity-70 hover:opacity-100 cursor-pointer" onclick="switchTab('dashboard')">
                     <span class="material-symbols-outlined mr-3">dashboard</span>
-                    <span class="font-label-lg text-label-lg">Dashboard</span>
+                    <span class="font-label-lg text-label-lg">Ringkasan Utama</span>
                 </a>
                 <a id="link-feedback" class="sidebar-link rounded-lg mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90 transition-all text-on-primary-fixed-variant opacity-70 hover:opacity-100 cursor-pointer" onclick="switchTab('feedback')">
                     <span class="material-symbols-outlined mr-3">chat</span>
-                    <span class="font-label-lg text-label-lg">Feedback</span>
+                    <span class="font-label-lg text-label-lg">Daftar Ulasan</span>
                 </a>
                 <a id="link-analytics" class="sidebar-link rounded-lg mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90 transition-all text-on-primary-fixed-variant opacity-70 hover:opacity-100 cursor-pointer" onclick="switchTab('analytics')">
                     <span class="material-symbols-outlined mr-3">analytics</span>
-                    <span class="font-label-lg text-label-lg">Analisis</span>
+                    <span class="font-label-lg text-label-lg">Grafik Kepuasan</span>
                 </a>
                 <a id="link-ekspor" class="sidebar-link rounded-lg mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90 transition-all text-on-primary-fixed-variant opacity-70 hover:opacity-100 cursor-pointer" onclick="switchTab('ekspor')">
                     <span class="material-symbols-outlined mr-3">download</span>
-                    <span class="font-label-lg text-label-lg">Ekspor Excel</span>
+                    <span class="font-label-lg text-label-lg">Unduh Laporan (Excel)</span>
                 </a>
             </nav>
             <div class="mt-auto px-2">
@@ -258,10 +258,10 @@
             <!-- TopAppBar -->
             <header class="w-full h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-8">
                 <div class="flex items-center gap-4">
-                    <h2 class="font-headline-lg text-headline-lg text-primary" id="pageTitle">Dashboard Overview</h2>
+                    <h2 class="font-headline-lg text-headline-lg text-primary" id="pageTitle">Ringkasan Informasi Pelayanan</h2>
                     <div class="relative hidden lg:block">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
-                        <input id="searchInput" class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:ring-2 focus:ring-primary-container w-64" placeholder="Cari ulasan..." type="text"/>
+                        <input id="searchInput" class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:ring-2 focus:ring-primary-container w-64" placeholder="Ketik kata kunci untuk mencari ulasan..." type="text"/>
                     </div>
                 </div>
                 <div class="flex items-center gap-6">
@@ -290,9 +290,9 @@
 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 <div class="bento-card flex flex-col justify-between overflow-hidden relative">
 <div>
-<p class="font-label-md text-outline uppercase tracking-wider mb-1">Total Ratings</p>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Total Ulasan Masuk</p>
 <div class="flex items-baseline gap-2">
-<span class="font-headline-xl text-headline-xl text-primary" id="metricTotalCount">0</span>
+<span class="font-headline-xl text-headline-xl text-primary"><span id="metricTotalCount">0</span></span>
 <span class="text-tertiary font-bold text-sm flex items-center">
 <span class="material-symbols-outlined text-sm">trending_up</span>
                                 12%
@@ -312,9 +312,9 @@
 </div>
 <div class="bento-card flex flex-col justify-between">
 <div>
-<p class="font-label-md text-outline uppercase tracking-wider mb-1">Avg. Star Rating</p>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Rata-Rata Bintang</p>
 <div class="flex items-center gap-2">
-<span class="font-headline-xl text-headline-xl text-primary" id="metricAvgScore">0.0 ★</span>
+<span class="font-headline-xl text-headline-xl text-primary"><span id="metricAvgScore">0.0 ★</span></span>
 <div class="flex text-amber-400">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -328,23 +328,23 @@
 </div>
 <div class="bento-card flex flex-col justify-between">
 <div>
-<p class="font-label-md text-outline uppercase tracking-wider mb-1">Satisfaction Index</p>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Persentase Kepuasan</p>
 <div class="flex items-center gap-3">
 <span class="text-4xl">😊</span>
-<span class="font-headline-xl text-headline-xl text-primary" id="metricSatisfaction">0%</span>
+<span class="font-headline-xl text-headline-xl text-primary"><span id="metricSatisfaction">0%</span></span>
 </div>
 </div>
 <div class="w-full bg-surface-container rounded-full h-2 mt-4">
-<div id="satisfactionProgressBar" class="bg-tertiary-fixed-dim h-2 rounded-full" style="width: 0%"></div>
+<div class="bg-tertiary-fixed-dim h-2 rounded-full" id="satisfactionProgressBar" style="width: 0%"></div>
 </div>
 </div>
 <div class="bento-card flex flex-col justify-between bg-primary relative overflow-hidden group">
 <div class="z-10">
-<p class="font-label-md text-on-primary opacity-70 uppercase tracking-wider mb-1">Feedback Terakhir</p>
-<span class="text-sm font-bold text-on-primary leading-tight block truncate" id="metricLatestTime">-</span>
+<p class="font-label-md text-on-primary opacity-70 uppercase tracking-wider mb-1">Ulasan Terakhir</p>
+<span class="font-headline-xl text-headline-xl text-on-primary"><span class="text-sm font-bold text-on-primary leading-tight block truncate" id="metricLatestTime">-</span></span>
 </div>
 <button class="z-10 w-full mt-4 bg-on-primary text-primary font-label-lg py-2 rounded-lg hover:bg-secondary-container transition-colors">
-                        Review Now
+                        Lihat Riwayat
                     </button>
 <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
 <span class="material-symbols-outlined text-9xl text-on-primary" style="font-variation-settings: 'FILL' 1;">forum</span>
@@ -353,12 +353,12 @@
 </section>
 <!-- Charts Section -->
 <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<!-- Bar Chart: Star Distribution -->
+<!-- Bar Chart: Pembagian Rating Bintang -->
 <div class="bento-card lg:col-span-2">
 <div class="flex justify-between items-center mb-8">
 <div>
-<h3 class="font-headline-md text-headline-md text-primary">Star Distribution</h3>
-<p class="font-body-md text-outline">Breakdown of customer ratings across all branches</p>
+<h3 class="font-headline-md text-headline-md text-primary">Pembagian Rating Bintang</h3>
+<p class="font-body-md text-outline">Persentase ulasan berdasarkan bintang</p>
 </div>
 <select class="bg-surface-container-low border-none rounded-lg text-label-lg text-primary focus:ring-primary-container px-4">
 <option>Last 30 Days</option>
@@ -371,58 +371,58 @@
 <div class="space-y-2">
 <div class="flex justify-between text-label-lg">
 <span class="flex items-center gap-1">5 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
-<span id="starCount5" class="text-primary font-bold">0 (0%)</span>
+<span class="text-primary font-bold"><span id="starCount5">0 (0%)</span></span>
 </div>
 <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
-<div id="starBar5" class="bg-secondary-container h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+<div class="bg-secondary-container h-full rounded-full transition-all duration-1000" id="starBar5" style="width: 0%"></div>
 </div>
 </div>
 <!-- 4 Stars -->
 <div class="space-y-2">
 <div class="flex justify-between text-label-lg">
 <span class="flex items-center gap-1">4 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
-<span id="starCount4" class="text-primary font-bold">0 (0%)</span>
+<span class="text-primary font-bold"><span id="starCount4">0 (0%)</span></span>
 </div>
 <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
-<div id="starBar4" class="bg-secondary-fixed h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+<div class="bg-secondary-fixed h-full rounded-full transition-all duration-1000" id="starBar4" style="width: 0%"></div>
 </div>
 </div>
 <!-- 3 Stars -->
 <div class="space-y-2">
 <div class="flex justify-between text-label-lg">
 <span class="flex items-center gap-1">3 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
-<span id="starCount3" class="text-primary font-bold">0 (0%)</span>
+<span class="text-primary font-bold"><span id="starCount3">0 (0%)</span></span>
 </div>
 <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
-<div id="starBar3" class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+<div class="bg-outline-variant h-full rounded-full transition-all duration-1000" id="starBar3" style="width: 0%"></div>
 </div>
 </div>
 <!-- 2 Stars -->
 <div class="space-y-2">
 <div class="flex justify-between text-label-lg">
 <span class="flex items-center gap-1">2 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
-<span id="starCount2" class="text-primary font-bold">0 (0%)</span>
+<span class="text-primary font-bold"><span id="starCount2">0 (0%)</span></span>
 </div>
 <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
-<div id="starBar2" class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+<div class="bg-orange-200 h-full rounded-full transition-all duration-1000" id="starBar2" style="width: 0%"></div>
 </div>
 </div>
 <!-- 1 Stars -->
 <div class="space-y-2">
 <div class="flex justify-between text-label-lg">
 <span class="flex items-center gap-1">1 Star <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
-<span id="starCount1" class="text-primary font-bold">0 (0%)</span>
+<span class="text-primary font-bold"><span id="starCount1">0 (0%)</span></span>
 </div>
 <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
-<div id="starBar1" class="bg-error h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+<div class="bg-error h-full rounded-full transition-all duration-1000" id="starBar1" style="width: 0%"></div>
 </div>
 </div>
 </div>
 </div>
 <!-- Pie Chart/Radial: Emoji Evaluation -->
 <div class="bento-card">
-<h3 class="font-headline-md text-headline-md text-primary mb-1">Service Mood</h3>
-<p class="font-body-md text-outline mb-8">Sentiment analysis from emoticons</p>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Kepuasan Pilihan Emoji</h3>
+<p class="font-body-md text-outline mb-8">Persentase kepuasan pelanggan dari pilihan emoji</p>
 <div class="relative flex justify-center items-center py-4">
 <!-- Custom CSS Pie Visualization -->
 <div class="w-48 h-48 rounded-full border-8 border-surface-container-high relative overflow-hidden flex items-center justify-center">
@@ -463,7 +463,7 @@
 <!-- Recent Customer Entries -->
 <section class="bento-card">
 <div class="flex justify-between items-center mb-6">
-<h3 class="font-headline-md text-headline-md text-primary">Komentar Terbaru</h3>
+<h3 class="font-headline-md text-headline-md text-primary">3 Komentar/Ulasan Terbaru</h3>
 <button class="text-secondary font-label-lg hover:underline" onclick="switchTab('feedback')">Lihat Semua Ulasan</button>
 </div>
 <div id="dashboardRecentComments" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -478,17 +478,17 @@
                     <!-- Dashboard Header & Actions -->
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
 <div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface">Feedback Pelanggan</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Kelola dan analisis respon balik pelanggan untuk peningkatan layanan.</p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Daftar Ulasan Pelanggan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Halaman ini digunakan untuk melihat semua ulasan yang dikirim oleh pelanggan loket.</p>
 </div>
 <div class="flex items-center gap-3">
 <button class="flex items-center px-4 py-2 bg-surface-container-lowest border border-outline-variant text-primary rounded-lg font-label-lg text-label-lg hover:bg-surface-container transition-all">
 <span class="material-symbols-outlined mr-2">filter_alt</span>
-                    Filter Lanjut
+                    Pencarian Lanjut
                 </button>
 <button class="flex items-center px-5 py-2.5 bg-secondary text-on-primary rounded-lg font-label-lg text-label-lg shadow-sm hover:opacity-90 active:scale-95 transition-all">
 <span class="material-symbols-outlined mr-2">download_for_offline</span>
-                    Ekspor Excel
+                    Unduh Excel (XLSX)
                 </button>
 </div>
 </div>
@@ -496,7 +496,7 @@
 <!-- Filter Bar -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 <div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
-<label class="block font-label-md text-label-md text-outline mb-2">Rentang Waktu</label>
+<label class="block font-label-md text-label-md text-outline mb-2">Pilih Rentang Waktu</label>
 <div class="flex flex-col gap-2">
 <select id="datePresetSelect" class="w-full bg-transparent border-none p-0 text-body-md focus:ring-0 cursor-pointer" onchange="applyDatePreset()">
 <option value="all">Semua Waktu</option>
@@ -513,7 +513,7 @@
 </div>
 </div>
 <div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
-<label class="block font-label-md text-label-md text-outline mb-2">Minimum Rating</label>
+<label class="block font-label-md text-label-md text-outline mb-2">Filter Bintang</label>
 <select id="filterStarSelect" class="w-full bg-transparent border-none p-0 text-body-md focus:ring-0 cursor-pointer">
 <option value="all">Semua Bintang</option>
 <option value="5">5 Bintang</option>
@@ -524,19 +524,19 @@
 </select>
 </div>
 <div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
-<label class="block font-label-md text-label-md text-outline mb-2">Aksi Cepat</label>
+<label class="block font-label-md text-label-md text-outline mb-2">Aksi Laporan</label>
 <div class="flex gap-2">
-<button onclick="exportToXLSX()" class="flex-grow flex items-center justify-center px-3 py-1.5 bg-secondary text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all">
+<button onclick="exportToXLSX()" class="flex-grow flex items-center justify-center px-3 py-2 bg-secondary text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all h-9">
 <span class="material-symbols-outlined text-[16px] mr-1">download</span> Excel
 </button>
-<button id="btnClearData" class="flex-grow flex items-center justify-center px-3 py-1.5 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all">
-<span class="material-symbols-outlined text-[16px] mr-1">delete_sweep</span> Reset
+<button id="btnClearData" class="flex-grow flex items-center justify-center px-3 py-2 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all h-9">
+<span class="material-symbols-outlined text-[16px] mr-1">delete_sweep</span> Kosongkan
 </button>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm flex items-center justify-between">
 <div>
-<label class="block font-label-md text-label-md text-outline mb-1">Total Laporan</label>
+<label class="block font-label-md text-label-md text-outline mb-1">Total Ulasan Terdaftar</label>
 <span class="font-headline-md text-headline-md text-primary" id="tableRecordsCount">0</span>
 </div>
 <div class="bg-secondary-container/20 p-2 rounded-lg">
@@ -550,12 +550,12 @@
 <table class="w-full text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-low border-b border-outline-variant">
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Tanggal &amp; Waktu</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Rating</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Emoji</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant w-1/3">Deskripsi / Alasan</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-center">Status</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-right">Aksi</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">No</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Waktu Kirim</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Bintang</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Penilaian Emoji</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant w-1/2">Alasan / Ulasan Pelanggan</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-center">Aksi Hapus</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant/30">
@@ -636,17 +636,17 @@
 <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm overflow-hidden">
 <div class="flex justify-between items-start mb-6">
 <div>
-<h3 class="font-headline-md text-headline-md text-primary">Tren Rating Kepuasan</h3>
-<p class="text-body-md text-on-surface-variant">Rata-rata rating harian selama 30 hari terakhir</p>
+<h3 class="font-headline-md text-headline-md text-primary">Grafik Tren Kepuasan Harian</h3>
+<p class="text-body-md text-on-surface-variant">Rerata nilai bintang yang diberikan setiap harinya</p>
 </div>
 <div class="flex items-center gap-4">
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-secondary"></span>
-<span class="text-label-md text-on-surface-variant">Rating Bintang</span>
+<span class="text-label-md text-on-surface-variant">Nilai Bintang</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span>
-<span class="text-label-md text-on-surface-variant">Emoji Sentimen</span>
+<span class="text-label-md text-on-surface-variant">Pilihan Emoji</span>
 </div>
 </div>
 </div>
@@ -693,7 +693,7 @@
 </div>
 <!-- Sentiment Comparison -->
 <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
-<h3 class="font-headline-md text-headline-md text-primary mb-6">Emoji vs Bintang</h3>
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Perbandingan Sentimen</h3>
 <div class="space-y-8">
 <!-- Emoji breakdown -->
 <div class="flex items-center gap-6">
@@ -733,8 +733,8 @@
 <div class="col-span-12 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
 <div class="p-6 border-b border-outline-variant flex justify-between items-center">
 <div>
-<h3 class="font-headline-md text-headline-md text-primary">Analisis Per Area Layanan</h3>
-<p class="text-body-md text-on-surface-variant">Perbandingan performa berdasarkan kategori layanan</p>
+<h3 class="font-headline-md text-headline-md text-primary">Skor Kepuasan Layanan Loket</h3>
+<p class="text-body-md text-on-surface-variant">Ulasan dan nilai rata-rata berdasarkan jenis urusan</p>
 </div>
 <div class="flex gap-2">
 <button class="p-2 border border-outline-variant rounded hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">sort</span></button>
@@ -977,61 +977,61 @@
 <!-- Content Area -->
 <div class="p-8 max-w-7xl">
 <div class="mb-8">
-<h3 class="font-headline-xl text-headline-xl text-primary mb-2">Export Data Reports</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Configure and generate detailed reports for service performance and customer feedback.</p>
+<h3 class="font-headline-xl text-headline-xl text-primary mb-2">Pusat Unduhan Laporan Pelayanan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Silakan pilih tanggal dan format file untuk mengunduh laporan pelayanan loket.</p>
 </div>
-<!-- Bento Layout Configuration Section -->
+<!-- Bento Layout Pengaturan Unduhan Section -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-<!-- Report Configuration Card -->
+<!-- Report Pengaturan Unduhan Card -->
 <div class="lg:col-span-8 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm">
 <div class="flex items-center space-x-2 mb-6">
 <span class="material-symbols-outlined text-secondary">tune</span>
-<h4 class="font-headline-md text-headline-md">Configuration</h4>
+<h4 class="font-headline-md text-headline-md">Pengaturan Unduhan</h4>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 <!-- Column 1: Filters -->
 <div class="space-y-6">
 <div>
-<label class="block font-label-lg text-label-lg text-on-surface-variant mb-2">Date Range Selection</label>
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-2">Pilih Batas Tanggal Laporan</label>
 <div class="grid grid-cols-2 gap-3">
 <input class="bg-surface border border-outline-variant rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-secondary-container focus:outline-none text-body-md" type="date"/>
 <input class="bg-surface border border-outline-variant rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-secondary-container focus:outline-none text-body-md" type="date"/>
 </div>
 </div>
 <div>
-<label class="block font-label-lg text-label-lg text-on-surface-variant mb-3">Data Categories</label>
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-3">Kategori Data Yang Diunduh</label>
 <div class="space-y-3">
 <label class="flex items-center space-x-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group">
 <input checked="" class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary-container" type="checkbox"/>
 <div class="flex-grow">
 <span class="block font-label-lg text-label-lg text-on-surface">Ratings &amp; Satisfaction</span>
-<span class="block text-[11px] text-on-surface-variant">CSAT, NPS, and daily score averages</span>
+<span class="block text-[11px] text-on-surface-variant">Menyertakan perhitungan skor rata-rata harian</span>
 </div>
 <span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">star</span>
 </label>
 <label class="flex items-center space-x-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group">
 <input class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary-container" type="checkbox"/>
 <div class="flex-grow">
-<span class="block font-label-lg text-label-lg text-on-surface">Customer Comments</span>
-<span class="block text-[11px] text-on-surface-variant">Full qualitative feedback and sentiment</span>
+<span class="block font-label-lg text-label-lg text-on-surface">Komentar / Ulasan Tertulis</span>
+<span class="block text-[11px] text-on-surface-variant">Menyertakan ulasan tertulis dari pelanggan</span>
 </div>
 <span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">chat_bubble</span>
 </label>
 <label class="flex items-center space-x-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group">
 <input checked="" class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary-container" type="checkbox"/>
 <div class="flex-grow">
-<span class="block font-label-lg text-label-lg text-on-surface">Operational Trends</span>
-<span class="block text-[11px] text-on-surface-variant">Queue times and volume analysis</span>
+<span class="block font-label-lg text-label-lg text-on-surface">Tren Volume Pelayanan</span>
+<span class="block text-[11px] text-on-surface-variant">Menyertakan statistik jumlah ulasan per hari</span>
 </div>
 <span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">trending_up</span>
 </label>
 </div>
 </div>
 </div>
-<!-- Column 2: Formats & Action -->
+<!-- Column 2: Formats & Unduh File -->
 <div class="space-y-6">
 <div>
-<label class="block font-label-lg text-label-lg text-on-surface-variant mb-3">Output File Format</label>
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-3">Pilih Format Berkas</label>
 <div class="grid grid-cols-3 gap-3">
 <button class="flex flex-col items-center justify-center p-4 border-2 border-secondary-container bg-secondary-container/10 rounded-xl transition-all">
 <span class="material-symbols-outlined text-secondary mb-1">table_chart</span>
@@ -1050,12 +1050,12 @@
 <div class="p-4 bg-surface-container rounded-xl border border-dashed border-outline">
 <h5 class="font-label-lg text-label-lg text-primary mb-2 flex items-center">
 <span class="material-symbols-outlined text-sm mr-2">info</span>
-                                    Export Summary
+                                    Ringkasan Laporan
                                 </h5>
 <ul class="text-[12px] space-y-1.5 text-on-surface-variant">
-<li class="flex justify-between"><span>Rows expected:</span> <span class="font-bold">~1,240</span></li>
-<li class="flex justify-between"><span>Date period:</span> <span class="font-bold">30 Days</span></li>
-<li class="flex justify-between"><span>Estimated size:</span> <span class="font-bold">2.4 MB</span></li>
+<li class="flex justify-between"><span>Perkiraan jumlah data:</span> <span class="font-bold">~1,240</span></li>
+<li class="flex justify-between"><span>Rentang hari:</span> <span class="font-bold">30 Days</span></li>
+<li class="flex justify-between"><span>Ukuran berkas:</span> <span class="font-bold">2.4 MB</span></li>
 </ul>
 </div>
 <button onclick="exportToXLSX()" class="w-full bg-secondary-container text-on-secondary-container font-bold py-4 rounded-xl shadow-lg hover:brightness-95 active:scale-[0.98] transition-all flex items-center justify-center space-x-3">
@@ -1069,7 +1069,7 @@
 <div class="lg:col-span-4 flex flex-col gap-6">
 <div class="bg-primary p-6 rounded-xl text-on-primary flex flex-col justify-between h-48 relative overflow-hidden group">
 <div class="relative z-10">
-<h4 class="font-label-lg text-label-lg opacity-70 mb-1">Total Exports (MTD)</h4>
+<h4 class="font-label-lg text-label-lg opacity-70 mb-1">Total Laporan Diunduh Bulan Ini</h4>
 <span class="text-4xl font-headline-xl">84</span>
 </div>
 <div class="relative z-10 flex items-center space-x-2 text-tertiary-fixed font-bold text-label-md">
@@ -1081,7 +1081,7 @@
 </div>
 </div>
 <div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant flex-grow">
-<h4 class="font-label-lg text-label-lg text-on-surface-variant mb-4">Storage Usage</h4>
+<h4 class="font-label-lg text-label-lg text-on-surface-variant mb-4">Penyimpanan Server</h4>
 <div class="space-y-4">
 <div>
 <div class="flex justify-between text-[11px] font-bold text-on-surface uppercase mb-1.5">
@@ -1094,10 +1094,10 @@
 </div>
 <div class="pt-4 mt-4 border-t border-outline-variant/30">
 <p class="text-[12px] text-on-surface-variant leading-relaxed">
-                                    Automated exports are scheduled for <strong>every Monday at 02:00 AM</strong>. Previous reports are archived for 365 days.
+                                    Pencadangan otomatis dilakukan setiap <strong>hari Senin pukul 02:00 pagi</strong>. Laporan lama disimpan selama 1 tahun.
                                 </p>
 <button class="mt-4 text-secondary font-label-md text-label-md hover:underline flex items-center">
-                                    View Schedule Settings
+                                    Pengaturan Jadwal Cadangan
                                     <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
 </button>
 </div>
@@ -1110,11 +1110,11 @@
 <div class="px-6 py-5 border-b border-outline-variant flex justify-between items-center bg-white">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-on-surface-variant">history</span>
-<h4 class="font-headline-md text-headline-md">Export History</h4>
+<h4 class="font-headline-md text-headline-md">Riwayat Laporan Yang Pernah Diunduh</h4>
 </div>
 <div class="flex space-x-2">
 <div class="relative">
-<input class="bg-surface-container-low border-none rounded-lg pl-9 pr-4 py-1.5 text-body-md focus:ring-1 focus:ring-secondary w-64" placeholder="Search exports..." type="text"/>
+<input class="bg-surface-container-low border-none rounded-lg pl-9 pr-4 py-1.5 text-body-md focus:ring-1 focus:ring-secondary w-64" placeholder="Cari nama laporan..." type="text"/>
 <span class="material-symbols-outlined absolute left-2.5 top-1.5 text-on-surface-variant text-lg">search</span>
 </div>
 <button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant">
@@ -1126,13 +1126,13 @@
 <table class="w-full text-left">
 <thead>
 <tr class="bg-surface-container-low/50 border-b border-outline-variant">
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Report Name</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Generated Date</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Data Range</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Nama Laporan</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Waktu Pembuatan</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Rentang Data Laporan</th>
 <th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Format</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Size</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Status</th>
-<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-right">Action</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Ukuran Berkas</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Status Berkas</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-right">Unduh File</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant/30">
@@ -1262,7 +1262,7 @@
             <!-- Footer Info -->
             <footer class="mt-auto px-8 py-6 border-t border-outline-variant bg-surface text-center">
                 <p class="text-[12px] text-on-surface-variant font-medium opacity-60">
-                    © <span id="currentYear">2024</span> PLN ULP KAREBOSI Administration Center. All exports are encrypted and logged for security compliance.
+                    © <span id="currentYear">2024</span> PLN ULP KAREBOSI Administration Center. Laporan cadangan data diunduh dan tersimpan secara patuh.
                 </p>
             </footer>
         </div>
