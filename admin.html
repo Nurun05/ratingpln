@@ -1,47 +1,181 @@
 <!DOCTYPE html>
-<html lang="id">
+<html class="light" lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin Corporate - PLN ULP Karebosi</title>
-    <!-- Google Fonts -->
+    <title>PLN ULP KAREBOSI - Admin Panel</title>
+    <!-- Tailwind CSS CDN with Form Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Fonts: Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for fallback icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Modular Admin Stylesheet -->
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <!-- Material Symbols for Modern Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <!-- Custom Style Block for styling adjustments & backward compatibility -->
+    <style>
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .d-none {
+            display: none !important;
+        }
+        /* Custom scrollbar for data tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c3c6d1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #737780;
+        }
+        /* Custom css to allow sidebar links switching visually */
+        .sidebar-link.active {
+            background-color: #2dbcfe !important;
+            color: #004866 !important;
+            opacity: 1 !important;
+        }
+
+        /* Badge and Table Element Styles from original system */
+        .badge-star {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #fffbeb;
+            color: #b45309;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .badge-sangat-baik { background: #dcfce7; color: #15803d; }
+        .badge-cukup-baik { background: #e0f2fe; color: #0369a1; }
+        .badge-buruk { background: #fee2e2; color: #b91c1c; }
+
+        .btn-delete-row {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+        }
+        .btn-delete-row:hover {
+            color: #ba1a1a;
+            transform: scale(1.15);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 32px 0;
+            color: #737780;
+        }
+    </style>
+
+    <!-- Tailwind System Configuration matching DESIGN.md -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#001e40",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#003366",
+                        "on-primary-container": "#799dd6",
+                        "secondary": "#00658d",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#2dbcfe",
+                        "on-secondary-container": "#004866",
+                        "tertiary": "#00240e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#003c1b",
+                        "on-tertiary-container": "#00b35d",
+                        "tertiary-fixed-dim": "#4ae183",
+                        "background": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#43474f",
+                        "outline": "#737780",
+                        "outline-variant": "#c3c6d1",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "sm": "0.25rem",
+                        "md": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "sidebar-width": "260px"
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-background text-on-background min-h-screen flex selection:bg-secondary-container selection:text-on-secondary-container">
 
     <!-- 1. LOGIN OVERLAY SCREEN (AUTHENTICATION MODAL) -->
-    <div id="loginBackdrop" class="login-backdrop">
-        <div class="login-card">
-            <div class="login-logo">
-                <i class="fa-solid fa-user-shield"></i>
+    <div id="loginBackdrop" class="login-backdrop fixed inset-0 bg-[#0b132b] z-[9999] flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg w-full max-w-[380px] p-8 shadow-xl border border-outline-variant text-center">
+            <div class="w-12 h-12 bg-amber-400 rounded flex items-center justify-center text-primary text-2xl mx-auto mb-4">
+                <span class="material-symbols-outlined font-bold">admin_panel_settings</span>
             </div>
-            <h2 class="login-title">PLN ULP Karebosi Portal</h2>
-            <p class="login-subtitle">Silakan login dengan akun admin khusus Anda</p>
+            <h2 class="text-xl font-bold text-primary mb-1">PLN ULP Karebosi</h2>
+            <p class="text-xs text-on-surface-variant mb-6">Masuk untuk mengakses dashboard</p>
 
             <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
-                <div class="form-group">
-                    <label for="adminUsername">Username / ID Admin</label>
-                    <input type="text" id="adminUsername" class="form-control-custom" placeholder="Contoh: admin" required autocomplete="off">
+                <div class="text-left mb-4">
+                    <label for="adminUsername" class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-2">Username / ID Admin</label>
+                    <input type="text" id="adminUsername" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-md text-sm focus:ring-2 focus:ring-secondary outline-none transition-all" placeholder="Contoh: admin" required autocomplete="off">
                 </div>
 
-                <div class="form-group">
-                    <label for="adminPassword">Password</label>
-                    <input type="password" id="adminPassword" class="form-control-custom" placeholder="••••••••" required>
+                <div class="text-left mb-6">
+                    <label for="adminPassword" class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-2">Password</label>
+                    <input type="password" id="adminPassword" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-md text-sm focus:ring-2 focus:ring-secondary outline-none transition-all" placeholder="••••••••" required>
                 </div>
 
-                <div id="loginErrorMsg" class="login-error">
-                    ⚠️ Username atau Password yang Anda masukkan salah.
+                <div id="loginErrorMsg" class="text-error text-xs font-bold mt-3 mb-3" style="display: none;">
+                    ⚠️ Username atau Password salah.
                 </div>
 
-                <button type="submit" class="btn-login">
+                <button type="submit" class="w-full bg-secondary hover:bg-opacity-90 text-white py-3 px-6 rounded-md font-bold text-sm transition-all active:scale-[0.98]">
                     <span>MASUK PORTAL ADMIN</span>
-                    <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: 6px;"></i>
                 </button>
             </form>
         </div>
@@ -49,235 +183,243 @@
 
 
     <!-- 2. MAIN CORPORATE ADMIN WRAPPER (SIDEBAR + MAIN CONTENT) -->
-    <div class="admin-wrapper">
+    <div class="admin-wrapper flex w-full min-h-screen">
 
         <!-- Sidebar Navigation Bar -->
-        <aside class="admin-sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div>
-                    <div class="sidebar-brand-name">PLN ULP KAREBOSI</div>
-                    <div class="sidebar-brand-tag">Admin Panel</div>
+        <aside class="fixed h-full w-[260px] left-0 top-0 bg-primary flex flex-col py-4 z-50">
+            <div class="px-6 mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-white rounded flex items-center justify-center overflow-hidden">
+                        <span class="material-symbols-outlined text-primary text-xl font-bold">bolt</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-on-primary text-sm leading-tight">PLN ULP KAREBOSI</h1>
+                        <p class="text-[10px] text-secondary-container uppercase font-bold tracking-widest opacity-80">Admin Panel</p>
+                    </div>
                 </div>
             </div>
 
-            <ul class="sidebar-menu">
-                <li class="menu-category">Menu</li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link active" onclick="switchTab('dashboard')">
-                        <i class="fa-solid fa-chart-pie"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" onclick="switchTab('feedback')">
-                        <i class="fa-solid fa-comments"></i>
-                        <span>Feedback</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" onclick="switchTab('analytics')">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <span>Analisis</span>
-                    </a>
-                </li>
+            <nav class="flex-grow space-y-1">
+                <a id="link-dashboard" class="sidebar-link active mx-2 my-1 flex items-center px-4 py-2.5 rounded-md text-xs font-semibold text-on-primary opacity-80 hover:opacity-100 hover:bg-primary-container transition-all cursor-pointer" onclick="switchTab('dashboard')">
+                    <span class="material-symbols-outlined mr-3">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a id="link-feedback" class="sidebar-link mx-2 my-1 flex items-center px-4 py-2.5 rounded-md text-xs font-semibold text-on-primary opacity-80 hover:opacity-100 hover:bg-primary-container transition-all cursor-pointer" onclick="switchTab('feedback')">
+                    <span class="material-symbols-outlined mr-3">chat</span>
+                    <span>Feedback</span>
+                </a>
+                <a id="link-analytics" class="sidebar-link mx-2 my-1 flex items-center px-4 py-2.5 rounded-md text-xs font-semibold text-on-primary opacity-80 hover:opacity-100 hover:bg-primary-container transition-all cursor-pointer" onclick="switchTab('analytics')">
+                    <span class="material-symbols-outlined mr-3">analytics</span>
+                    <span>Analisis</span>
+                </a>
+                <a id="link-ekspor" class="sidebar-link mx-2 my-1 flex items-center px-4 py-2.5 rounded-md text-xs font-semibold text-on-primary opacity-80 hover:opacity-100 hover:bg-primary-container transition-all cursor-pointer" onclick="exportToXLSX()">
+                    <span class="material-symbols-outlined mr-3">download</span>
+                    <span>Ekspor Excel</span>
+                </a>
+            </nav>
 
-                <li class="menu-category">Laporan</li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" onclick="exportToXLSX()">
-                        <i class="fa-solid fa-file-excel"></i>
-                        <span>Ekspor Excel</span>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <button class="btn-logout" onclick="handleAdminLogout()">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+            <div class="mt-auto px-2">
+                <button class="w-full text-on-primary opacity-75 hover:opacity-100 hover:bg-error-container hover:text-on-error-container flex items-center px-4 py-2.5 rounded-md transition-colors text-xs font-semibold" onclick="handleAdminLogout()">
+                    <span class="material-symbols-outlined mr-3">logout</span>
                     <span>Logout</span>
                 </button>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="admin-main">
+        <main class="admin-main ml-[260px] flex-grow flex flex-col min-h-screen">
             
             <!-- Topbar Header -->
-            <header class="topbar">
-                <h1 class="topbar-title" id="pageTitle">Dashboard Overview Pelayanan</h1>
+            <header class="w-full h-16 sticky top-0 z-40 bg-white border-b border-outline-variant flex justify-between items-center px-8">
+                <h1 class="text-lg font-bold text-primary" id="pageTitle">Dashboard Overview Pelayanan</h1>
 
-                <div class="topbar-right">
-                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--pln-text-muted);">
-                        <span id="adminDataStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></span>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 text-xs font-semibold text-on-surface-variant">
+                        <span id="adminDataStatusDot" class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                         <span id="adminDataStatusText">Status Koneksi</span>
                     </div>
 
-                    <div class="admin-profile">
-                        <div class="avatar">A</div>
-                        <div class="admin-info">
-                            <span class="admin-name">Administrator</span>
-                            <span class="admin-role">PLN ULP Karebosi</span>
+                    <div class="h-6 w-px bg-outline-variant"></div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <p class="text-xs font-bold text-on-surface leading-tight">Administrator</p>
+                            <p class="text-[10px] text-on-surface-variant">Admin ULP Karebosi</p>
+                        </div>
+                        <div class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center font-bold text-xs">
+                            A
                         </div>
                     </div>
                 </div>
             </header>
 
             <!-- Content Body Container -->
-            <div class="content-body">
+            <div class="content-body p-8 flex-grow space-y-8 max-w-[1400px]">
                 
                 <!-- Section 1: Metrics Grid -->
-                <section class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon-box icon-blue">
-                            <i class="fa-solid fa-users"></i>
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-outline-variant rounded-lg p-5 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded bg-sky-100 text-secondary flex items-center justify-center text-xl">
+                            <span class="material-symbols-outlined">group</span>
                         </div>
-                        <div class="metric-data">
-                            <span class="metric-value" id="metricTotalCount">0</span>
-                            <span class="metric-label">Total Rating Diterima</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon-box icon-yellow">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <div class="metric-data">
-                            <span class="metric-value" id="metricAvgScore">0.0 ★</span>
-                            <span class="metric-label">Rata-Rata Skor Pelayanan</span>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold text-primary" id="metricTotalCount">0</span>
+                            <span class="text-xs text-on-surface-variant font-medium">Total Rating Diterima</span>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-icon-box icon-green">
-                            <i class="fa-solid fa-face-smile"></i>
+                    <div class="bg-white border border-outline-variant rounded-lg p-5 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                         </div>
-                        <div class="metric-data">
-                            <span class="metric-value" id="metricSatisfaction">0%</span>
-                            <span class="metric-label">Indeks Kepuasan Pelanggan</span>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold text-primary" id="metricAvgScore">0.0 ★</span>
+                            <span class="text-xs text-on-surface-variant font-medium">Rata-Rata Skor</span>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-icon-box icon-purple">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
+                    <div class="bg-white border border-outline-variant rounded-lg p-5 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded bg-green-100 text-on-tertiary-container flex items-center justify-center text-xl">
+                            <span class="material-symbols-outlined">sentiment_satisfied</span>
                         </div>
-                        <div class="metric-data">
-                            <span class="metric-value" id="metricLatestTime" style="font-size: 1.1rem; line-height: 1.4;">-</span>
-                            <span class="metric-label">Feedback Terakhir</span>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold text-primary" id="metricSatisfaction">0%</span>
+                            <span class="text-xs text-on-surface-variant font-medium">Indeks Kepuasan</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-outline-variant rounded-lg p-5 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
+                            <span class="material-symbols-outlined">history</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-primary leading-snug" id="metricLatestTime">-</span>
+                            <span class="text-xs text-on-surface-variant font-medium">Feedback Terakhir</span>
                         </div>
                     </div>
                 </section>
 
                 <!-- Section 2: Analytics Breakdown Grid -->
-                <section class="analytics-grid" id="analyticsSection">
-                    <div class="section-card">
-                        <h3 class="section-title">
-                            <span><i class="fa-solid fa-chart-column" style="color: var(--pln-yellow); margin-right: 8px;"></i>Distribusi Rating Bintang</span>
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="analyticsSection">
+                    <!-- Star Distribution Card -->
+                    <div class="bg-white border border-outline-variant rounded-lg p-6 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-amber-500">bar_chart</span>
+                            <span>Distribusi Rating Bintang</span>
                         </h3>
 
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>5 Bintang</span>
-                                <span id="starCount5">0 (0%)</span>
+                        <div class="space-y-3 pt-2">
+                            <!-- 5 Stars -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span>5 Bintang</span>
+                                    <span id="starCount5" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="starBar5" class="bg-secondary-container h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                            <div class="progress-bar-bg">
-                                <div id="starBar5" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            <!-- 4 Stars -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span>4 Bintang</span>
+                                    <span id="starCount4" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="starBar4" class="bg-secondary-container h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>4 Bintang</span>
-                                <span id="starCount4">0 (0%)</span>
+                            <!-- 3 Stars -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span>3 Bintang</span>
+                                    <span id="starCount3" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="starBar3" class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                            <div class="progress-bar-bg">
-                                <div id="starBar4" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            <!-- 2 Stars -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span>2 Bintang</span>
+                                    <span id="starCount2" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="starBar2" class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>3 Bintang</span>
-                                <span id="starCount3">0 (0%)</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div id="starBar3" class="progress-bar-fill fill-star" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>2 Bintang</span>
-                                <span id="starCount2">0 (0%)</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div id="starBar2" class="progress-bar-fill fill-star" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>1 Bintang</span>
-                                <span id="starCount1">0 (0%)</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div id="starBar1" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            <!-- 1 Star -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span>1 Bintang</span>
+                                    <span id="starCount1" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="starBar1" class="bg-error h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="section-card">
-                        <h3 class="section-title">
-                            <span><i class="fa-solid fa-face-grin-stars" style="color: var(--pln-blue-primary); margin-right: 8px;"></i>Penilaian Pelayanan Emoji</span>
+                    <!-- Emoji Sentiment Card -->
+                    <div class="bg-white border border-outline-variant rounded-lg p-6 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">mood</span>
+                            <span>Penilaian Pelayanan Emoji</span>
                         </h3>
 
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>😊 Sangat Baik</span>
-                                <span id="emojiCountSangatBaik">0 (0%)</span>
+                        <div class="space-y-4 pt-2">
+                            <!-- Sangat Baik -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="flex items-center gap-1.5">😊 Sangat Baik</span>
+                                    <span id="emojiCountSangatBaik" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="emojiBarSangatBaik" class="bg-tertiary-fixed-dim h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                            <div class="progress-bar-bg">
-                                <div id="emojiBarSangatBaik" class="progress-bar-fill fill-sangat-baik" style="width: 0%;"></div>
+                            <!-- Cukup Baik -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="flex items-center gap-1.5">😐 Cukup Baik</span>
+                                    <span id="emojiCountCukupBaik" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="emojiBarCukupBaik" class="bg-secondary-container h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>😐 Cukup Baik</span>
-                                <span id="emojiCountCukupBaik">0 (0%)</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div id="emojiBarCukupBaik" class="progress-bar-fill fill-cukup-baik" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress-item">
-                            <div class="progress-label">
-                                <span>🙁 Buruk</span>
-                                <span id="emojiCountBuruk">0 (0%)</span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div id="emojiBarBuruk" class="progress-bar-fill fill-buruk" style="width: 0%;"></div>
+                            <!-- Buruk -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="flex items-center gap-1.5">🙁 Buruk</span>
+                                    <span id="emojiCountBuruk" class="text-primary font-bold">0 (0%)</span>
+                                </div>
+                                <div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+                                    <div id="emojiBarBuruk" class="bg-error h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 <!-- Section 3: Data Table Section with Date Range Filter & XLSX Export -->
-                <section class="table-card" id="feedbackSection">
-                    <div class="table-header-controls">
+                <section class="bg-white border border-outline-variant rounded-lg p-6 shadow-sm space-y-6" id="feedbackSection">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-outline-variant pb-4">
                         <div>
-                            <h3 style="font-size: 1.05rem; font-weight: 800;">Daftar Masukan Pelanggan</h3>
-                            <span id="tableRecordsCount" style="font-size: 0.85rem; color: var(--pln-text-muted);">0 data ditemukan</span>
+                            <h3 class="text-sm font-bold text-primary">Daftar Masukan Pelanggan</h3>
+                            <span id="tableRecordsCount" class="text-xs text-on-surface-variant font-medium">0 data ditemukan</span>
                         </div>
 
                         <!-- Date Range & Search Controls -->
-                        <div class="search-filter-group">
-                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari deskripsi / alasan...">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+                                <input type="text" id="searchInput" class="pl-9 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-md text-xs focus:ring-1 focus:ring-secondary outline-none w-48 h-9" placeholder="Cari ulasan...">
+                            </div>
                             
-                            <select id="filterStarSelect" class="filter-select">
+                            <select id="filterStarSelect" class="bg-white border border-outline-variant rounded-md px-3 py-1.5 text-xs focus:ring-1 focus:ring-secondary outline-none h-9 cursor-pointer">
                                 <option value="all">Semua Bintang</option>
                                 <option value="5">5 Bintang</option>
                                 <option value="4">4 Bintang</option>
@@ -287,43 +429,46 @@
                             </select>
 
                             <!-- Date Filter Controls -->
-                            <select id="datePresetSelect" class="filter-select" onchange="applyDatePreset()">
+                            <select id="datePresetSelect" class="bg-white border border-outline-variant rounded-md px-3 py-1.5 text-xs focus:ring-1 focus:ring-secondary outline-none h-9 cursor-pointer" onchange="applyDatePreset()">
                                 <option value="all">Semua Waktu</option>
                                 <option value="today">Hari Ini</option>
                                 <option value="7days">7 Hari Terakhir</option>
                                 <option value="30days">30 Hari Terakhir</option>
-                                <option value="custom">Custom Tanggal</option>
+                                <option value="custom">Kustom Tanggal</option>
                             </select>
 
-                            <div id="customDateRangeGroup" style="display: inline-flex; align-items: center; gap: 6px;">
-                                <input type="date" id="startDateInput" class="search-input" style="min-width: 130px;" title="Tanggal Mulai">
-                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--pln-text-muted);">-</span>
-                                <input type="date" id="endDateInput" class="search-input" style="min-width: 130px;" title="Tanggal Akhir">
+                            <div id="customDateRangeGroup" class="flex items-center gap-1.5">
+                                <input type="date" id="startDateInput" class="bg-white border border-outline-variant rounded-md px-2 py-1.5 text-xs focus:ring-1 focus:ring-secondary outline-none h-9 cursor-pointer w-28" title="Tanggal Mulai">
+                                <span class="text-xs text-outline font-bold">-</span>
+                                <input type="date" id="endDateInput" class="bg-white border border-outline-variant rounded-md px-2 py-1.5 text-xs focus:ring-1 focus:ring-secondary outline-none h-9 cursor-pointer w-28" title="Tanggal Akhir">
                             </div>
 
-                            <button onclick="exportToXLSX()" class="btn-action-primary" style="background: var(--pln-green);">
-                                <i class="fa-solid fa-file-excel"></i> Ekspor XLSX
+                            <button onclick="exportToXLSX()" class="bg-secondary hover:bg-opacity-95 text-white text-xs font-bold h-9 px-4 rounded-md flex items-center justify-center gap-1.5 transition-all">
+                                <span class="material-symbols-outlined text-sm">download</span>
+                                <span>Excel</span>
                             </button>
 
-                            <button id="btnClearData" class="btn-action-danger" title="Kosongkan data demo">
-                                <i class="fa-solid fa-trash-can"></i> Kosongkan Data
+                            <button id="btnClearData" class="bg-error hover:bg-opacity-95 text-white text-xs font-bold h-9 px-4 rounded-md flex items-center justify-center gap-1.5 transition-all" title="Kosongkan seluruh data demo">
+                                <span class="material-symbols-outlined text-sm">delete_sweep</span>
+                                <span>Kosongkan Data</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="data-table">
+                    <!-- Responsive Table -->
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Waktu</th>
-                                    <th>Rating</th>
-                                    <th>Penilaian Emoji</th>
-                                    <th>Alasan / Deskripsi Pelanggan</th>
-                                    <th style="text-align: center;">Aksi</th>
+                                <tr class="bg-surface-container-low border-b border-outline-variant">
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider">No</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider">Waktu</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider">Rating</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider">Penilaian Emoji</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider w-1/3">Alasan / Deskripsi Pelanggan</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-outline uppercase tracking-wider text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="ratingsTbody">
+                            <tbody id="ratingsTbody" class="divide-y divide-outline-variant/30 text-xs">
                                 <!-- Dynamic Rows Injected by JS -->
                             </tbody>
                         </table>
@@ -333,7 +478,7 @@
             </div>
 
             <!-- Footer -->
-            <footer class="corporate-footer">
+            <footer class="mt-auto py-5 border-t border-outline-variant bg-white text-center text-xs text-on-surface-variant font-medium">
                 <p>© <span id="currentYear">2024</span> PT PLN (Persero) ULP Karebosi. Portal Admin Hak Cipta Dilindungi.</p>
             </footer>
         </main>
