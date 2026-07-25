@@ -5,22 +5,14 @@
  * ============================================================================
  */
 
-const SUPABASE_URL = (typeof window !== 'undefined' && (window.ENV_SUPABASE_URL || window.NEXT_PUBLIC_SUPABASE_URL)) 
-    ? (window.ENV_SUPABASE_URL || window.NEXT_PUBLIC_SUPABASE_URL) 
-    : '';
-
-const SUPABASE_ANON_KEY = (typeof window !== 'undefined' && (window.ENV_SUPABASE_ANON_KEY || window.NEXT_PUBLIC_SUPABASE_ANON_KEY)) 
-    ? (window.ENV_SUPABASE_ANON_KEY || window.NEXT_PUBLIC_SUPABASE_ANON_KEY) 
-    : '';
-
+let SUPABASE_URL = '';
+let SUPABASE_ANON_KEY = '';
 let supabaseClient = null;
 
 function isSupabaseConfigured() {
     return SUPABASE_URL && 
-           !SUPABASE_URL.includes('YOUR-PROJECT-REF') && 
            SUPABASE_URL.trim() !== '' &&
            SUPABASE_ANON_KEY && 
-           !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY') &&
            SUPABASE_ANON_KEY.trim() !== '';
 }
 
@@ -30,13 +22,18 @@ function initSupabase() {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase Client berhasil terhubung.');
             updateSupabaseStatusUI(true, 'Terhubung ke Database Supabase');
+            
+            // Pemicu inisialisasi ulang data di admin jika fungsi fetchRatingsData terdefinisi
+            if (typeof fetchRatingsData === 'function') {
+                fetchRatingsData();
+            }
         } catch (error) {
             console.error('❌ Gagal inisialisasi Supabase:', error);
             updateSupabaseStatusUI(false, 'Gagal terhubung ke Supabase');
         }
     } else {
-        console.warn('⚠️ Supabase URL atau Anon Key belum dikonfigurasi. Menggunakan Mode Simulasi Lokal.');
-        updateSupabaseStatusUI(false, 'Mode Demo / Simulasi (Supabase Belum Dikonfigurasi)');
+        console.warn('⚠️ Supabase belum terhubung. Menunggu data konfigurasi atau masuk ke Mode Demo.');
+        updateSupabaseStatusUI(false, 'Mode Demo / Simulasi');
     }
 }
 
@@ -44,8 +41,37 @@ function updateSupabaseStatusUI(isReady, message) {
     const statusTextEl = document.getElementById('supaStatusText');
     const statusBadgeEl = document.getElementById('supaStatusDot');
     
+    // Status UI untuk admin
+    const adminTextEl = document.getElementById('adminDataStatusText');
+    const adminDotEl = document.getElementById('adminDataStatusDot');
+    
     if (statusTextEl) statusTextEl.textContent = message;
     if (statusBadgeEl) statusBadgeEl.style.backgroundColor = isReady ? '#10b981' : '#f59e0b';
+
+    if (adminTextEl) adminTextEl.textContent = isReady ? 'Supabase Terhubung' : message;
+    if (adminDotEl) {
+        adminDotEl.className = adminDotEl.className.replace(/bg-\S+/g, '') + (isReady ? ' bg-emerald-500' : ' bg-amber-500');
+    }
+}
+
+async function fetchConfig() {
+    try {
+        const res = await fetch('/api/config');
+        if (!res.ok) throw new Error('Gagal memuat file konfigurasi api');
+        const config = await res.json();
+        
+        if (config.supabaseUrl && config.supabaseAnonKey) {
+            SUPABASE_URL = config.supabaseUrl;
+            SUPABASE_ANON_KEY = config.supabaseAnonKey;
+            initSupabase();
+        } else {
+            console.warn('⚠️ Konfigurasi Supabase dari API kosong. Masuk ke mode demo.');
+            initSupabase();
+        }
+    } catch (err) {
+        console.error('Gagal mengambil config dari API serverless:', err);
+        initSupabase();
+    }
 }
 
 async function saveRatingData(payload) {
@@ -96,5 +122,5 @@ async function saveRatingData(payload) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initSupabase();
+    fetchConfig();
 });
