@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Pelayanan PLN - System Rating Pelayanan</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- PLN Header -->
+        <header class="pln-header">
+            <div class="pln-brand-badge">
+                <div class="pln-logo-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <span class="fw-bold text-white">PLN INDONESIA</span>
+            </div>
+            <h1 class="pln-title"><span class="highlight">PLN</span> UNIT PELAYANAN</h1>
+            <div class="pln-subtitle">Satu Detik Anda, Berharga Bagi Pelayanan Kami</div>
+        </header>
+
+        <!-- Main Single-Page Card Container -->
+        <main class="card card-feedback">
+            
+            <!-- VIEW FORM RATING (SINGLE PAGE) -->
+            <section id="mainFormView">
+                <h2 class="step-heading">Berapa Bintang Untuk Pelayanan PLN Hari Ini?</h2>
+                <p class="step-subheading">👇 Sentuh salah satu bintang di bawah ini (1 bintang terkecil, 5 bintang tertinggi):</p>
+
+                <!-- 5 Bintang Widget -->
+                <div class="stars-container" id="starsContainer">
+                    <button type="button" class="star-btn" data-value="1" title="1 Bintang - Sangat Buruk">★</button>
+                    <button type="button" class="star-btn" data-value="2" title="2 Bintang - Kurang Baik">★</button>
+                    <button type="button" class="star-btn" data-value="3" title="3 Bintang - Cukup Baik">★</button>
+                    <button type="button" class="star-btn" data-value="4" title="4 Bintang - Bagus">★</button>
+                    <button type="button" class="star-btn" data-value="5" title="5 Bintang - Bagus Sekali">★</button>
+                </div>
+
+                <!-- Dynamic Rating Label Badge -->
+                <div class="rating-badge-wrapper">
+                    <div id="ratingBadgeContainer" class="rating-label-badge">
+                        <span id="ratingBadgeIcon">⭐</span>
+                        <span id="ratingBadgeLabel">Sentuh Bintang Di Atas</span>
+                    </div>
+                </div>
+
+                <!-- KELOMPOK DESKRIPSI (MUNCUL OTOMATIS SETELAH MEMILIH BINTANG) -->
+                <div id="descriptionSection" class="description-section">
+                    
+                    <div class="mb-3 text-start">
+                        <label for="deskripsiRating" class="form-label">
+                            Alasan / Deskripsi Rating <span class="text-danger">* (Wajib Diisi)</span>
+                        </label>
+                        <textarea 
+                            id="deskripsiRating" 
+                            class="custom-textarea" 
+                            rows="4" 
+                            placeholder="Tuliskan masukan atau alasan Anda di sini..."
+                            required></textarea>
+                        
+                        <!-- Pesan Error Validasi -->
+                        <div id="validationErrorMsg" class="text-danger fw-bold small mt-2 d-none"></div>
+                    </div>
+
+                    <!-- Tombol Kirim Rating -->
+                    <div class="mt-4">
+                        <button type="button" id="btnOpenModal" class="btn-pln-green">
+                            <span>KIRIM RATING SAYA</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- TAHAP SUKSES: THANK YOU PAGE (Tanpa Elemen Centang) -->
+            <section id="successView" class="success-section">
+                <div class="text-center py-4">
+                    <h2 class="step-heading mb-2">Penilaian Anda Berhasil Terkirim!</h2>
+                    <p class="step-subheading mb-4 fs-5">
+                        Terima kasih banyak. Satu detik Anda sangat berharga bagi peningkatan pelayanan PLN.
+                    </p>
+                    
+                    <div id="successStatusNote"></div>
+
+                    <div class="btn-wrapper justify-content-center mt-4">
+                        <button type="button" onclick="resetRatingForm()" class="btn-pln-primary" style="max-width: 280px;">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Beri Rating Lagi</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Status Supabase Banner -->
+        <div class="supa-status-banner">
+            <div>
+                <span id="supaStatusDot" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#f59e0b; margin-right:8px;"></span>
+                <span id="supaStatusText">Memeriksa Koneksi Database...</span>
+            </div>
+            <div>
+                <span style="opacity: 0.9;">Panduan: <code>PANDUAN_SUPABASE.md</code></span>
+            </div>
+        </div>
+
+        <!-- PLN Footer -->
+        <footer class="pln-footer">
+            <p>© 2026 PT PLN (Persero) Unit Pelayanan. Hak Cipta Dilindungi.</p>
+        </footer>
+    </div>
+
+
+    <!-- POP-UP MODAL: TAHAP AKHIR (Bagaimana Pelayanan Kami Hari Ini?) -->
+    <div id="serviceModal" class="modal-backdrop-custom">
+        <div class="modal-card-custom">
+            
+            <div id="modalContentBody">
+                <h3 class="fw-bold mb-2" style="color: var(--pln-text-dark); font-size: 1.6rem;">
+                    Bagaimana Pelayanan Kami Hari Ini?
+                </h3>
+                <p class="text-muted fs-6 mb-4">
+                    👇 Sentuh salah satu gambar emoji di bawah ini untuk menyelesaikan:
+                </p>
+
+                <!-- 3 Pilihan Emoji / Ikon (Color Coded & Large) -->
+                <div class="emoji-grid">
+                    <!-- Option 1: Sangat Baik -->
+                    <div class="emoji-option-card option-sangat-baik" data-value="Sangat Baik">
+                        <span class="emoji-icon">😊</span>
+                        <span class="emoji-title">Sangat Baik</span>
+                    </div>
+
+                    <!-- Option 2: Cukup Baik -->
+                    <div class="emoji-option-card option-cukup-baik" data-value="Cukup Baik">
+                        <span class="emoji-icon">😐</span>
+                        <span class="emoji-title">Cukup Baik</span>
+                    </div>
+
+                    <!-- Option 3: Buruk -->
+                    <div class="emoji-option-card option-buruk" data-value="Buruk">
+                        <span class="emoji-icon">🙁</span>
+                        <span class="emoji-title">Buruk</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State Modal -->
+            <div id="modalLoadingState" class="d-none py-4">
+                <div class="spinner-border text-success mb-3" role="status" style="width: 3.5rem; height: 3.5rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h4 class="fw-bold">Menyimpan Penilaian Anda...</h4>
+                <p class="text-muted mb-0">Sedang mengirimkan data ke database PLN</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Supabase JS Client Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Scripts -->
+    <script src="supabase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

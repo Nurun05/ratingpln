@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Pelayanan PLN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0d78e2; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .pln-blue { color: #93dcf9; }
+        .card-feedback {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .btn-emot {
+            border: none;
+            background: none;
+            font-size: 5rem; 
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .btn-emot:hover { transform: scale(1.2); }
+        .emot-label { font-size: 1.2rem; font-weight: bold; color: #495057; }
+    </style>
+</head>
+<body class="d-flex align-items-center vh-100">
+
+<div class="container text-center">
+    <div class="mb-5">
+        <h2 class="fw-bold m-0"><span class="pln-blue">PLN</span> UNIT PELAYANAN</h2>
+        <p class="text-muted fs-5">Satu Detik Anda, Berharga Bagi Pelayanan Kami</p>
+    </div>
+
+    <div class="card card-feedback bg-white p-5 mx-auto" style="max-width: 800px;">
+        <h3 class="fw-bold mb-5">Bagaimana Pelayanan Kami Hari Ini?</h3>
+        
+        <form action="/kirim_feedback" method="POST">
+            <div class="row justify-content-center">
+                <div class="col-4 col-md-3 mb-3">
+                    <button type="submit" name="pilihan" value="Puas" class="btn-emot">😊</button>
+                    <div class="emot-label mt-2">Puas</div>
+                </div>
+                <div class="col-4 col-md-3 mb-3">
+                    <button type="submit" name="pilihan" value="Cukup" class="btn-emot">😐</button>
+                    <div class="emot-label mt-2">Cukup</div>
+                </div>
+                <div class="col-4 col-md-3 mb-3">
+                    <button type="submit" name="pilihan" value="Kurang" class="btn-emot">🙁</button>
+                    <div class="emot-label mt-2">Kurang</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
