@@ -102,7 +102,7 @@ function initFormValidation() {
         btnOpenModal.addEventListener('click', () => {
             const val = deskripsiTextarea ? deskripsiTextarea.value.trim() : '';
             if (val === '') {
-                showValidationError('⚠️ Mohon tuliskan alasan atau deskripsi rating Anda di atas.');
+                showValidationError('Alasan rating wajib diisi.');
                 if (deskripsiTextarea) deskripsiTextarea.focus();
                 return;
             }

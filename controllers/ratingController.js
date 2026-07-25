@@ -23,7 +23,7 @@ const RatingController = {
             return {
                 success: false,
                 isSpam: true,
-                message: 'Permintaan ditolak oleh sistem keamanan (Spam detected).'
+                message: 'Akses ditolak (Spam).'
             };
         }
 
@@ -36,7 +36,7 @@ const RatingController = {
             return {
                 success: false,
                 isSpam: true,
-                message: `Mohon tunggu ${remainingSec} detik sebelum mengirimkan rating kembali.`
+                message: `Harap tunggu ${remainingSec} detik sebelum mengirim rating lagi.`
             };
         }
 

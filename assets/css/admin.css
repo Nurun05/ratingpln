@@ -12,25 +12,29 @@
     --space-24: 24px;
     --space-32: 32px;
 
-    /* Corporate PLN Palette */
+    /* Corporate PLN Palette - Deep Professional */
     --pln-blue-primary: #00A3E0;
     --pln-blue-dark: #0077C8;
     --pln-blue-deep: #005691;
-    --pln-sidebar-bg: #003e6b;
+    --pln-sidebar-bg: #0b1e33;
     --pln-yellow: #FFC700;
-    --pln-red: #ef4444;
+    --pln-red: #dc2626;
     --pln-green: #10b981;
-    --pln-bg: #f4f7fa;
+    --pln-bg: #f8fafc;
     --pln-card-bg: #ffffff;
     --pln-text-dark: #0f172a;
     --pln-text-muted: #64748b;
     --pln-border: #e2e8f0;
-    --sidebar-width: 260px;
-    --topbar-height: 68px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
-    --shadow-sm: 0 2px 8px rgba(0, 86, 145, 0.06);
-    --shadow-md: 0 8px 24px rgba(0, 86, 145, 0.1);
+    --sidebar-width: 240px;
+    --topbar-height: 60px;
+    
+    /* Professional Sharp Corners for Enterprise Application */
+    --radius-md: 6px;
+    --radius-sm: 4px;
+    
+    /* Flat Subtle Shadow Design (Anti-AI high blur float) */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -55,7 +59,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, var(--pln-blue-deep) 0%, var(--pln-blue-dark) 100%);
+    background: #0f172a;
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -72,36 +76,37 @@ body {
 
 .login-card {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: var(--radius-md);
     width: 100%;
-    max-width: 420px;
+    max-width: 380px;
     padding: var(--space-32);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--pln-border);
     text-align: center;
 }
 
 .login-logo {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     background: var(--pln-yellow);
-    border-radius: 50%;
-    color: var(--pln-blue-deep);
+    border-radius: var(--radius-sm);
+    color: #0f172a;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     margin: 0 auto var(--space-16) auto;
 }
 
 .login-title {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    color: var(--pln-blue-deep);
+    color: #0f172a;
     margin-bottom: var(--space-4);
 }
 
 .login-subtitle {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--pln-text-muted);
     margin-bottom: var(--space-24);
 }
@@ -113,26 +118,30 @@ body {
 
 .form-group label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--pln-text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--pln-text-muted);
     margin-bottom: var(--space-8);
 }
 
 .form-control-custom {
     width: 100%;
-    padding: var(--space-12) var(--space-16);
+    padding: var(--space-10) var(--space-14);
     border: 1px solid var(--pln-border);
     border-radius: var(--radius-sm);
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
+    background: #f8fafc;
 }
 
 .form-control-custom:focus {
     border-color: var(--pln-blue-primary);
-    box-shadow: 0 0 0 3px rgba(0, 163, 224, 0.15);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 163, 224, 0.1);
 }
 
 .btn-login {
@@ -141,12 +150,12 @@ body {
     color: #ffffff;
     border: none;
     padding: var(--space-12) var(--space-24);
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     margin-top: var(--space-12);
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .btn-login:hover {
@@ -180,27 +189,29 @@ body {
     bottom: 0;
     left: 0;
     z-index: 100;
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08);
+    box-shadow: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-header {
-    padding: var(--space-20) var(--space-24);
+    padding: var(--space-16) var(--space-20);
     display: flex;
     align-items: center;
     gap: var(--space-12);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-logo {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: var(--pln-yellow);
-    color: var(--pln-blue-deep);
-    border-radius: 50%;
+    color: #0b1e33;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .sidebar-brand-name {
@@ -239,52 +250,58 @@ body {
     display: flex;
     align-items: center;
     gap: var(--space-12);
-    padding: var(--space-12) var(--space-16);
-    color: rgba(255, 255, 255, 0.8);
+    padding: var(--space-10) var(--space-14);
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     cursor: pointer;
 }
 
-.sidebar-link:hover,
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
 .sidebar-link.active {
-    background: var(--pln-blue-primary);
+    background: var(--pln-blue-dark);
     color: #ffffff;
 }
 
 .sidebar-link i {
-    width: 20px;
+    width: 16px;
     text-align: center;
+    font-size: 1rem;
 }
 
 .sidebar-footer {
-    padding: var(--space-20) var(--space-24);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--space-16) var(--space-20);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .btn-logout {
     width: 100%;
-    background: rgba(239, 68, 68, 0.15);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: var(--space-8) var(--space-16);
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-8);
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
 .btn-logout:hover {
-    background: rgba(239, 68, 68, 0.3);
-    color: #ffffff;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
 }
 
 .admin-main {
@@ -326,7 +343,7 @@ body {
     gap: var(--space-12);
     background: var(--pln-bg);
     padding: var(--space-4) var(--space-12);
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--pln-border);
 }
 
@@ -335,7 +352,7 @@ body {
     height: 32px;
     background: var(--pln-blue-dark);
     color: #ffffff;
-    border-radius: 50%;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -602,7 +619,7 @@ body {
     background: #fffbeb;
     color: #b45309;
     padding: var(--space-4) var(--space-8);
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     font-weight: 700;
 }
 
@@ -611,7 +628,7 @@ body {
     align-items: center;
     gap: var(--space-4);
     padding: var(--space-4) var(--space-8);
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     font-weight: 700;
     font-size: 0.8rem;
 }

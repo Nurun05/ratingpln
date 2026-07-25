@@ -13,7 +13,7 @@ const SeedData = {
                 id: 'demo-101',
                 rating_bintang: 5,
                 keterangan_rating: 'Sangat Puas',
-                deskripsi: 'Pelayanan sangat memuaskan, petugas CS ramah dan membantu proses pasang baru dengan cepat.',
+                deskripsi: 'Proses pelayanan CS cepat dan petugas sangat membantu penjelasan pasang baru.',
                 penilaian_pelayanan: 'Sangat Baik',
                 unit_pelayanan: 'PLN ULP Karebosi',
                 created_at: new Date(now - 3600000 * 2).toISOString()
@@ -22,7 +22,7 @@ const SeedData = {
                 id: 'demo-102',
                 rating_bintang: 4,
                 keterangan_rating: 'Puas',
-                deskripsi: 'Penanganan informasi permohonan tambah daya jelas dan petugas sangat sopan.',
+                deskripsi: 'Informasi untuk tambah daya sangat jelas dan mudah dipahami.',
                 penilaian_pelayanan: 'Sangat Baik',
                 unit_pelayanan: 'PLN ULP Karebosi',
                 created_at: new Date(now - 3600000 * 18).toISOString()
@@ -31,7 +31,7 @@ const SeedData = {
                 id: 'demo-103',
                 rating_bintang: 3,
                 keterangan_rating: 'Cukup Puas',
-                deskripsi: 'Proses konsultasi baik, namun waktu antrean di jam istirahat perlu disesuaikan.',
+                deskripsi: 'Waktu antrean di loket perlu dipercepat saat jam istirahat siang.',
                 penilaian_pelayanan: 'Cukup Baik',
                 unit_pelayanan: 'PLN ULP Karebosi',
                 created_at: new Date(now - 3600000 * 48).toISOString()

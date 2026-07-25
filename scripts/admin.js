@@ -12,7 +12,13 @@ let activeFilteredData = [];
 document.addEventListener('DOMContentLoaded', async () => {
     checkAdminAuth();
     setupEventListeners();
+    initDynamicYear();
 });
+
+function initDynamicYear() {
+    const el = document.getElementById('currentYear');
+    if (el) el.textContent = new Date().getFullYear();
+}
 
 function checkAdminAuth() {
     const loginBackdrop = document.getElementById('loginBackdrop');
@@ -313,17 +319,17 @@ function switchTab(tabName) {
     if (tabName === 'dashboard') {
         if (analyticsSec) analyticsSec.style.display = 'grid';
         if (feedbackSec) feedbackSec.style.display = 'block';
-        if (pageTitle) pageTitle.textContent = 'Dashboard Overview Pelayanan';
+        if (pageTitle) pageTitle.textContent = 'Dashboard Pelayanan';
         if (links[0]) links[0].classList.add('active');
     } else if (tabName === 'feedback') {
         if (analyticsSec) analyticsSec.style.display = 'none';
         if (feedbackSec) feedbackSec.style.display = 'block';
-        if (pageTitle) pageTitle.textContent = 'Data Feedback Pelanggan PLN';
+        if (pageTitle) pageTitle.textContent = 'Data Feedback Pelanggan';
         if (links[1]) links[1].classList.add('active');
     } else if (tabName === 'analytics') {
         if (analyticsSec) analyticsSec.style.display = 'grid';
         if (feedbackSec) feedbackSec.style.display = 'none';
-        if (pageTitle) pageTitle.textContent = 'Analisis Visual Pelayanan PLN';
+        if (pageTitle) pageTitle.textContent = 'Analisis Pelayanan';
         if (links[2]) links[2].classList.add('active');
     }
 }
@@ -350,7 +356,7 @@ async function deleteRatingItem(id) {
 }
 
 function clearAllDemoData() {
-    if (!confirm('Apakah Anda yakin ingin mereset seluruh data simulasi demo lokal?')) return;
+    if (!confirm('Apakah Anda yakin ingin mengosongkan seluruh data simulasi lokal?')) return;
     localStorage.removeItem('pln_ratings_demo');
     rawRatingsData = [];
     activeFilteredData = [];

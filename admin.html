@@ -59,36 +59,36 @@
                 </div>
                 <div>
                     <div class="sidebar-brand-name">PLN ULP KAREBOSI</div>
-                    <div class="sidebar-brand-tag">Corporate Admin</div>
+                    <div class="sidebar-brand-tag">Admin Panel</div>
                 </div>
             </div>
 
             <ul class="sidebar-menu">
-                <li class="menu-category">Menu Utama</li>
+                <li class="menu-category">Menu</li>
                 <li class="sidebar-item">
                     <a class="sidebar-link active" onclick="switchTab('dashboard')">
                         <i class="fa-solid fa-chart-pie"></i>
-                        <span>Dashboard Overview</span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" onclick="switchTab('feedback')">
                         <i class="fa-solid fa-comments"></i>
-                        <span>Data Feedback</span>
+                        <span>Feedback</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" onclick="switchTab('analytics')">
                         <i class="fa-solid fa-chart-line"></i>
-                        <span>Analisis Pelayanan</span>
+                        <span>Analisis</span>
                     </a>
                 </li>
 
-                <li class="menu-category">Sistem & Ekspor</li>
+                <li class="menu-category">Laporan</li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" onclick="exportToXLSX()">
                         <i class="fa-solid fa-file-excel"></i>
-                        <span>Ekspor Laporan XLSX</span>
+                        <span>Ekspor Excel</span>
                     </a>
                 </li>
             </ul>
@@ -96,7 +96,7 @@
             <div class="sidebar-footer">
                 <button class="btn-logout" onclick="handleAdminLogout()">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Keluar (Logout)</span>
+                    <span>Logout</span>
                 </button>
             </div>
         </aside>
@@ -179,7 +179,7 @@
 
                         <div class="progress-item">
                             <div class="progress-label">
-                                <span>5 Bintang (Sangat Bagus)</span>
+                                <span>5 Bintang</span>
                                 <span id="starCount5">0 (0%)</span>
                             </div>
                             <div class="progress-bar-bg">
@@ -189,7 +189,7 @@
 
                         <div class="progress-item">
                             <div class="progress-label">
-                                <span>4 Bintang (Bagus)</span>
+                                <span>4 Bintang</span>
                                 <span id="starCount4">0 (0%)</span>
                             </div>
                             <div class="progress-bar-bg">
@@ -199,7 +199,7 @@
 
                         <div class="progress-item">
                             <div class="progress-label">
-                                <span>3 Bintang (Cukup Baik)</span>
+                                <span>3 Bintang</span>
                                 <span id="starCount3">0 (0%)</span>
                             </div>
                             <div class="progress-bar-bg">
@@ -209,7 +209,7 @@
 
                         <div class="progress-item">
                             <div class="progress-label">
-                                <span>2 Bintang (Kurang Baik)</span>
+                                <span>2 Bintang</span>
                                 <span id="starCount2">0 (0%)</span>
                             </div>
                             <div class="progress-bar-bg">
@@ -219,7 +219,7 @@
 
                         <div class="progress-item">
                             <div class="progress-label">
-                                <span>1 Bintang (Sangat Buruk)</span>
+                                <span>1 Bintang</span>
                                 <span id="starCount1">0 (0%)</span>
                             </div>
                             <div class="progress-bar-bg">
@@ -305,8 +305,8 @@
                                 <i class="fa-solid fa-file-excel"></i> Ekspor XLSX
                             </button>
 
-                            <button id="btnClearData" class="btn-action-danger" title="Kosongkan data demo">
-                                <i class="fa-solid fa-trash-can"></i> Reset Demo
+                            <button id="btnClearData" class="btn-action-danger" style="background: #64748b;" title="Kosongkan data demo">
+                                <i class="fa-solid fa-trash-can"></i> Kosongkan Data
                             </button>
                         </div>
                     </div>
@@ -334,7 +334,7 @@
 
             <!-- Footer -->
             <footer class="corporate-footer">
-                <p>© 2026 PT PLN (Persero) ULP Karebosi. Portal Admin Korporat Hak Cipta Dilindungi.</p>
+                <p>© <span id="currentYear">2024</span> PT PLN (Persero) ULP Karebosi. Portal Admin Hak Cipta Dilindungi.</p>
             </footer>
         </main>
 
