@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Pelayanan PLN - System Rating Pelayanan</title>
+    <title>Feedback Pelayanan - PT PLN (Persero) ULP Karebosi</title>
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Modular Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -22,9 +22,9 @@
                 <div class="pln-logo-icon">
                     <i class="fa-solid fa-bolt"></i>
                 </div>
-                <span class="fw-bold text-white">PLN INDONESIA</span>
+                <span class="pln-brand-title">PT PLN (PERSERO)</span>
             </div>
-            <h1 class="pln-title"><span class="highlight">PLN</span> UNIT PELAYANAN</h1>
+            <h1 class="pln-title"><span class="highlight">PLN</span> ULP KAREBOSI</h1>
             <div class="pln-subtitle">Satu Detik Anda, Berharga Bagi Pelayanan Kami</div>
         </header>
 
@@ -33,32 +33,34 @@
             
             <!-- VIEW FORM RATING (SINGLE PAGE) -->
             <section id="mainFormView">
-                <h2 class="step-heading">Berapa Bintang Untuk Pelayanan PLN Hari Ini?</h2>
-                <p class="step-subheading">👇 Sentuh salah satu bintang di bawah ini (1 bintang terkecil, 5 bintang tertinggi):</p>
+                <h2 class="step-heading">Bagaimana Pelayanan Petugas Kami Hari Ini?</h2>
+                <p style="text-align: center; color: var(--pln-text-muted); font-size: 0.95rem; margin-top: -4px; margin-bottom: var(--space-16);">
+                    Silakan sentuh bintang di bawah ini untuk memberikan penilaian Anda
+                </p>
 
-                <!-- 5 Bintang Widget -->
+                <!-- Anti-Spam Honeypot Field (Tersembunyi bagi manusia) -->
+                <input type="text" id="website_hp" name="website_hp" class="honeypot-field" tabindex="-1" autocomplete="off">
+
+                <!-- 5 Bintang Widget (Bintang Tanpa Border) -->
                 <div class="stars-container" id="starsContainer">
-                    <button type="button" class="star-btn" data-value="1" title="1 Bintang - Sangat Buruk">★</button>
-                    <button type="button" class="star-btn" data-value="2" title="2 Bintang - Kurang Baik">★</button>
-                    <button type="button" class="star-btn" data-value="3" title="3 Bintang - Cukup Baik">★</button>
-                    <button type="button" class="star-btn" data-value="4" title="4 Bintang - Bagus">★</button>
-                    <button type="button" class="star-btn" data-value="5" title="5 Bintang - Bagus Sekali">★</button>
+                    <button type="button" class="star-btn" data-value="1" title="Kecewa">★</button>
+                    <button type="button" class="star-btn" data-value="2" title="Kurang Puas">★</button>
+                    <button type="button" class="star-btn" data-value="3" title="Cukup Puas">★</button>
+                    <button type="button" class="star-btn" data-value="4" title="Puas">★</button>
+                    <button type="button" class="star-btn" data-value="5" title="Sangat Puas">★</button>
                 </div>
 
-                <!-- Dynamic Rating Label Badge -->
-                <div class="rating-badge-wrapper">
-                    <div id="ratingBadgeContainer" class="rating-label-badge">
-                        <span id="ratingBadgeIcon">⭐</span>
-                        <span id="ratingBadgeLabel">Sentuh Bintang Di Atas</span>
-                    </div>
+                <!-- Teks Keterangan Ekspresif (Murni Tipografi Clean, Tanpa Gelembung/Pill Shape) -->
+                <div id="expressiveRatingText" class="expressive-rating-text">
+                    Pilih bintang untuk memberi penilaian
                 </div>
 
                 <!-- KELOMPOK DESKRIPSI (MUNCUL OTOMATIS SETELAH MEMILIH BINTANG) -->
                 <div id="descriptionSection" class="description-section">
                     
-                    <div class="mb-3 text-start">
+                    <div style="margin-bottom: var(--space-16); text-align: left;">
                         <label for="deskripsiRating" class="form-label">
-                            Alasan / Deskripsi Rating <span class="text-danger">* (Wajib Diisi)</span>
+                            Alasan / Deskripsi Rating <span style="color: var(--pln-red);">* (Wajib Diisi)</span>
                         </label>
                         <textarea 
                             id="deskripsiRating" 
@@ -68,11 +70,11 @@
                             required></textarea>
                         
                         <!-- Pesan Error Validasi -->
-                        <div id="validationErrorMsg" class="text-danger fw-bold small mt-2 d-none"></div>
+                        <div id="validationErrorMsg" style="color: var(--pln-red); font-weight: 700; font-size: 0.85rem; margin-top: var(--space-8); display: none;"></div>
                     </div>
 
                     <!-- Tombol Kirim Rating -->
-                    <div class="mt-4">
+                    <div style="margin-top: var(--space-24);">
                         <button type="button" id="btnOpenModal" class="btn-pln-green">
                             <span>KIRIM RATING SAYA</span>
                             <i class="fa-solid fa-paper-plane"></i>
@@ -82,42 +84,22 @@
                 </div>
             </section>
 
-
-            <!-- TAHAP SUKSES: THANK YOU PAGE (Tanpa Elemen Centang) -->
-            <section id="successView" class="success-section">
-                <div class="text-center py-4">
-                    <h2 class="step-heading mb-2">Penilaian Anda Berhasil Terkirim!</h2>
-                    <p class="step-subheading mb-4 fs-5">
-                        Terima kasih banyak. Satu detik Anda sangat berharga bagi peningkatan pelayanan PLN.
-                    </p>
-                    
-                    <div id="successStatusNote"></div>
-
-                    <div class="btn-wrapper justify-content-center mt-4">
-                        <button type="button" onclick="resetRatingForm()" class="btn-pln-primary" style="max-width: 280px;">
-                            <i class="fa-solid fa-rotate-left"></i>
-                            <span>Beri Rating Lagi</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
         </main>
 
         <!-- Status Supabase Banner -->
         <div class="supa-status-banner">
-            <div>
-                <span id="supaStatusDot" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#f59e0b; margin-right:8px;"></span>
+            <div style="display: flex; align-items: center; gap: var(--space-8);">
+                <span id="supaStatusDot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#f59e0b;"></span>
                 <span id="supaStatusText">Memeriksa Koneksi Database...</span>
             </div>
             <div>
-                <span style="opacity: 0.9;">Panduan: <code>PANDUAN_SUPABASE.md</code></span>
+                <span style="opacity: 0.9;">ULP Karebosi</span>
             </div>
         </div>
 
         <!-- PLN Footer -->
         <footer class="pln-footer">
-            <p>© 2026 PT PLN (Persero) Unit Pelayanan. Hak Cipta Dilindungi.</p>
+            <p>© 2026 PT PLN (Persero) ULP Karebosi. Hak Cipta Dilindungi.</p>
         </footer>
     </div>
 
@@ -127,29 +109,23 @@
         <div class="modal-card-custom">
             
             <div id="modalContentBody">
-                <h3 class="fw-bold mb-2" style="color: var(--pln-text-dark); font-size: 1.6rem;">
+                <h3 style="font-weight: 800; margin-bottom: var(--space-8); color: var(--pln-text-dark); font-size: 1.35rem;">
                     Bagaimana Pelayanan Kami Hari Ini?
                 </h3>
-                <p class="text-muted fs-6 mb-4">
-                    👇 Sentuh salah satu gambar emoji di bawah ini untuk menyelesaikan:
-                </p>
 
-                <!-- 3 Pilihan Emoji / Ikon (Color Coded & Large) -->
+                <!-- 3 Pilihan Emoji / Ikon -->
                 <div class="emoji-grid">
-                    <!-- Option 1: Sangat Baik -->
-                    <div class="emoji-option-card option-sangat-baik" data-value="Sangat Baik">
+                    <div class="emoji-option-card" data-value="Sangat Baik">
                         <span class="emoji-icon">😊</span>
                         <span class="emoji-title">Sangat Baik</span>
                     </div>
 
-                    <!-- Option 2: Cukup Baik -->
-                    <div class="emoji-option-card option-cukup-baik" data-value="Cukup Baik">
+                    <div class="emoji-option-card" data-value="Cukup Baik">
                         <span class="emoji-icon">😐</span>
                         <span class="emoji-title">Cukup Baik</span>
                     </div>
 
-                    <!-- Option 3: Buruk -->
-                    <div class="emoji-option-card option-buruk" data-value="Buruk">
+                    <div class="emoji-option-card" data-value="Buruk">
                         <span class="emoji-icon">🙁</span>
                         <span class="emoji-title">Buruk</span>
                     </div>
@@ -157,22 +133,53 @@
             </div>
 
             <!-- Loading State Modal -->
-            <div id="modalLoadingState" class="d-none py-4">
-                <div class="spinner-border text-success mb-3" role="status" style="width: 3.5rem; height: 3.5rem;">
-                    <span class="visually-hidden">Loading...</span>
+            <div id="modalLoadingState" style="display: none; padding: var(--space-24) 0;">
+                <div style="width: 3rem; height: 3rem; border: 4px solid #e2e8f0; border-top-color: var(--pln-green); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--space-16) auto;"></div>
+                <h4 style="font-weight: 800; margin-bottom: var(--space-8);">Menyimpan Penilaian Anda...</h4>
+                <p style="color: var(--pln-text-muted); font-size: 0.9rem;">Sedang mengirimkan data ke database PLN ULP Karebosi</p>
+            </div>
+
+            <!-- SUCCESS STATE MODAL: ANIMATED GREEN CHECKMARK -->
+            <div id="modalSuccessState" style="display: none; padding: var(--space-16) 0;">
+                <div class="checkmark-circle-wrapper">
+                    <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
                 </div>
-                <h4 class="fw-bold">Menyimpan Penilaian Anda...</h4>
-                <p class="text-muted mb-0">Sedang mengirimkan data ke database PLN</p>
+
+                <h3 style="font-weight: 800; color: var(--pln-text-dark); font-size: 1.35rem; margin-bottom: var(--space-8);">
+                    Penilaian Anda Berhasil Terkirim!
+                </h3>
+                <p style="color: var(--pln-text-muted); font-size: 0.95rem; margin-bottom: var(--space-24); line-height: 1.4;">
+                    Terima kasih banyak. Masukan Anda sangat berharga bagi peningkatan pelayanan PT PLN (Persero) ULP Karebosi.
+                </p>
+
+                <div id="modalSuccessStatusNote" style="margin-bottom: var(--space-16);"></div>
+
+                <button type="button" onclick="resetRatingForm()" class="btn-pln-green" style="max-width: 220px; margin: 0 auto;">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Beri Rating Lagi</span>
+                </button>
             </div>
 
         </div>
     </div>
 
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
     <!-- Supabase JS Client Library via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Application Scripts -->
-    <script src="supabase-config.js"></script>
-    <script src="app.js"></script>
+    <!-- Modular Application Scripts & Controllers -->
+    <script src="data/seed-data.js"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="controllers/ratingController.js"></script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>

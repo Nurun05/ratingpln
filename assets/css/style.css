@@ -1,0 +1,422 @@
+/* ==========================================================================
+   PT PLN (Persero) ULP Karebosi - System Rating Pelayanan
+   Design System: Clean, Authentic, Corporate & Modern (Non-AI Slop)
+   ========================================================================== */
+
+:root {
+    /* 8px / 4px Spacing Grid */
+    --space-4: 4px;
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-32: 32px;
+
+    /* Corporate PLN Color Palette */
+    --pln-blue-primary: #00A3E0;
+    --pln-blue-dark: #0077C8;
+    --pln-blue-deep: #005691;
+    --pln-yellow: #FFC700;
+    --pln-red: #ef4444;
+    --pln-green: #10b981;
+    --pln-green-dark: #059669;
+
+    --pln-bg: #f4f7fb;
+    --pln-card-bg: #ffffff;
+    --pln-text-dark: #0f172a;
+    --pln-text-muted: #64748b;
+    --pln-border: #e2e8f0;
+    
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(180deg, #0077C8 0%, #005691 100%);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--pln-text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-24) var(--space-16);
+    line-height: 1.5;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 620px;
+    z-index: 1;
+}
+
+/* Header Styling */
+.pln-header {
+    text-align: center;
+    margin-bottom: var(--space-24);
+    color: #ffffff;
+}
+
+.pln-brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px var(--space-16);
+    border-radius: 50px;
+    margin-bottom: var(--space-12);
+}
+
+.pln-logo-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--pln-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pln-blue-deep);
+    font-size: 13px;
+}
+
+.pln-brand-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+}
+
+.pln-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+}
+
+.pln-title .highlight {
+    color: var(--pln-yellow);
+}
+
+.pln-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Main Feedback Card */
+.card-feedback {
+    background: var(--pln-card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 16px 36px rgba(0, 56, 107, 0.12);
+    padding: var(--space-32);
+    position: relative;
+}
+
+.step-heading {
+    text-align: center;
+    font-weight: 800;
+    color: var(--pln-text-dark);
+    margin-bottom: var(--space-8);
+    font-size: 1.3rem;
+    line-height: 1.3;
+}
+
+/* Star Rating Section - Tanpa Border Box */
+.stars-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-12);
+    margin: var(--space-16) 0 var(--space-8) 0;
+}
+
+.star-btn {
+    background: transparent;
+    border: none;
+    width: 52px;
+    height: 52px;
+    font-size: 3rem;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: transform 0.15s ease, color 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.hovered,
+.star-btn.selected {
+    color: var(--pln-yellow);
+    transform: scale(1.15);
+}
+
+/* Clean Expressive Rating Text (Murni Teks Clean, Tanpa Outline, Tanpa Gelembung) */
+.expressive-rating-text {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--pln-text-muted);
+    min-height: 28px;
+    margin-bottom: var(--space-16);
+    transition: color 0.2s ease;
+}
+
+/* Dynamic Reveal Description Container */
+.description-section {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transform: translateY(-6px);
+}
+
+.description-section.visible {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+    margin-top: var(--space-16);
+    padding-top: var(--space-20);
+    border-top: 1px solid var(--pln-border);
+}
+
+/* Custom Textarea */
+.form-label {
+    font-weight: 700;
+    color: var(--pln-text-dark);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-8);
+    display: block;
+}
+
+.custom-textarea {
+    width: 100%;
+    border: 1px solid var(--pln-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-12) var(--space-16);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--pln-text-dark);
+    resize: vertical;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    background: #f8fafc;
+}
+
+.custom-textarea:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--pln-blue-primary);
+    box-shadow: 0 0 0 3px rgba(0, 163, 224, 0.15);
+}
+
+/* Anti-Spam Honeypot Hidden Input */
+.honeypot-field {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* Submit Button */
+.btn-pln-green {
+    background: var(--pln-green);
+    color: #ffffff;
+    border: none;
+    padding: var(--space-12) var(--space-24);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    width: 100%;
+}
+
+.btn-pln-green:hover {
+    background: var(--pln-green-dark);
+    transform: translateY(-1px);
+}
+
+/* Modal Popup */
+.modal-backdrop-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.modal-backdrop-custom.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-card-custom {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 480px;
+    padding: var(--space-32);
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+    border: none;
+}
+
+.modal-backdrop-custom.show .modal-card-custom {
+    transform: scale(1);
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-12);
+    margin: var(--space-20) 0;
+}
+
+.emoji-option-card {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--space-16) var(--space-8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    background: #f8fafc;
+}
+
+.emoji-option-card:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.emoji-icon {
+    font-size: 3.2rem;
+    line-height: 1;
+}
+
+.emoji-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--pln-text-dark);
+}
+
+/* Green Checkmark SVG Animation */
+.checkmark-circle-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-16) auto;
+}
+
+.checkmark-svg {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: var(--pln-green);
+    stroke-miterlimit: 10;
+    animation: fillCheckmark .4s ease-in-out .4s forwards, scaleCheckmark .3s ease-in-out .9s forwards;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: var(--pln-green);
+    fill: none;
+    animation: strokeCheckmark 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: strokeCheckmark 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes strokeCheckmark {
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes scaleCheckmark {
+    0%, 100% { transform: none; }
+    50% { transform: scale3d(1.1, 1.1, 1); }
+}
+
+@keyframes fillCheckmark {
+    100% { box-shadow: inset 0px 0px 0px 40px rgba(16, 185, 129, 0.1); }
+}
+
+/* Status Banner Footer */
+.supa-status-banner {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-radius: var(--radius-sm);
+    padding: var(--space-8) var(--space-16);
+    font-size: 0.8rem;
+    margin-top: var(--space-20);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    font-weight: 500;
+}
+
+.pln-footer {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    margin-top: var(--space-16);
+    font-weight: 600;
+}
+
+@media (max-width: 576px) {
+    .card-feedback {
+        padding: var(--space-20) var(--space-16);
+        border-radius: var(--radius-md);
+    }
+
+    .star-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 2.4rem;
+    }
+
+    .emoji-icon {
+        font-size: 2.6rem;
+    }
+
+    .pln-title {
+        font-size: 1.4rem;
+    }
+}

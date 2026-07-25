@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin Corporate - PLN ULP Karebosi</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Modular Admin Stylesheet -->
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <!-- 1. LOGIN OVERLAY SCREEN (AUTHENTICATION MODAL) -->
+    <div id="loginBackdrop" class="login-backdrop">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 class="login-title">PLN ULP Karebosi Portal</h2>
+            <p class="login-subtitle">Silakan login dengan akun admin khusus Anda</p>
+
+            <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label for="adminUsername">Username / ID Admin</label>
+                    <input type="text" id="adminUsername" class="form-control-custom" placeholder="Contoh: admin" required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" class="form-control-custom" placeholder="••••••••" required>
+                </div>
+
+                <div id="loginErrorMsg" class="login-error">
+                    ⚠️ Username atau Password yang Anda masukkan salah.
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <span>MASUK PORTAL ADMIN</span>
+                    <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: 6px;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 2. MAIN CORPORATE ADMIN WRAPPER (SIDEBAR + MAIN CONTENT) -->
+    <div class="admin-wrapper">
+
+        <!-- Sidebar Navigation Bar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                    <div class="sidebar-brand-name">PLN ULP KAREBOSI</div>
+                    <div class="sidebar-brand-tag">Corporate Admin</div>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li class="menu-category">Menu Utama</li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link active" onclick="switchTab('dashboard')">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard Overview</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" onclick="switchTab('feedback')">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Data Feedback</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" onclick="switchTab('analytics')">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Analisis Pelayanan</span>
+                    </a>
+                </li>
+
+                <li class="menu-category">Sistem & Ekspor</li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" onclick="exportToXLSX()">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span>Ekspor Laporan XLSX</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="handleAdminLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Keluar (Logout)</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            
+            <!-- Topbar Header -->
+            <header class="topbar">
+                <h1 class="topbar-title" id="pageTitle">Dashboard Overview Pelayanan</h1>
+
+                <div class="topbar-right">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--pln-text-muted);">
+                        <span id="adminDataStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></span>
+                        <span id="adminDataStatusText">Status Koneksi</span>
+                    </div>
+
+                    <div class="admin-profile">
+                        <div class="avatar">A</div>
+                        <div class="admin-info">
+                            <span class="admin-name">Administrator</span>
+                            <span class="admin-role">PLN ULP Karebosi</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Body Container -->
+            <div class="content-body">
+                
+                <!-- Section 1: Metrics Grid -->
+                <section class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon-box icon-blue">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metricTotalCount">0</span>
+                            <span class="metric-label">Total Rating Diterima</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon-box icon-yellow">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metricAvgScore">0.0 ★</span>
+                            <span class="metric-label">Rata-Rata Skor Pelayanan</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon-box icon-green">
+                            <i class="fa-solid fa-face-smile"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metricSatisfaction">0%</span>
+                            <span class="metric-label">Indeks Kepuasan Pelanggan</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon-box icon-purple">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metricLatestTime" style="font-size: 1.1rem; line-height: 1.4;">-</span>
+                            <span class="metric-label">Feedback Terakhir</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Analytics Breakdown Grid -->
+                <section class="analytics-grid" id="analyticsSection">
+                    <div class="section-card">
+                        <h3 class="section-title">
+                            <span><i class="fa-solid fa-chart-column" style="color: var(--pln-yellow); margin-right: 8px;"></i>Distribusi Rating Bintang</span>
+                        </h3>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>5 Bintang (Sangat Bagus)</span>
+                                <span id="starCount5">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="starBar5" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>4 Bintang (Bagus)</span>
+                                <span id="starCount4">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="starBar4" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>3 Bintang (Cukup Baik)</span>
+                                <span id="starCount3">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="starBar3" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>2 Bintang (Kurang Baik)</span>
+                                <span id="starCount2">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="starBar2" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>1 Bintang (Sangat Buruk)</span>
+                                <span id="starCount1">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="starBar1" class="progress-bar-fill fill-star" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h3 class="section-title">
+                            <span><i class="fa-solid fa-face-grin-stars" style="color: var(--pln-blue-primary); margin-right: 8px;"></i>Penilaian Pelayanan Emoji</span>
+                        </h3>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>😊 Sangat Baik</span>
+                                <span id="emojiCountSangatBaik">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="emojiBarSangatBaik" class="progress-bar-fill fill-sangat-baik" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>😐 Cukup Baik</span>
+                                <span id="emojiCountCukupBaik">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="emojiBarCukupBaik" class="progress-bar-fill fill-cukup-baik" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>🙁 Buruk</span>
+                                <span id="emojiCountBuruk">0 (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="emojiBarBuruk" class="progress-bar-fill fill-buruk" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Data Table Section with Date Range Filter & XLSX Export -->
+                <section class="table-card" id="feedbackSection">
+                    <div class="table-header-controls">
+                        <div>
+                            <h3 style="font-size: 1.05rem; font-weight: 800;">Daftar Masukan Pelanggan</h3>
+                            <span id="tableRecordsCount" style="font-size: 0.85rem; color: var(--pln-text-muted);">0 data ditemukan</span>
+                        </div>
+
+                        <!-- Date Range & Search Controls -->
+                        <div class="search-filter-group">
+                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari deskripsi / alasan...">
+                            
+                            <select id="filterStarSelect" class="filter-select">
+                                <option value="all">Semua Bintang</option>
+                                <option value="5">5 Bintang</option>
+                                <option value="4">4 Bintang</option>
+                                <option value="3">3 Bintang</option>
+                                <option value="2">2 Bintang</option>
+                                <option value="1">1 Bintang</option>
+                            </select>
+
+                            <!-- Date Filter Controls -->
+                            <select id="datePresetSelect" class="filter-select" onchange="applyDatePreset()">
+                                <option value="all">Semua Waktu</option>
+                                <option value="today">Hari Ini</option>
+                                <option value="7days">7 Hari Terakhir</option>
+                                <option value="30days">30 Hari Terakhir</option>
+                                <option value="custom">Custom Tanggal</option>
+                            </select>
+
+                            <div id="customDateRangeGroup" style="display: inline-flex; align-items: center; gap: 6px;">
+                                <input type="date" id="startDateInput" class="search-input" style="min-width: 130px;" title="Tanggal Mulai">
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--pln-text-muted);">-</span>
+                                <input type="date" id="endDateInput" class="search-input" style="min-width: 130px;" title="Tanggal Akhir">
+                            </div>
+
+                            <button onclick="exportToXLSX()" class="btn-action-primary" style="background: var(--pln-green);">
+                                <i class="fa-solid fa-file-excel"></i> Ekspor XLSX
+                            </button>
+
+                            <button id="btnClearData" class="btn-action-danger" title="Kosongkan data demo">
+                                <i class="fa-solid fa-trash-can"></i> Reset Demo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Waktu</th>
+                                    <th>Rating</th>
+                                    <th>Penilaian Emoji</th>
+                                    <th>Alasan / Deskripsi Pelanggan</th>
+                                    <th style="text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ratingsTbody">
+                                <!-- Dynamic Rows Injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="corporate-footer">
+                <p>© 2026 PT PLN (Persero) ULP Karebosi. Portal Admin Korporat Hak Cipta Dilindungi.</p>
+            </footer>
+        </main>
+
+    </div>
+
+    <!-- SheetJS for XLSX Excel Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Modular Supabase, Controllers & Admin Scripts -->
+    <script src="data/seed-data.js"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="controllers/adminController.js"></script>
+    <script src="scripts/admin.js"></script>
+</body>
+</html>
