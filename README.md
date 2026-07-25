@@ -12,17 +12,19 @@ Aplikasi web dinamis **System Rating Pelayanan PLN ULP Karebosi** yang cepat, si
   - Berkas `vercel.json` secara otomatis mengaktifkan `"cleanUrls": true`.
 
 - **Customer Rating Portal (`index.html`)**:
-  - Pilihan 5 Bintang tanpa border dengan animasi smooth.
-  - Teks indikator rating tipografi murni & otentik (tanpa gelembung AI slop).
+  - Tampilan minimalis 1-kolom yang sangat bersih dan mudah dipahami segala rentang usia.
+  - Pilihan 5 Bintang tanpa border dengan transisi yang nyaman.
+  - Teks indikator rating tipografi murni & otentik.
   - Pop-up modal pilihan emoji & animasi centang hijau dengan tombol *"Beri Rating Lagi"*.
-  - Proteksi Anti-Spam (Honeypot + 5s Cooldown Limiter).
+  - Proteksi Anti-Spam (Honeypot + Cooldown Limiter).
   - Halaman publik bersih tanpa tombol admin.
 
 - **Corporate Admin Panel (`/admin`)**:
   - **Path Secret**: Diakses via path `/admin`.
   - **Login Portal Akun Khusus**: Proteksi kredensial khusus (`Username: admin` | `Password: pln123`).
-  - **Sidebar Layout Corporate**: Menu Dashboard Overview, Data Feedback, Analytics, dan Export.
-  - **Filter Rentang Waktu**: Tanggal Mulai, Tanggal Akhir, dan Preset.
+  - **Sidebar Layout Corporate**: Menu Ringkasan Utama, Daftar Ulasan, Grafik Kepuasan, dan Unduh Laporan.
+  - Tampilan bersih tanpa menampilkan data personal evaluator/nama/foto pelanggan.
+  - **Filter Rentang Waktu**: Presets (Hari Ini, 7 Hari, 30 Hari) dan Kustom Tanggal.
   - **Ekspor XLSX (Excel)**: Pengunduhan laporan data masukan pelanggan ke berkas `.xlsx`.
 
 ---
