@@ -7,19 +7,21 @@
 
 const SUPABASE_URL = (typeof window !== 'undefined' && window.ENV_SUPABASE_URL) 
     ? window.ENV_SUPABASE_URL 
-    : 'https://YOUR-PROJECT-REF.supabase.co';
+    : '';
 
 const SUPABASE_ANON_KEY = (typeof window !== 'undefined' && window.ENV_SUPABASE_ANON_KEY) 
     ? window.ENV_SUPABASE_ANON_KEY 
-    : 'YOUR-SUPABASE-ANON-KEY';
+    : '';
 
 let supabaseClient = null;
 
 function isSupabaseConfigured() {
     return SUPABASE_URL && 
            !SUPABASE_URL.includes('YOUR-PROJECT-REF') && 
+           SUPABASE_URL.trim() !== '' &&
            SUPABASE_ANON_KEY && 
-           !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY');
+           !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY') &&
+           SUPABASE_ANON_KEY.trim() !== '';
 }
 
 function initSupabase() {

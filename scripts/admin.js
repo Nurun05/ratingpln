@@ -50,6 +50,7 @@ async function fetchRatingsData() {
             if (error) throw error;
             rawRatingsData = data || [];
             updateStatus(true, 'Supabase Terhubung');
+            setupRealtimeSubscription();
         } catch (err) {
             console.error('Supabase error:', err);
             loadLocalData();
@@ -58,6 +59,44 @@ async function fetchRatingsData() {
         loadLocalData();
     }
     applyFilters();
+}
+
+let realtimeChannel = null;
+function setupRealtimeSubscription() {
+    if (realtimeChannel) return; // prevent duplicate subscriptions
+
+    realtimeChannel = supabaseClient
+        .channel('schema-db-changes')
+        .on(
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'ratings'
+            },
+            (payload) => {
+                console.log('⚡ Realtime change detected:', payload);
+                
+                if (payload.eventType === 'INSERT') {
+                    // Cek jika ID sudah ada untuk mencegah duplikasi
+                    if (!rawRatingsData.some(item => item.id === payload.new.id)) {
+                        rawRatingsData.unshift(payload.new);
+                    }
+                } else if (payload.eventType === 'DELETE') {
+                    rawRatingsData = rawRatingsData.filter(item => item.id !== payload.old.id);
+                } else if (payload.eventType === 'UPDATE') {
+                    const index = rawRatingsData.findIndex(item => item.id === payload.new.id);
+                    if (index !== -1) {
+                        rawRatingsData[index] = payload.new;
+                    }
+                }
+                
+                // Urutkan kembali berdasarkan created_at desc
+                rawRatingsData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                applyFilters();
+            }
+        )
+        .subscribe();
 }
 
 function loadLocalData() {
