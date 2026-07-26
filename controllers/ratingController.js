@@ -36,7 +36,7 @@ const RatingController = {
             return {
                 success: false,
                 isSpam: true,
-                message: `Harap tunggu ${remainingSec} detik sebelum mengirim rating lagi.`
+                message: `Harap tunggu ${remainingSec} detik sebelum mengirim penilaian lagi.`
             };
         }
 

@@ -14,9 +14,10 @@
 
     <div class="main-container">
         <header class="pln-header">
-            <div class="pln-brand-badge">
-                <div class="pln-logo-icon"><i class="fa-solid fa-bolt"></i></div>
-                <span class="pln-brand-title">PT PLN (PERSERO)</span>
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Logo_PLN.svg" alt="Logo PLN" class="h-10 w-auto">
+                <div class="w-px h-8 bg-white/20"></div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Danantara_Indonesia_%28no_SW%29.svg" alt="Logo Danantara" class="h-6 w-auto">
             </div>
             <h1 class="pln-title"><span class="highlight">PLN</span> ULP KAREBOSI</h1>
             <div class="pln-subtitle">Bantu kami meningkatkan pelayanan di ULP Karebosi</div>
@@ -44,14 +45,14 @@
                 <div id="descriptionSection" class="description-section">
                     <div class="form-group">
                         <label for="deskripsiRating" class="form-label">
-                            Alasan Rating <span class="required-mark">*wajib</span>
+                            Saran & Masukan Pelayanan <span class="required-mark">*wajib diisi</span>
                         </label>
-                        <textarea id="deskripsiRating" class="custom-textarea" rows="3" placeholder="Tuliskan masukan Anda di sini..." required></textarea>
+                        <textarea id="deskripsiRating" class="custom-textarea" rows="3" placeholder="Silakan tulis ulasan atau keluhan Anda di sini untuk perbaikan pelayanan loket..." required></textarea>
                         <div id="validationErrorMsg" class="validation-error"></div>
                     </div>
 
                     <button type="button" id="btnOpenModal" class="btn-submit">
-                        <span>KIRIM RATING</span>
+                        <span>KIRIM PENILAIAN</span>
                         <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
@@ -67,19 +68,20 @@
     <div id="serviceModal" class="modal-backdrop">
         <div class="modal-card">
             <div id="modalContentBody">
-                <h3 class="modal-title">Bagaimana Pelayanan Kami?</h3>
+                <h3 class="modal-title">Klasifikasi Ulasan Anda</h3>
+                <p class="muted" style="margin-bottom: var(--space-12); font-size: 0.8rem;">Pilih kategori yang paling sesuai untuk menyortir ulasan Anda:</p>
                 <div class="emoji-grid">
                     <div class="emoji-option" data-value="Buruk">
                         <span class="emoji-icon">🙁</span>
-                        <span class="emoji-label">Buruk</span>
+                        <span class="emoji-label">Butuh Perbaikan</span>
                     </div>
                     <div class="emoji-option" data-value="Cukup Baik">
                         <span class="emoji-icon">😐</span>
-                        <span class="emoji-label">Cukup Baik</span>
+                        <span class="emoji-label">Sudah Cukup</span>
                     </div>
                     <div class="emoji-option" data-value="Sangat Baik">
                         <span class="emoji-icon">😊</span>
-                        <span class="emoji-label">Sangat Baik</span>
+                        <span class="emoji-label">Ramah & Cepat</span>
                     </div>
                 </div>
             </div>
@@ -97,12 +99,12 @@
                         <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                     </svg>
                 </div>
-                <h3 class="modal-title">Rating Berhasil Dikirim</h3>
-                <p class="muted">Terima kasih atas masukan Anda.</p>
+                <h3 class="modal-title">Penilaian Berhasil Direkam</h3>
+                <p class="muted">Terima kasih atas ulasan Anda. Penilaian Anda telah kami terima untuk evaluasi PLN ULP Karebosi & Danantara.</p>
                 <div id="modalSuccessStatusNote" class="status-note"></div>
                 <button type="button" onclick="resetRatingForm()" class="btn-submit btn-reset">
                     <i class="fa-solid fa-rotate-left"></i>
-                    <span>Beri Rating Lagi</span>
+                    <span>Kembali ke Awal</span>
                 </button>
             </div>
         </div>

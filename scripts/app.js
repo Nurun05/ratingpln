@@ -74,7 +74,7 @@ function initFormValidation() {
     if (btn) btn.addEventListener('click', () => {
         const val = textarea ? textarea.value.trim() : '';
         if (!val) {
-            showError('Alasan rating wajib diisi.');
+            showError('Saran & masukan pelayanan wajib diisi.');
             if (textarea) textarea.focus();
             return;
         }
