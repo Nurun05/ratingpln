@@ -115,7 +115,7 @@ async function saveRatingData(payload) {
         return {
             success: true,
             isDemo: true,
-            message: 'Rating tersimpan dalam Mode Demo Simulasi Lokal.',
+            message: 'Penilaian Anda berhasil disimpan secara lokal.',
             data: payload
         };
     }
