@@ -39,8 +39,8 @@ function doPost(e) {
       var day = ("0" + rawDate.getDate()).slice(-2);
       var dateKey = year + "-" + monthStr + "-" + day;
 
-      // Nama bulan untuk nama sheet bulanan (Format: YYYY-MM)
-      var monthKey = year + "-" + monthStr;
+      // Nama bulan untuk nama sheet bulanan (Format: MM-YYYY)
+      var monthKey = monthStr + "-" + year;
 
       // Ambil jam menit
       var timeStr = ("0" + rawDate.getHours()).slice(-2) + ":" + ("0" + rawDate.getMinutes()).slice(-2);

@@ -311,19 +311,19 @@
                     <!-- Mode B: Integrasi Google Sheets -->
                     <div class="card p-6 text-center flex flex-col justify-between">
                         <div>
-                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-blue-500 mb-3 block"></i>
-                            <h3 class="font-bold text-base text-gray-800 mb-2">Mode 2: Sinkronisasi Google Sheets</h3>
-                            <p class="text-xs text-gray-500 mb-4">Kirim dan sinkronkan data ulasan langsung ke Google Spreadsheet di cloud Anda via Google Apps Script.</p>
+                            <i class="fa-solid fa-cloud text-4xl text-blue-500 mb-3 block"></i>
+                            <h3 class="font-bold text-base text-gray-800 mb-2">Mode 2: Buka Google Sheets (Cloud)</h3>
+                            <p class="text-xs text-gray-500 mb-4">Setiap ulasan baru otomatis dikirim langsung ke Google Sheets secara real-time. Anda dapat langsung melihat spreadsheet tersebut di sini.</p>
                             
-                            <!-- Input Web App URL -->
+                            <!-- Input Spreadsheet Link untuk Membuka -->
                             <div class="text-left mt-3">
-                                <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">URL Web App Apps Script</label>
-                                <input type="url" id="gasWebAppUrl" class="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-xs outline-none focus:border-pln-blue" value="https://script.google.com/macros/s/AKfycbyvLvfHTM8RrkEhnT6U9SpcU7SPYL6DTyKulWxE4NFyF1dFIzfGHWgKtZYDVNbqQUnE/exec" placeholder="https://script.google.com/macros/s/.../exec">
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Link Google Spreadsheet</label>
+                                <input type="url" id="gasSpreadsheetUrl" class="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-xs outline-none focus:border-pln-blue" value="https://docs.google.com/spreadsheets/d/1KQeN1Mkmpyv_UM97ZKUkqGMVHUfl5j3czThuQHG5rzI/edit?gid=1847204301#gid=1847204301" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
                             </div>
                         </div>
                         <div class="mt-4">
-                            <button id="btnSyncGas" onclick="syncToGoogleSheets()" class="bg-blue-600 text-white font-bold text-sm w-full py-2.5 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-rotate"></i> Sinkronkan Sekarang
+                            <button id="btnOpenSpreadsheet" onclick="openGoogleSpreadsheet()" class="bg-blue-600 text-white font-bold text-sm w-full py-2.5 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Spreadsheet
                             </button>
                         </div>
                     </div>

@@ -323,11 +323,12 @@ function exportToXLSX() {
         let sheetName = 'Laporan Gabungan';
         
         if (startDate && endDate) {
-            // Ambil tahun-bulan jika rentang tanggal berada pada bulan yang sama
-            const startYM = startDate.slice(0, 7);
+            // Ambil MM-YYYY jika rentang tanggal berada pada bulan yang sama
+            const startYM = startDate.slice(0, 7); // YYYY-MM
             const endYM = endDate.slice(0, 7);
             if (startYM === endYM) {
-                sheetName = `Laporan ${startYM}`;
+                const parts = startYM.split('-'); // [YYYY, MM]
+                sheetName = `${parts[1]}-${parts[0]}`; // MM-YYYY
             } else {
                 sheetName = `${startDate} s.d ${endDate}`;
             }
@@ -352,65 +353,28 @@ function exportToXLSX() {
     }
 }
 
-// ── Google Sheets Sync via Apps Script ────────────────
-async function syncToGoogleSheets() {
-    const webAppUrlInput = document.getElementById('gasWebAppUrl');
-    const url = webAppUrlInput?.value?.trim();
-    
-    if (!url) {
-        alert('Tolong masukkan URL Web App Apps Script terlebih dahulu.');
-        if (webAppUrlInput) webAppUrlInput.focus();
-        return;
-    }
-
-    if (activeFilteredData.length === 0) {
-        alert('Tidak ada data ulasan untuk disinkronkan.');
-        return;
-    }
-
-    const btn = document.getElementById('btnSyncGas');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyinkronkan...';
-    }
-
-    try {
-        const payload = {
-            ratings: activeFilteredData
-        };
-
-        // Kirim data ke Apps Script menggunakan POST JSON
-        const res = await fetch(url, {
-            method: 'POST',
-            mode: 'no-cors', // Apps Script web app redirect memicu CORS, no-cors aman untuk trigger
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        // Karena mode 'no-cors' responnya bersifat opaque, kita asumsikan sukses jika fetch selesai tanpa error
-        alert('Permintaan sinkronisasi telah dikirim ke Google Sheets Anda.\nSilakan periksa Spreadsheet Anda beberapa saat lagi.');
-        
-        // Simpan URL di LocalStorage agar tidak mengetik ulang
-        localStorage.setItem('pln_gas_webapp_url', url);
-    } catch (err) {
-        console.error('GAS sync error:', err);
-        alert('Gagal mengirim sinkronisasi: ' + err.message);
-    } finally {
-        if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sinkronkan Sekarang';
-        }
+// ── Buka Google Spreadsheet ────────────────
+function openGoogleSpreadsheet() {
+    const urlInput = document.getElementById('gasSpreadsheetUrl');
+    const url = urlInput?.value?.trim();
+    if (url) {
+        window.open(url, '_blank');
+    } else {
+        alert('Tolong masukkan Link Google Spreadsheet terlebih dahulu.');
     }
 }
 
-// Muat URL GAS yang tersimpan
+// Muat URL Spreadsheet yang tersimpan
 document.addEventListener('DOMContentLoaded', () => {
-    const savedUrl = localStorage.getItem('pln_gas_webapp_url');
-    const webAppUrlInput = document.getElementById('gasWebAppUrl');
-    if (savedUrl && webAppUrlInput) {
-        webAppUrlInput.value = savedUrl;
+    const savedUrl = localStorage.getItem('pln_gas_spreadsheet_url');
+    const urlInput = document.getElementById('gasSpreadsheetUrl');
+    if (urlInput) {
+        if (savedUrl) {
+            urlInput.value = savedUrl;
+        }
+        urlInput.addEventListener('change', () => {
+            localStorage.setItem('pln_gas_spreadsheet_url', urlInput.value.trim());
+        });
     }
 });
 
