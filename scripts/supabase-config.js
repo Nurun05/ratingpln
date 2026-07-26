@@ -85,6 +85,9 @@ async function saveRatingData(payload) {
 
             if (error) throw error;
 
+            // Jalankan auto-sync ke Google Sheets secara background (tidak memblokir UI sukses pelanggan)
+            autoSyncToGoogleSheets(payload);
+
             return {
                 success: true,
                 message: 'Penilaian Anda berhasil disimpan.',
@@ -110,6 +113,9 @@ async function saveRatingData(payload) {
         localData.unshift({ ...payload, id: 'demo-' + Date.now() });
         localStorage.setItem('pln_ratings_demo', JSON.stringify(localData));
 
+        // Juga jalankan auto-sync untuk data demo ke Google Sheets jika konfigurasi Apps Script diisi
+        autoSyncToGoogleSheets(payload);
+
         await new Promise(resolve => setTimeout(resolve, 400));
 
         return {
@@ -119,6 +125,32 @@ async function saveRatingData(payload) {
             data: payload
         };
     }
+}
+
+// Fungsi otomatis sinkron ke Google Sheets dari sisi Pelanggan
+function autoSyncToGoogleSheets(item) {
+    const url = "https://script.google.com/macros/s/AKfycbyvLvfHTM8RrkEhnT6U9SpcU7SPYL6DTyKulWxE4NFyF1dFIzfGHWgKtZYDVNbqQUnE/exec";
+    
+    // Inject ID acak sementara jika belum ada (mode demo/local)
+    const payload = {
+        ratings: [{
+            ...item,
+            id: item.id || 'ulasan-' + Date.now()
+        }]
+    };
+
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        console.log('⚡ Auto-sync to Google Sheets executed successfully.');
+    }).catch(err => {
+        console.error('⚠️ Auto-sync to Google Sheets failed:', err);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
