@@ -1,114 +1,193 @@
-# Panduan Implementasi Sistem Rating Pelayanan PLN ULP Karebosi
+# Panduan Implementasi Sistem Rating PLN ULP Karebosi
 
-Dokumen ini berisi panduan langkah demi langkah untuk mengimplementasikan sistem rating pelayanan PLN ULP Karebosi dari awal hingga siap digunakan di lapangan.
+Panduan ini dipakai untuk implementasi dari awal sampai sistem siap dipakai di lapangan.
+
+## Ringkasan Alur
+- Pelanggan mengirim rating dari halaman publik.
+- Data masuk ke Supabase.
+- Data otomatis di-*sync* ke Google Spreadsheet via Google Apps Script.
+- Admin membuka spreadsheet langsung untuk melihat data terbaru.
+- Laporan Excel tetap bisa diunduh dari panel admin.
 
 ---
 
-## 📋 Daftar Isi
-1. [Langkah 1: Setup Database Supabase](#langkah-1-setup-database-supabase)
-2. [Langkah 2: Mengambil Kredensial API Supabase](#langkah-2-mengambil-kredensial-api-supabase)
-3. [Langkah 3: Deployment ke Vercel](#langkah-3-deployment-ke-vercel)
-4. [Langkah 4: Konfigurasi & Uji Coba Lapangan](#langkah-4-konfigurasi--uji-coba-lapangan)
+## 1) Siapkan Supabase
 
----
+### 1.1 Buat project
+1. Buka Supabase.
+2. Buat project baru.
+3. Simpan **Project URL** dan **anon/public key**.
 
-## 🛠️ Langkah 1: Setup Database Supabase
-
-1. Daftar atau masuk ke akun Anda di [Supabase](https://supabase.com/).
-2. Buat proyek baru (*New Project*), isi nama proyek, atur password database, dan pilih region terdekat (disarankan **Singapore `ap-southeast-1`**).
-3. Setelah proyek berhasil dibuat, buka menu **SQL Editor** (ikon `>_` di bilah navigasi kiri).
-4. Klik **New Query**, lalu salin dan tempel perintah SQL di bawah ini:
+### 1.2 Buat tabel `ratings`
+Jalankan SQL ini di SQL Editor:
 
 ```sql
--- 1. Membuat Tabel ratings
-CREATE TABLE public.ratings (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    rating_bintang INT NOT NULL CHECK (rating_bintang BETWEEN 1 AND 5),
-    keterangan_rating TEXT NOT NULL,
-    deskripsi TEXT NOT NULL,
-    penilaian_pelayanan TEXT NOT NULL CHECK (penilaian_pelayanan IN ('Sangat Baik', 'Cukup Baik', 'Buruk')),
-    unit_pelayanan TEXT DEFAULT 'PLN ULP Karebosi',
-    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+create table public.ratings (
+  id uuid default gen_random_uuid() primary key,
+  rating_bintang int not null check (rating_bintang between 1 and 5),
+  keterangan_rating text not null,
+  deskripsi text not null,
+  penilaian_pelayanan text not null,
+  unit_pelayanan text default 'PLN ULP Karebosi',
+  created_at timestamptz default timezone('utc'::text, now()) not null
 );
 
--- 2. Mengaktifkan Row Level Security (RLS)
-ALTER TABLE public.ratings ENABLE ROW LEVEL SECURITY;
+alter table public.ratings enable row level security;
 
--- 3. Membuat Policy agar Publik/Anon bisa mengirim ulasan (INSERT)
-CREATE POLICY "Izinkan publik memasukkan rating" 
-ON public.ratings 
-FOR INSERT 
-TO anon, authenticated 
-WITH CHECK (true);
+create policy "allow insert for anon and authenticated"
+on public.ratings
+for insert
+to anon, authenticated
+with check (true);
 
--- 4. Membuat Policy agar data dapat dibaca untuk kebutuhan Admin Panel (SELECT)
-CREATE POLICY "Izinkan membaca data rating" 
-ON public.ratings 
-FOR SELECT 
-TO anon, authenticated 
-USING (true);
+create policy "allow select for anon and authenticated"
+on public.ratings
+for select
+to anon, authenticated
+using (true);
 
--- 5. Mengaktifkan fitur Real-time untuk tabel ratings
-ALTER PUBLICATION supabase_realtime ADD TABLE public.ratings;
+alter publication supabase_realtime add table public.ratings;
 ```
-5. Klik tombol **Run** (atau tekan `Ctrl + Enter`). Pastikan muncul pesan sukses berwarna hijau (`Success. No rows returned`).
+
+### 1.3 Cek hasil
+- Pastikan tabel `ratings` ada.
+- Pastikan RLS aktif.
+- Pastikan realtime publikasi sudah aktif.
 
 ---
 
-## 🔑 Langkah 2: Mengambil Kredensial API Supabase
+## 2) Set Environment Variable di Vercel
 
-1. Masuk ke menu **Project Settings** (ikon roda gigi ⚙️ di pojok kiri bawah dashboard Supabase).
-2. Pilih sub-menu **API**.
-3. Salin dua nilai penting berikut untuk digunakan di Vercel:
-   * **Project URL** (format: `https://xxxxxx.supabase.co`)
-   * **anon / public key** (kunci panjang yang diawali dengan `eyJhbGci...`)
+Tambahkan variable berikut di Vercel:
 
----
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `GAS_WEBAPP_URL`
 
-## ☁️ Langkah 3: Deployment ke Vercel
+Kalau pakai prefix `NEXT_PUBLIC_...`, isi juga jika memang dipakai di project Anda.
 
-Sistem ini menggunakan *Serverless Function* untuk menyembunyikan API key Supabase agar aman dari modifikasi pihak luar.
-
-### Metode A: Hubungkan Lewat Dashboard Vercel (Rekomendasi)
-1. Masuk ke [Vercel](https://vercel.com/) dan buat proyek baru dengan menghubungkannya ke repositori GitHub Anda (`firgiawann/ratingpln` atau `Nurun05/ratingpln`).
-2. Sebelum melakukan deploy, buka bagian **Environment Variables** di halaman konfigurasi proyek.
-3. Tambahkan dua variabel berikut:
-   * **`SUPABASE_URL`** &rarr; Isi dengan *Project URL* Supabase Anda.
-   * **`SUPABASE_ANON_KEY`** &rarr; Isi dengan *anon / public key* Supabase Anda.
-4. Klik **Deploy**.
-
-### Metode B: Menggunakan Vercel CLI (Melalui Terminal)
-1. Buka terminal di direktori proyek lokal Anda, lalu jalankan:
-   ```bash
-   vercel
-   ```
-2. Ikuti instruksi pembuatan proyek baru di layar.
-3. Setelah proyek berhasil dibuat, tambahkan variabel lingkungan:
-   ```bash
-   vercel env add SUPABASE_URL
-   vercel env add SUPABASE_ANON_KEY
-   ```
-4. Deploy ke production:
-   ```bash
-   vercel --prod
-   ```
+Setelah itu lakukan **Redeploy**.
 
 ---
 
-## 🎯 Langkah 4: Konfigurasi & Uji Coba Lapangan
+## 3) Pasang Google Apps Script di Spreadsheet
 
-Setelah status proyek di Vercel berubah menjadi **Ready** (aktif), lakukan pengujian berikut:
+### 3.1 Buka spreadsheet target
+Gunakan spreadsheet yang sudah Anda siapkan untuk laporan.
 
-1. **Halaman Publik Pelanggan (`/`)**:
-   * Buka URL utama proyek Anda (misal: `https://ratingpln.vercel.app`) di browser tablet/kios loket pelayanan.
-   * Pastikan badge di pojok kanan atas menampilkan status **"Sistem Terhubung"** (titik hijau).
-   * Lakukan uji coba pengiriman rating:
-     * Pilih bintang &rarr; Tulis saran masukan &rarr; Klik kirim &rarr; Pilih kategori ulasan &rarr; Konfirmasi sukses.
+### 3.2 Tempel kode GAS
+Buka:
+- **Extensions** → **Apps Script**
 
-2. **Panel Admin (`/admin`)**:
-   * Buka halaman admin di URL `/admin` (misal: `https://ratingpln.vercel.app/admin`).
-   * Masuk menggunakan kredensial berikut:
-     * **Username**: `admin`
-     * **Password**: `pln123`
-   * Pastikan ulasan yang baru dikirim dari halaman depan langsung muncul secara instan di tabel tanpa perlu memuat ulang (*refresh*) halaman (Real-time).
-   * Klik tab **Unduh Laporan** dan tekan tombol **Unduh Sekarang** untuk menguji ekspor laporan format `.xlsx` (Excel).
+Lalu tempel isi file `GAS_SCRIPT.js` terbaru dari project ini.
+
+### 3.3 Fungsi yang wajib ada
+Kode GAS terbaru harus:
+- menerima data dari `doPost(e)`
+- menyimpan data ke sheet **Laporan Gabungan**
+- membuat sheet bulanan dengan format **`MM-YYYY`**
+- mencegah duplikasi berdasarkan `id`
+
+Contoh nama sheet bulanan:
+- `07-2026`
+- `08-2026`
+
+### 3.4 Deploy ulang Web App
+Ini bagian penting.
+1. Klik **Deploy**
+2. Pilih **Manage deployments**
+3. Klik **Edit** pada deployment aktif
+4. Pilih **New version**
+5. Klik **Deploy** lagi
+
+Kalau tidak redeploy, perubahan kode GAS tidak akan dipakai.
+
+---
+
+## 4) Atur Spreadsheet
+
+### 4.1 Tab yang dipakai
+Di spreadsheet akan ada:
+- **Laporan Rating**
+- **Laporan Gabungan**
+- Sheet bulanan, misalnya `07-2026`
+
+### 4.2 Cara lihat data harian/mingguan
+Karena sheet utama sekarang bulanan, sorting harian/mingguan sebaiknya memakai filter bawaan Google Sheets:
+- Filter pada kolom tanggal
+- Sort A-Z / Z-A
+- Filter rentang tanggal
+- Pivot table kalau perlu rekap
+
+### 4.3 Hapus sheet lama yang tidak dipakai
+Kalau masih ada sheet model harian seperti `2026-07-26`, hapus sheet itu supaya tidak membingungkan.
+
+---
+
+## 5) Cara Kerja Admin
+
+### Mode yang dipakai sekarang
+- **Tidak ada sinkronisasi manual**
+- Data sudah masuk otomatis ke spreadsheet saat rating dikirim
+- Admin cukup klik **Buka Spreadsheet** untuk melihat data terbaru
+
+### Unduh laporan
+- Tetap ada tombol download Excel
+- File unduhan tetap bisa dipakai untuk backup lokal
+
+---
+
+## 6) Alur Uji Coba
+
+### 6.1 Uji dari halaman publik
+1. Buka halaman rating.
+2. Isi bintang.
+3. Isi deskripsi.
+4. Kirim.
+5. Pastikan muncul pesan sukses.
+
+### 6.2 Uji ke Supabase
+- Buka tabel `ratings`.
+- Pastikan data baru muncul.
+
+### 6.3 Uji ke Google Sheets
+- Buka spreadsheet.
+- Pastikan data baru masuk ke:
+  - `Laporan Gabungan`
+  - sheet bulanan `MM-YYYY`
+
+### 6.4 Uji admin
+- Buka panel admin.
+- Klik **Buka Spreadsheet**.
+- Pastikan link membuka spreadsheet yang benar.
+
+---
+
+## 7) Kalau Data Masih Masuk ke Sheet Tanggal
+Kalau masih muncul sheet seperti `2026-07-26`, lakukan ini:
+1. Pastikan kode `GAS_SCRIPT.js` yang ditempel benar-benar versi terbaru.
+2. Pastikan deployment GAS sudah **New Version**.
+3. Hapus sheet lama harian secara manual.
+4. Kirim data baru untuk tes.
+
+---
+
+## 8) Checklist Akhir
+- [ ] Tabel Supabase sudah ada
+- [ ] RLS aktif
+- [ ] Realtime aktif
+- [ ] Vercel env sudah diisi
+- [ ] Vercel sudah redeploy
+- [ ] GAS sudah ditempel
+- [ ] GAS sudah di-deploy ulang
+- [ ] Spreadsheet memakai sheet bulanan `MM-YYYY`
+- [ ] Sheet harian lama sudah dihapus
+- [ ] Admin memakai tombol **Buka Spreadsheet**
+
+---
+
+## 9) Catatan Penting
+- Jangan pakai tombol sinkronisasi manual kalau auto-sync sudah aktif.
+- Jangan pakai sheet harian untuk laporan utama spreadsheet.
+- Untuk admin, cukup gunakan filter bawaan Google Sheets bila perlu sortir harian atau mingguan.
+- Jika ada perubahan kode GAS, selalu deploy ulang versi baru.
