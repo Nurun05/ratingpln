@@ -49,6 +49,8 @@ async function fetchRatingsData() {
                 .order('created_at', { ascending: false });
             if (error) throw error;
             rawRatingsData = data || [];
+            // Hapus data demo lokal saat Supabase berhasil terhubung
+            localStorage.removeItem('pln_ratings_demo');
             updateStatus(true, 'Supabase Terhubung');
             setupRealtimeSubscription();
         } catch (err) {
@@ -342,9 +344,9 @@ function switchTab(name) {
     const title = document.getElementById('pageTitle');
     if (title) title.textContent = titles[name] || '';
 
-    // If switching to ekspor tab, trigger export directly
+    // Jangan langsung download — tampilkan tab dulu
     if (name === 'ekspor') {
-        exportToXLSX();
+        // biarkan tab ekspor muncul, download dilakukan manual lewat tombol
     }
 }
 

@@ -168,19 +168,22 @@ body {
 
 /* ── Buttons ────────────────────────────────────── */
 .btn-submit {
-    background: var(--pln-green);
-    color: #fff; border: none;
+    background: var(--pln-yellow);
+    color: var(--pln-blue-dark);
+    border: none;
     padding: var(--space-12) var(--space-24);
     border-radius: 8px;
-    font-weight: 700; font-size: 0.95rem;
+    font-weight: 800;
+    font-size: 0.95rem;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: var(--space-8);
     width: 100%;
     transition: background 0.15s, transform 0.1s;
 }
-.btn-submit:hover { background: #15803d; }
+.btn-submit:hover { background: #e6b400; }
 .btn-submit:active { transform: scale(0.98); }
-.btn-reset { max-width: 200px; margin: 0 auto; }
+.btn-reset { background: #f1f5f9; color: var(--pln-blue-dark); max-width: 200px; margin: 0 auto; }
+.btn-reset:hover { background: #e2e8f0; }
 
 /* ── Modal ──────────────────────────────────────── */
 .modal-backdrop {
