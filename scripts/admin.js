@@ -316,13 +316,96 @@ function exportToXLSX() {
     if (typeof XLSX !== 'undefined') {
         const ws = XLSX.utils.json_to_sheet(rows);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Laporan Rating');
+        
+        // Tentukan nama sheet secara dinamis: Tanggal filter atau Gabungan
+        const startDate = document.getElementById('startDateInput')?.value;
+        const endDate = document.getElementById('endDateInput')?.value;
+        let sheetName = 'Laporan Gabungan';
+        
+        if (startDate && endDate) {
+            sheetName = `${startDate} s.d ${endDate}`;
+        } else if (startDate) {
+            sheetName = `Mulai ${startDate}`;
+        } else if (endDate) {
+            sheetName = `Hingga ${endDate}`;
+        }
+
+        // Batasi nama sheet maksimal 31 karakter (aturan Excel)
+        if (sheetName.length > 31) {
+            sheetName = sheetName.slice(0, 31);
+        }
+
+        XLSX.utils.book_append_sheet(wb, ws, sheetName);
         ws['!cols'] = [{ wch: 5 }, { wch: 16 }, { wch: 20 }, { wch: 20 }, { wch: 10 }, { wch: 16 }, { wch: 16 }, { wch: 50 }];
-        XLSX.writeFile(wb, `Laporan_Rating_PLN_ULP_Karebosi_${new Date().toISOString().slice(0, 10)}.xlsx`);
+        
+        const dateStr = new Date().toISOString().slice(0, 10);
+        XLSX.writeFile(wb, `Laporan_Rating_PLN_ULP_Karebosi_${dateStr}.xlsx`);
     } else {
         alert('Pustaka SheetJS belum termuat.');
     }
 }
+
+// ── Google Sheets Sync via Apps Script ────────────────
+async function syncToGoogleSheets() {
+    const webAppUrlInput = document.getElementById('gasWebAppUrl');
+    const url = webAppUrlInput?.value?.trim();
+    
+    if (!url) {
+        alert('Tolong masukkan URL Web App Apps Script terlebih dahulu.');
+        if (webAppUrlInput) webAppUrlInput.focus();
+        return;
+    }
+
+    if (activeFilteredData.length === 0) {
+        alert('Tidak ada data ulasan untuk disinkronkan.');
+        return;
+    }
+
+    const btn = document.getElementById('btnSyncGas');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyinkronkan...';
+    }
+
+    try {
+        const payload = {
+            ratings: activeFilteredData
+        };
+
+        // Kirim data ke Apps Script menggunakan POST JSON
+        const res = await fetch(url, {
+            method: 'POST',
+            mode: 'no-cors', // Apps Script web app redirect memicu CORS, no-cors aman untuk trigger
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        // Karena mode 'no-cors' responnya bersifat opaque, kita asumsikan sukses jika fetch selesai tanpa error
+        alert('Permintaan sinkronisasi telah dikirim ke Google Sheets Anda.\nSilakan periksa Spreadsheet Anda beberapa saat lagi.');
+        
+        // Simpan URL di LocalStorage agar tidak mengetik ulang
+        localStorage.setItem('pln_gas_webapp_url', url);
+    } catch (err) {
+        console.error('GAS sync error:', err);
+        alert('Gagal mengirim sinkronisasi: ' + err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sinkronkan Sekarang';
+        }
+    }
+}
+
+// Muat URL GAS yang tersimpan
+document.addEventListener('DOMContentLoaded', () => {
+    const savedUrl = localStorage.getItem('pln_gas_webapp_url');
+    const webAppUrlInput = document.getElementById('gasWebAppUrl');
+    if (savedUrl && webAppUrlInput) {
+        webAppUrlInput.value = savedUrl;
+    }
+});
 
 // ── Tab Switching ──────────────────────────────────
 function switchTab(name) {
