@@ -51,7 +51,7 @@ async function fetchRatingsData() {
             rawRatingsData = data || [];
             // Hapus data demo lokal saat Supabase berhasil terhubung
             localStorage.removeItem('pln_ratings_demo');
-            updateStatus(true, 'Database Terhubung');
+            updateStatus(true, 'Sistem Terhubung');
             setupRealtimeSubscription();
         } catch (err) {
             console.error('Supabase error:', err);

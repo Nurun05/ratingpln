@@ -21,7 +21,7 @@ function initSupabase() {
         try {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase Client berhasil terhubung.');
-            updateSupabaseStatusUI(true, 'Terhubung ke Database Pusat');
+            updateSupabaseStatusUI(true, 'Sistem Terhubung');
             
             // Pemicu inisialisasi ulang data di admin jika fungsi fetchRatingsData terdefinisi
             if (typeof fetchRatingsData === 'function') {
@@ -48,7 +48,7 @@ function updateSupabaseStatusUI(isReady, message) {
     if (statusTextEl) statusTextEl.textContent = message;
     if (statusBadgeEl) statusBadgeEl.style.backgroundColor = isReady ? '#10b981' : '#f59e0b';
 
-    if (adminTextEl) adminTextEl.textContent = isReady ? 'Database Terhubung' : message;
+    if (adminTextEl) adminTextEl.textContent = isReady ? 'Sistem Terhubung' : message;
     if (adminDotEl) {
         adminDotEl.className = adminDotEl.className.replace(/bg-\S+/g, '') + (isReady ? ' bg-emerald-500' : ' bg-amber-500');
     }
@@ -93,7 +93,7 @@ async function saveRatingData(payload) {
         } catch (err) {
             return {
                 success: false,
-                message: 'Koneksi database gagal: ' + (err.message || 'Terjadi kesalahan jaringan'),
+                message: 'Koneksi gagal: ' + (err.message || 'Terjadi kesalahan jaringan'),
                 error: err
             };
         }
