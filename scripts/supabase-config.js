@@ -48,7 +48,7 @@ function updateSupabaseStatusUI(isReady, message) {
     if (statusTextEl) statusTextEl.textContent = message;
     if (statusBadgeEl) statusBadgeEl.style.backgroundColor = isReady ? '#10b981' : '#f59e0b';
 
-    if (adminTextEl) adminTextEl.textContent = isReady ? 'Supabase Terhubung' : message;
+    if (adminTextEl) adminTextEl.textContent = isReady ? 'Database Terhubung' : message;
     if (adminDotEl) {
         adminDotEl.className = adminDotEl.className.replace(/bg-\S+/g, '') + (isReady ? ' bg-emerald-500' : ' bg-amber-500');
     }
@@ -87,7 +87,7 @@ async function saveRatingData(payload) {
 
             return {
                 success: true,
-                message: 'Data rating tersimpan di Database Supabase!',
+                message: 'Penilaian Anda berhasil disimpan.',
                 data: data
             };
         } catch (err) {
