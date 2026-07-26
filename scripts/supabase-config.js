@@ -63,6 +63,12 @@ async function fetchConfig() {
         if (config.supabaseUrl && config.supabaseAnonKey) {
             SUPABASE_URL = config.supabaseUrl;
             SUPABASE_ANON_KEY = config.supabaseAnonKey;
+            
+            // Konfigurasi dinamis GAS Webapp URL jika diset di Vercel Environment Variables
+            if (config.gasWebAppUrl) {
+                window.GLOBAL_GAS_URL = config.gasWebAppUrl;
+            }
+            
             initSupabase();
         } else {
             console.warn('⚠️ Konfigurasi Supabase dari API kosong. Masuk ke mode demo.');
@@ -129,7 +135,8 @@ async function saveRatingData(payload) {
 
 // Fungsi otomatis sinkron ke Google Sheets dari sisi Pelanggan
 function autoSyncToGoogleSheets(item) {
-    const url = "https://script.google.com/macros/s/AKfycbyvLvfHTM8RrkEhnT6U9SpcU7SPYL6DTyKulWxE4NFyF1dFIzfGHWgKtZYDVNbqQUnE/exec";
+    // Gunakan URL global dinamis dari Vercel jika terkonfigurasi, jika tidak gunakan fallback
+    const url = window.GLOBAL_GAS_URL || "https://script.google.com/macros/s/AKfycbyvLvfHTM8RrkEhnT6U9SpcU7SPYL6DTyKulWxE4NFyF1dFIzfGHWgKtZYDVNbqQUnE/exec";
     
     // Inject ID acak sementara jika belum ada (mode demo/local)
     const payload = {
