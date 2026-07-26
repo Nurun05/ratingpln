@@ -21,7 +21,7 @@ function initSupabase() {
         try {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase Client berhasil terhubung.');
-            updateSupabaseStatusUI(true, 'Terhubung ke Database Supabase');
+            updateSupabaseStatusUI(true, 'Terhubung ke Database Pusat');
             
             // Pemicu inisialisasi ulang data di admin jika fungsi fetchRatingsData terdefinisi
             if (typeof fetchRatingsData === 'function') {
@@ -93,7 +93,7 @@ async function saveRatingData(payload) {
         } catch (err) {
             return {
                 success: false,
-                message: 'Gagal ke Supabase: ' + (err.message || 'Terjadi kesalahan jaringan'),
+                message: 'Koneksi database gagal: ' + (err.message || 'Terjadi kesalahan jaringan'),
                 error: err
             };
         }
