@@ -303,11 +303,11 @@ function exportToXLSX() {
     }
 
     const rows = activeFilteredData.map((item, i) => ({
-        'No': i + 1,
+        'No.': i + 1,
         'ID': item.id || '-',
         'Tanggal': item.created_at ? formatFull(new Date(item.created_at)) : '-',
-        'Unit': item.unit_pelayanan || 'PLN ULP Karebosi',
-        'Bintang': item.rating_bintang || 0,
+        'Unit ': item.unit_pelayanan || 'PLN ULP Karebosi',
+        'Bintang ': item.rating_bintang || 0,
         'Keterangan': item.keterangan_rating || '-',
         'Penilaian Emoji': item.penilaian_pelayanan || '-',
         'Alasan/Deskripsi': item.deskripsi || '-'
