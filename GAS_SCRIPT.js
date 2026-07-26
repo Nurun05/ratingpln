@@ -64,7 +64,7 @@ function doPost(e) {
         sheetGabungan.appendRow(fullRow);
       }
 
-      // B. Dapatkan atau buat Sheet bulanan (format: YYYY-MM)
+      // B. Dapatkan atau buat Sheet bulanan (format: MM-YYYY)
       var sheetBulanan = ss.getSheetByName(monthKey);
       if (!sheetBulanan) {
         sheetBulanan = ss.insertSheet(monthKey);
