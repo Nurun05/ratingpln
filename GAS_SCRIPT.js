@@ -34,9 +34,13 @@ function doPost(e) {
       
       // Format tanggal lokal YYYY-MM-DD
       var year = rawDate.getFullYear();
-      var month = ("0" + (rawDate.getMonth() + 1)).slice(-2);
+      var monthNum = rawDate.getMonth() + 1;
+      var monthStr = ("0" + monthNum).slice(-2);
       var day = ("0" + rawDate.getDate()).slice(-2);
-      var dateKey = year + "-" + month + "-" + day;
+      var dateKey = year + "-" + monthStr + "-" + day;
+
+      // Nama bulan untuk nama sheet bulanan (Format: YYYY-MM)
+      var monthKey = year + "-" + monthStr;
 
       // Ambil jam menit
       var timeStr = ("0" + rawDate.getHours()).slice(-2) + ":" + ("0" + rawDate.getMinutes()).slice(-2);
@@ -60,18 +64,18 @@ function doPost(e) {
         sheetGabungan.appendRow(fullRow);
       }
 
-      // B. Dapatkan atau buat Sheet spesifik per tanggal (format: YYYY-MM-DD)
-      var sheetTanggal = ss.getSheetByName(dateKey);
-      if (!sheetTanggal) {
-        sheetTanggal = ss.insertSheet(dateKey);
-        appendHeaders(sheetTanggal);
+      // B. Dapatkan atau buat Sheet bulanan (format: YYYY-MM)
+      var sheetBulanan = ss.getSheetByName(monthKey);
+      if (!sheetBulanan) {
+        sheetBulanan = ss.insertSheet(monthKey);
+        appendHeaders(sheetBulanan);
       }
 
-      // Simpan ke Sheet tanggal jika belum ada
-      if (!isDuplicate(sheetTanggal, item.id)) {
-        var nextNoTgl = sheetTanggal.getLastRow();
-        var fullRowTgl = [nextNoTgl].concat(rowData);
-        sheetTanggal.appendRow(fullRowTgl);
+      // Simpan ke Sheet bulanan jika belum ada
+      if (!isDuplicate(sheetBulanan, item.id)) {
+        var nextNoBln = sheetBulanan.getLastRow();
+        var fullRowBln = [nextNoBln].concat(rowData);
+        sheetBulanan.appendRow(fullRowBln);
       }
     }
 

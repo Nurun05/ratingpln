@@ -317,13 +317,20 @@ function exportToXLSX() {
         const ws = XLSX.utils.json_to_sheet(rows);
         const wb = XLSX.utils.book_new();
         
-        // Tentukan nama sheet secara dinamis: Tanggal filter atau Gabungan
+        // Tentukan nama sheet secara dinamis: Berdasarkan Bulan-Tahun filter, Tanggal filter, atau Gabungan
         const startDate = document.getElementById('startDateInput')?.value;
         const endDate = document.getElementById('endDateInput')?.value;
         let sheetName = 'Laporan Gabungan';
         
         if (startDate && endDate) {
-            sheetName = `${startDate} s.d ${endDate}`;
+            // Ambil tahun-bulan jika rentang tanggal berada pada bulan yang sama
+            const startYM = startDate.slice(0, 7);
+            const endYM = endDate.slice(0, 7);
+            if (startYM === endYM) {
+                sheetName = `Laporan ${startYM}`;
+            } else {
+                sheetName = `${startDate} s.d ${endDate}`;
+            }
         } else if (startDate) {
             sheetName = `Mulai ${startDate}`;
         } else if (endDate) {
