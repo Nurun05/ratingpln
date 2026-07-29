@@ -268,22 +268,40 @@ function renderRecentComments() {
         const emoji = item.penilaian_pelayanan === 'Sangat Baik' ? '😊'
             : item.penilaian_pelayanan === 'Cukup Baik' ? '😐' : '🙁';
         const time = item.created_at ? formatShort(new Date(item.created_at)) : '-';
-        const name = item.nama_pelangan || item.nama_pelanggan || 'Anonim';
+        const name = (item.nama_pelangan || item.nama_pelanggan || 'Anonim').trim();
+        const initial = name ? name.charAt(0).toUpperCase() : '?';
+        
+        // Generate warna latar belakang inisial secara acak namun konsisten berdasarkan inisial nama
+        const colors = [
+            { bg: '#eff6ff', text: '#1e40af' }, // Blue
+            { bg: '#ecfdf5', text: '#065f46' }, // Emerald
+            { bg: '#fffbeb', text: '#92400e' }, // Amber
+            { bg: '#faf5ff', text: '#6b21a8' }, // Purple
+            { bg: '#fdf2f8', text: '#9d174d' }, // Pink
+            { bg: '#f0fdfa', text: '#115e59' }  // Teal
+        ];
+        const colorIdx = initial.charCodeAt(0) % colors.length;
+        const colorStyle = colors[colorIdx];
+
         return `<div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col justify-between h-full">
             <div>
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-lg">${emoji}</span>
-                    <span class="text-xs text-gray-400">${time}</span>
+                <!-- Profil Inisial + Nama + Tanggal -->
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0" style="background-color: ${colorStyle.bg}; color: ${colorStyle.text}">
+                        ${initial}
+                    </div>
+                    <div class="min-w-0 flex-grow">
+                        <p class="text-xs font-bold text-gray-800 truncate">${esc(name)}</p>
+                        <p class="text-[10px] text-gray-400">${time}</p>
+                    </div>
+                    <span class="text-lg shrink-0">${emoji}</span>
                 </div>
-                <div class="flex items-center gap-1 mb-1.5">
-                    <span class="text-amber-400 text-sm">${'★'.repeat(item.rating_bintang || 0)}</span>
-                    <span class="text-gray-300 text-sm">${'★'.repeat(5 - (item.rating_bintang || 0))}</span>
+                
+                <div class="flex items-center gap-1 mb-2">
+                    <span class="text-amber-400 text-xs">${'★'.repeat(item.rating_bintang || 0)}</span>
+                    <span class="text-gray-300 text-xs">${'★'.repeat(5 - (item.rating_bintang || 0))}</span>
                 </div>
-                <p class="text-sm text-gray-700 line-clamp-3 mb-3">"${esc(item.deskripsi || '-')}"</p>
-            </div>
-            <div class="pt-2 border-t border-gray-100 flex items-center gap-1.5 text-xs text-gray-500 font-semibold">
-                <i class="fa-regular fa-user text-gray-400"></i>
-                <span class="truncate">${esc(name)}</span>
+                <p class="text-xs md:text-sm text-gray-600 italic line-clamp-3">"${esc(item.deskripsi || '-')}"</p>
             </div>
         </div>`;
     }).join('');
