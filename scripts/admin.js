@@ -228,12 +228,13 @@ function renderTable() {
     if (countEl) countEl.textContent = activeFilteredData.length;
 
     if (activeFilteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><p>Tidak ada data pada filter ini.</p></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><p>Tidak ada data pada filter ini.</p></td></tr>';
         return;
     }
 
     tbody.innerHTML = activeFilteredData.map((item, i) => {
         const date = item.created_at ? formatFull(new Date(item.created_at)) : '-';
+        const name = item.nama_pelangan || item.nama_pelanggan || 'Anonim';
         const stars = '★'.repeat(item.rating_bintang || 0);
         const emojiClass = item.penilaian_pelayanan === 'Sangat Baik' ? 'badge-sangat-baik'
             : item.penilaian_pelayanan === 'Cukup Baik' ? 'badge-cukup-baik' : 'badge-buruk';
@@ -243,6 +244,7 @@ function renderTable() {
         return `<tr class="hover:bg-gray-50 transition-colors">
             <td class="px-6 py-3 text-xs font-bold text-gray-400">#${i + 1}</td>
             <td class="px-6 py-3 text-xs whitespace-nowrap">${date}</td>
+            <td class="px-6 py-3 text-xs font-semibold text-gray-700">${esc(name)}</td>
             <td class="px-6 py-3"><span class="badge-star"><span>${item.rating_bintang}</span> <span class="text-amber-400">${stars}</span></span></td>
             <td class="px-6 py-3"><span class="badge-emoji ${emojiClass}">${emoji} ${item.penilaian_pelayanan || '-'}</span></td>
             <td class="px-6 py-3 text-xs max-w-xs">${esc(item.deskripsi || '-')}</td>
@@ -306,6 +308,7 @@ function exportToXLSX() {
         'No.': i + 1,
         'ID': item.id || '-',
         'Tanggal': item.created_at ? formatFull(new Date(item.created_at)) : '-',
+        'Nama': item.nama_pelangan || item.nama_pelanggan || 'Anonim',
         'Unit ': item.unit_pelayanan || 'PLN ULP Karebosi',
         'Bintang ': item.rating_bintang || 0,
         'Keterangan': item.keterangan_rating || '-',
@@ -344,7 +347,7 @@ function exportToXLSX() {
         }
 
         XLSX.utils.book_append_sheet(wb, ws, sheetName);
-        ws['!cols'] = [{ wch: 5 }, { wch: 16 }, { wch: 20 }, { wch: 20 }, { wch: 10 }, { wch: 16 }, { wch: 16 }, { wch: 50 }];
+        ws['!cols'] = [{ wch: 5 }, { wch: 16 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 10 }, { wch: 16 }, { wch: 16 }, { wch: 50 }];
         
         const dateStr = new Date().toISOString().slice(0, 10);
         XLSX.writeFile(wb, `Laporan_Rating_PLN_ULP_Karebosi_${dateStr}.xlsx`);

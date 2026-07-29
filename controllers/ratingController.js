@@ -45,6 +45,7 @@ const RatingController = {
 
         // 3. Inject ISO Timestamp & Unit Meta
         const sanitizedPayload = {
+            nama_pelanggan: (ratingData.nama_pelanggan || 'Anonim').trim(),
             rating_bintang: parseInt(ratingData.rating_bintang, 10) || 0,
             keterangan_rating: ratingData.keterangan_rating || '',
             deskripsi: (ratingData.deskripsi || '').trim(),

@@ -49,6 +49,7 @@ function doPost(e) {
       var rowData = [
         item.id || "-",
         fullDateStr,
+        item.nama_pelangan || item.nama_pelanggan || "Anonim",
         item.unit_pelayanan || "PLN ULP Karebosi",
         item.rating_bintang || 0,
         item.keterangan_rating || "-",
@@ -98,6 +99,7 @@ function appendHeaders(sheet) {
     "No.", 
     "ID", 
     "Tanggal", 
+    "Nama",
     "Unit ", 
     "Bintang ", 
     "Keterangan", 

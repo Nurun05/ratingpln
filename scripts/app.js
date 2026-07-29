@@ -4,6 +4,7 @@
  */
 
 const ratingState = {
+    nama_pelanggan: 'Anonim',
     rating_bintang: 0,
     keterangan_rating: '',
     deskripsi: '',
@@ -73,11 +74,13 @@ function initFormValidation() {
 
     if (btn) btn.addEventListener('click', () => {
         const val = textarea ? textarea.value.trim() : '';
+        const nameVal = document.getElementById('namaPelanggan')?.value?.trim();
         if (!val) {
             showError('Saran & masukan pelayanan wajib diisi.');
             if (textarea) textarea.focus();
             return;
         }
+        ratingState.nama_pelanggan = nameVal || 'Anonim';
         ratingState.deskripsi = val;
         hideError();
         openModal();
@@ -153,10 +156,14 @@ function initModalSelection() {
 }
 
 function resetRatingForm() {
+    ratingState.nama_pelanggan = 'Anonim';
     ratingState.rating_bintang = 0;
     ratingState.keterangan_rating = '';
     ratingState.deskripsi = '';
     ratingState.penilaian_pelayanan = '';
+
+    const nameInput = document.getElementById('namaPelanggan');
+    if (nameInput) nameInput.value = '';
 
     const ta = document.getElementById('deskripsiRating');
     if (ta) ta.value = '';
