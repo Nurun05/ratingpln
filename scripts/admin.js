@@ -268,16 +268,23 @@ function renderRecentComments() {
         const emoji = item.penilaian_pelayanan === 'Sangat Baik' ? '😊'
             : item.penilaian_pelayanan === 'Cukup Baik' ? '😐' : '🙁';
         const time = item.created_at ? formatShort(new Date(item.created_at)) : '-';
-        return `<div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-lg">${emoji}</span>
-                <span class="text-xs text-gray-400">${time}</span>
+        const name = item.nama_pelangan || item.nama_pelanggan || 'Anonim';
+        return `<div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col justify-between h-full">
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg">${emoji}</span>
+                    <span class="text-xs text-gray-400">${time}</span>
+                </div>
+                <div class="flex items-center gap-1 mb-1.5">
+                    <span class="text-amber-400 text-sm">${'★'.repeat(item.rating_bintang || 0)}</span>
+                    <span class="text-gray-300 text-sm">${'★'.repeat(5 - (item.rating_bintang || 0))}</span>
+                </div>
+                <p class="text-sm text-gray-700 line-clamp-3 mb-3">"${esc(item.deskripsi || '-')}"</p>
             </div>
-            <div class="flex items-center gap-1 mb-2">
-                <span class="text-amber-400 text-sm">${'★'.repeat(item.rating_bintang || 0)}</span>
-                <span class="text-gray-300 text-sm">${'★'.repeat(5 - (item.rating_bintang || 0))}</span>
+            <div class="pt-2 border-t border-gray-100 flex items-center gap-1.5 text-xs text-gray-500 font-semibold">
+                <i class="fa-regular fa-user text-gray-400"></i>
+                <span class="truncate">${esc(name)}</span>
             </div>
-            <p class="text-sm text-gray-700 line-clamp-3">${esc(item.deskripsi || '-')}</p>
         </div>`;
     }).join('');
 }
