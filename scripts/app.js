@@ -66,21 +66,34 @@ function initStarRating() {
 
 function initFormValidation() {
     const textarea = document.getElementById('deskripsiRating');
+    const nameInput = document.getElementById('namaPelanggan');
     const btn = document.getElementById('btnOpenModal');
 
     if (textarea) textarea.addEventListener('input', () => {
-        if (textarea.value.trim()) hideError();
+        if (textarea.value.trim() && (!nameInput || nameInput.value.trim())) hideError();
+    });
+
+    if (nameInput) nameInput.addEventListener('input', () => {
+        if (nameInput.value.trim() && (!textarea || textarea.value.trim())) hideError();
     });
 
     if (btn) btn.addEventListener('click', () => {
         const val = textarea ? textarea.value.trim() : '';
-        const nameVal = document.getElementById('namaPelanggan')?.value?.trim();
+        const nameVal = nameInput ? nameInput.value.trim() : '';
+        
+        if (!nameVal) {
+            showError('Nama Anda wajib diisi.');
+            if (nameInput) nameInput.focus();
+            return;
+        }
+
         if (!val) {
             showError('Saran & masukan pelayanan wajib diisi.');
             if (textarea) textarea.focus();
             return;
         }
-        ratingState.nama_pelanggan = nameVal || 'Anonim';
+
+        ratingState.nama_pelanggan = nameVal;
         ratingState.deskripsi = val;
         hideError();
         openModal();
@@ -90,15 +103,19 @@ function initFormValidation() {
 function showError(msg) {
     const el = document.getElementById('validationErrorMsg');
     const ta = document.getElementById('deskripsiRating');
+    const nameInput = document.getElementById('namaPelanggan');
     if (el) { el.textContent = msg; el.classList.add('show'); }
-    if (ta) ta.style.borderColor = '#ef4444';
+    if (ta && msg.includes('Saran')) ta.style.borderColor = '#ef4444';
+    if (nameInput && msg.includes('Nama')) nameInput.style.borderColor = '#ef4444';
 }
 
 function hideError() {
     const el = document.getElementById('validationErrorMsg');
     const ta = document.getElementById('deskripsiRating');
+    const nameInput = document.getElementById('namaPelanggan');
     if (el) el.classList.remove('show');
     if (ta) ta.style.borderColor = '#e2e8f0';
+    if (nameInput) nameInput.style.borderColor = '#e2e8f0';
 }
 
 function openModal() {
