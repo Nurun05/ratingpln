@@ -11,7 +11,7 @@ function doPost(e) {
 
     // 0. Penanganan Aksi HAPUS (action === "delete")
     if (data.action === "delete" && data.id) {
-      var targetId = data.id;
+      var targetId = String(data.id).trim();
       var ss = SpreadsheetApp.getActiveSpreadsheet();
       var sheets = ss.getSheets();
       var deletedCount = 0;
@@ -21,11 +21,17 @@ function doPost(e) {
         var lastRow = sheet.getLastRow();
         if (lastRow < 2) continue;
 
-        // Ambil kolom ID (kolom ke-2 / B)
-        var values = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+        // Ambil kolom No (kolom 1/A) & ID (kolom 2/B)
+        var range = sheet.getRange(2, 1, lastRow - 1, 2);
+        var values = range.getValues();
+
         // Iterasi dari bawah ke atas agar indeks baris tidak bergeser saat dihapus
         for (var r = values.length - 1; r >= 0; r--) {
-          if (values[r][0] === targetId) {
+          var colNo = String(values[r][0]).trim();
+          var colId = String(values[r][1]).trim();
+
+          // Cocokkan berdasarkan ID (Kolom B) atau No jika ID cocok
+          if ((colId && colId === targetId) || (colNo && colNo === targetId)) {
             sheet.deleteRow(r + 2);
             deletedCount++;
           }
@@ -145,10 +151,11 @@ function isDuplicate(sheet, id) {
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return false;
   
-  // Ambil kolom ID (kolom ke-2)
+  var targetId = String(id).trim();
+  // Ambil kolom ID (kolom ke-2 / B)
   var values = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
   for (var i = 0; i < values.length; i++) {
-    if (values[i][0] === id) {
+    if (String(values[i][0]).trim() === targetId) {
       return true;
     }
   }
