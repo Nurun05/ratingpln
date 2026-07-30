@@ -72,57 +72,86 @@ function initFormValidation() {
 
     if (textarea) {
         textarea.addEventListener('input', () => {
-            if (textarea.value.trim() && (!nameInput || nameInput.value.trim())) hideError();
+            if (textarea.value.trim()) hideError('desc');
             if (charCount) {
                 const len = textarea.value.length;
                 charCount.textContent = `${len} / 500 karakter`;
             }
         });
+        
+        textarea.addEventListener('blur', () => {
+            if (!textarea.value.trim()) showError('desc');
+        });
     }
 
-    if (nameInput) nameInput.addEventListener('input', () => {
-        if (nameInput.value.trim() && (!textarea || textarea.value.trim())) hideError();
-    });
+    if (nameInput) {
+        nameInput.addEventListener('input', () => {
+            if (nameInput.value.trim()) hideError('name');
+        });
+
+        nameInput.addEventListener('blur', () => {
+            if (!nameInput.value.trim()) showError('name');
+        });
+    }
 
     if (btn) btn.addEventListener('click', () => {
         const val = textarea ? textarea.value.trim() : '';
         const nameVal = nameInput ? nameInput.value.trim() : '';
         
+        let hasError = false;
+
         if (!nameVal) {
-            showError('Nama Anda wajib diisi.');
+            showError('name');
             if (nameInput) nameInput.focus();
-            return;
+            hasError = true;
         }
 
         if (!val) {
-            showError('Saran & masukan pelayanan wajib diisi.');
-            if (textarea) textarea.focus();
-            return;
+            showError('desc');
+            if (textarea && !hasError) textarea.focus();
+            hasError = true;
         }
+
+        if (hasError) return;
 
         ratingState.nama_pelanggan = nameVal;
         ratingState.deskripsi = val;
-        hideError();
+        hideAllErrors();
         openModal();
     });
 }
 
-function showError(msg) {
-    const el = document.getElementById('validationErrorMsg');
-    const ta = document.getElementById('deskripsiRating');
-    const nameInput = document.getElementById('namaPelanggan');
-    if (el) { el.textContent = msg; el.classList.add('show'); }
-    if (ta && msg.includes('Saran')) ta.style.borderColor = '#ef4444';
-    if (nameInput && msg.includes('Nama')) nameInput.style.borderColor = '#ef4444';
+function showError(field) {
+    if (field === 'name') {
+        const el = document.getElementById('nameErrorMsg');
+        const input = document.getElementById('namaPelanggan');
+        if (el) el.classList.add('show');
+        if (input) input.style.borderColor = '#ef4444';
+    } else if (field === 'desc') {
+        const el = document.getElementById('descErrorMsg');
+        const ta = document.getElementById('deskripsiRating');
+        if (el) el.classList.add('show');
+        if (ta) ta.style.borderColor = '#ef4444';
+    }
 }
 
-function hideError() {
-    const el = document.getElementById('validationErrorMsg');
-    const ta = document.getElementById('deskripsiRating');
-    const nameInput = document.getElementById('namaPelanggan');
-    if (el) el.classList.remove('show');
-    if (ta) ta.style.borderColor = '#e2e8f0';
-    if (nameInput) nameInput.style.borderColor = '#e2e8f0';
+function hideError(field) {
+    if (field === 'name') {
+        const el = document.getElementById('nameErrorMsg');
+        const input = document.getElementById('namaPelanggan');
+        if (el) el.classList.remove('show');
+        if (input) input.style.borderColor = '#e2e8f0';
+    } else if (field === 'desc') {
+        const el = document.getElementById('descErrorMsg');
+        const ta = document.getElementById('deskripsiRating');
+        if (el) el.classList.remove('show');
+        if (ta) ta.style.borderColor = '#e2e8f0';
+    }
+}
+
+function hideAllErrors() {
+    hideError('name');
+    hideError('desc');
 }
 
 function openModal() {
@@ -214,5 +243,5 @@ function resetRatingForm() {
     if (success) { success.classList.add('hidden'); success.style.display = 'none'; }
 
     closeModal();
-    hideError();
+    hideAllErrors();
 }
