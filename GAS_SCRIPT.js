@@ -32,19 +32,9 @@ function doPost(e) {
       var item = ratings[i];
       var rawDate = new Date(item.created_at || Date.now());
       
-      // Format tanggal lokal YYYY-MM-DD
-      var year = rawDate.getFullYear();
-      var monthNum = rawDate.getMonth() + 1;
-      var monthStr = ("0" + monthNum).slice(-2);
-      var day = ("0" + rawDate.getDate()).slice(-2);
-      var dateKey = year + "-" + monthStr + "-" + day;
-
-      // Nama bulan untuk nama sheet bulanan (Format: MM-YYYY)
-      var monthKey = monthStr + "-" + year;
-
-      // Ambil jam menit
-      var timeStr = ("0" + rawDate.getHours()).slice(-2) + ":" + ("0" + rawDate.getMinutes()).slice(-2);
-      var fullDateStr = dateKey + " " + timeStr;
+      // Format tanggal & bulan lokal WITA (Asia/Makassar / UTC+8)
+      var fullDateStr = Utilities.formatDate(rawDate, "Asia/Makassar", "yyyy-MM-dd HH:mm");
+      var monthKey = Utilities.formatDate(rawDate, "Asia/Makassar", "MM-yyyy");
 
       var rowData = [
         item.id || "-",
@@ -128,4 +118,13 @@ function isDuplicate(sheet, id) {
     }
   }
   return false;
+}
+
+// Handler HTTP GET untuk pengujian URL Web App
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "online",
+    service: "PLN ULP Karebosi Rating Sync API",
+    timezone: "Asia/Makassar (WITA)"
+  })).setMimeType(ContentService.MimeType.JSON);
 }
