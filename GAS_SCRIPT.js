@@ -8,6 +8,36 @@ function doPost(e) {
   try {
     var jsonString = e.postData.contents;
     var data = JSON.parse(jsonString);
+
+    // 0. Penanganan Aksi HAPUS (action === "delete")
+    if (data.action === "delete" && data.id) {
+      var targetId = data.id;
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheets = ss.getSheets();
+      var deletedCount = 0;
+
+      for (var s = 0; s < sheets.length; s++) {
+        var sheet = sheets[s];
+        var lastRow = sheet.getLastRow();
+        if (lastRow < 2) continue;
+
+        // Ambil kolom ID (kolom ke-2 / B)
+        var values = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+        // Iterasi dari bawah ke atas agar indeks baris tidak bergeser saat dihapus
+        for (var r = values.length - 1; r >= 0; r--) {
+          if (values[r][0] === targetId) {
+            sheet.deleteRow(r + 2);
+            deletedCount++;
+          }
+        }
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        message: "Berhasil menghapus ulasan ID (" + targetId + ") dari " + deletedCount + " lokasi sheet."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
     var ratings = data.ratings || [];
 
     if (ratings.length === 0) {

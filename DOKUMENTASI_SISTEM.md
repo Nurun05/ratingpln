@@ -167,3 +167,7 @@ Jika kode `GAS_SCRIPT.js` diubah, lakukan langkah pembaruan ini di Apps Script:
      - **Username**: `admin`
      - **Password**: `pln123`
    - Fitur Admin: Pemantauan KPI Realtime, Filter Rentang Waktu (Hari ini, 7 hari, 30 hari, custom), Pencarian Kata Kunci, Ekspor ke Excel (.xlsx), dan Tombol Pintas **Buka Spreadsheet**.
+   - **Fitur Hapus Ulasan dengan Konfirmasi 3-Digit Kode**:
+     - Saat Admin menekan ikon sampah (Hapus) pada ulasan, sistem akan memunculkan kode acak 3-digit (contoh: `482`).
+     - Admin wajib memasukkan angka 3-digit yang sama persis untuk mengonfirmasi penghapusan.
+     - Jika dikonfirmasi, ulasan akan terhapus secara bersamaan dari **Supabase Database** dan **Google Spreadsheet**.

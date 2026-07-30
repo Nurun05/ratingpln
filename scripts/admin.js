@@ -569,21 +569,54 @@ function switchTab(name) {
 
 // ── Delete ─────────────────────────────────────────
 async function deleteRatingItem(id) {
-    if (!confirm('Hapus masukan ini?')) return;
+    // Generate 3 digit random code for confirmation
+    const randomCode = Math.floor(100 + Math.random() * 900);
+    const inputCode = prompt(`⚠️ KONFIRMASI PENGHAPUSAN ULASAN\n\nUntuk mengonfirmasi penghapusan ulasan ini dari Supabase & Google Sheets, silakan masukkan 3 digit angka konfirmasi berikut:\n\n👉 [ ${randomCode} ]`);
+
+    if (inputCode === null) return; // Disetujui batal oleh admin
+
+    if (inputCode.trim() !== String(randomCode)) {
+        alert('❌ Kode konfirmasi salah! Penghapusan ulasan dibatalkan.');
+        return;
+    }
 
     if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured() && supabaseClient) {
         try {
             const { error } = await supabaseClient.from('ratings').delete().eq('id', id);
             if (error) throw error;
         } catch (e) {
-            alert('Gagal hapus: ' + e.message);
+            alert('Gagal hapus dari Supabase: ' + e.message);
             return;
         }
     }
 
+    // Sinkronkan perintah hapus ke Google Sheets (GAS)
+    syncDeleteToGoogleSheets(id);
+
     rawRatingsData = rawRatingsData.filter(item => item.id !== id);
     localStorage.setItem('pln_ratings_demo', JSON.stringify(rawRatingsData));
     applyFilters();
+}
+
+function syncDeleteToGoogleSheets(id) {
+    const url = window.GLOBAL_GAS_URL || "https://script.google.com/macros/s/AKfycbyvLvfHTM8RrkEhnT6U9SpcU7SPYL6DTyKulWxE4NFyF1dFIzfGHWgKtZYDVNbqQUnE/exec";
+    const payload = {
+        action: "delete",
+        id: id
+    };
+
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        console.log('⚡ Auto-delete in Google Sheets executed for ID:', id);
+    }).catch(err => {
+        console.error('⚠️ Auto-delete in Google Sheets failed:', err);
+    });
 }
 
 function clearAllData() {
