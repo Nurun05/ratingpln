@@ -68,10 +68,17 @@ function initFormValidation() {
     const textarea = document.getElementById('deskripsiRating');
     const nameInput = document.getElementById('namaPelanggan');
     const btn = document.getElementById('btnOpenModal');
+    const charCount = document.getElementById('charCount');
 
-    if (textarea) textarea.addEventListener('input', () => {
-        if (textarea.value.trim() && (!nameInput || nameInput.value.trim())) hideError();
-    });
+    if (textarea) {
+        textarea.addEventListener('input', () => {
+            if (textarea.value.trim() && (!nameInput || nameInput.value.trim())) hideError();
+            if (charCount) {
+                const len = textarea.value.length;
+                charCount.textContent = `${len} / 500 karakter`;
+            }
+        });
+    }
 
     if (nameInput) nameInput.addEventListener('input', () => {
         if (nameInput.value.trim() && (!textarea || textarea.value.trim())) hideError();
@@ -184,9 +191,12 @@ function resetRatingForm() {
 
     const ta = document.getElementById('deskripsiRating');
     if (ta) ta.value = '';
+    
+    const charCount = document.getElementById('charCount');
+    if (charCount) charCount.textContent = '0 / 500 karakter';
+
     const hp = document.getElementById('website_hp');
     if (hp) hp.value = '';
-
     document.querySelectorAll('.star-btn').forEach(s => s.classList.remove('selected'));
 
     const expr = document.getElementById('expressiveRatingText');

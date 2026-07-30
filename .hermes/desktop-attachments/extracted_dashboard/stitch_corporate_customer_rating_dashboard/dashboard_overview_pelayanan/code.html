@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PLN ULP KAREBOSI - Admin Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#6bfe9c",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "surface-bright": "#f7f9fb",
+                    "on-surface-variant": "#43474f",
+                    "outline": "#737780",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#00b35d",
+                    "secondary": "#00658d",
+                    "on-tertiary-fixed": "#00210c",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#3a5f94",
+                    "on-primary-container": "#799dd6",
+                    "background": "#f7f9fb",
+                    "secondary-container": "#2dbcfe",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary-fixed": "#001e2d",
+                    "on-background": "#191c1e",
+                    "on-secondary-container": "#004866",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-high": "#e6e8ea",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "on-secondary-fixed-variant": "#004c6b",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#003c1b",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "tertiary": "#00240e",
+                    "inverse-primary": "#a7c8ff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#4ae183",
+                    "secondary-fixed": "#c6e7ff",
+                    "surface-variant": "#e0e3e5",
+                    "primary-container": "#003366",
+                    "on-primary-fixed": "#001b3c",
+                    "on-surface": "#191c1e",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#001e40",
+                    "secondary-fixed-dim": "#82cfff",
+                    "surface-dim": "#d8dadc",
+                    "surface": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .bento-card {
+            background-color: #ffffff;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0px 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            box-shadow: 0px 10px 15px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar -->
+<aside class="fixed h-full w-[260px] left-0 top-0 bg-primary flex flex-col py-4 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary rounded-lg flex items-center justify-center overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="A professional, corporate logo for an electrical utility company featuring geometric blue and white patterns, styled for a modern administrative interface. The logo is clean, minimalist, and conveys reliability and energy power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVTTxSnHcuTCjZIZcHjyPUclMnT2RdafPtrfVll8b65k2iQXa6HVr-o-7ZRM7-A1gf2bjpYcMdJH9GCMounagYZh-D1anFRiBxeO0oFVlj8buc2Bme9uhl-t40ChPaggzGuYEPiZa5L_9Ef79GwknT86R7zVpv_vtm2XaFeW2YwJviUrJDYYIz1ENBc2KB9PJLq3Lylwvt6INyHzb2wiMLgZP8c1MUA9vD_QAGXQj7Ck75WanWl7EpSuEVCQhKb0TT5pDF6j_1ZA"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary tracking-tight">PLN ULP KAREBOSI</h1>
+<p class="text-[10px] text-on-primary-fixed-variant uppercase font-bold tracking-widest opacity-80">ADMIN PANEL</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="bg-secondary-container text-on-secondary-container rounded-lg mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 hover:bg-primary-container hover:text-on-primary-container transition-all mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined mr-3">chat</span>
+<span class="font-label-lg text-label-lg">Feedback</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 hover:bg-primary-container hover:text-on-primary-container transition-all mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-lg text-label-lg">Analisis</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 hover:bg-primary-container hover:text-on-primary-container transition-all mx-2 my-1 flex items-center px-4 py-3 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined mr-3">download</span>
+<span class="font-label-lg text-label-lg">Ekspor Excel</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 hover:bg-error-container hover:text-on-error-container transition-all flex items-center px-4 py-3 rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="ml-[260px] min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-8">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg text-headline-lg text-primary">Dashboard Overview Pelayanan</h2>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-full text-body-md focus:ring-2 focus:ring-primary-container w-64" placeholder="Cari data feedback..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-lg text-on-surface leading-tight">Administrator</p>
+<p class="text-[11px] text-outline uppercase font-bold tracking-tighter">Super Admin</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-outline-variant object-cover" data-alt="A clean, professional headshot of an administrative user in corporate attire, set against a soft, bright office background with cool tones. The lighting is flattering and even, emphasizing a high-end corporate aesthetic suitable for an enterprise dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdw27OgK9GARTQIzqX44tVJpXzU6GAoPzKaJLJQMHwDhulJmOihQe3DOpAbb95DOUWBM8fjwvIZR8_lNlwQmzxHgc-85h738W0jTAmc_l-NLqJTvgY8ab1fqnnoud7FWmHcpuGcXnTkZWpupwt5Wn-OwWns25QUKBdXXnpgzQgpl5_OeyuzsVmRoA1hXwzQWxTK6XlzpLAFgdtHqlimTxEHCw8BoIME1j6i4oqZBSfwSvpoL_e1UIqWVMynwPMIBC-f70yATThHQ"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="p-8 flex-1 space-y-8">
+<!-- Key Metrics Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bento-card flex flex-col justify-between overflow-hidden relative">
+<div>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Total Ratings</p>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary">12,482</span>
+<span class="text-tertiary font-bold text-sm flex items-center">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                12%
+                            </span>
+</div>
+</div>
+<div class="mt-4 h-12 w-full flex items-end gap-1">
+<!-- Tiny Sparkline -->
+<div class="flex-1 bg-secondary-container h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[100%] rounded-t-sm"></div>
+</div>
+</div>
+<div class="bento-card flex flex-col justify-between">
+<div>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Avg. Star Rating</p>
+<div class="flex items-center gap-2">
+<span class="font-headline-xl text-headline-xl text-primary">4.8</span>
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+</div>
+</div>
+<p class="font-body-md text-outline-variant mt-2">+0.2 from last month</p>
+</div>
+<div class="bento-card flex flex-col justify-between">
+<div>
+<p class="font-label-md text-outline uppercase tracking-wider mb-1">Satisfaction Index</p>
+<div class="flex items-center gap-3">
+<span class="text-4xl">😊</span>
+<span class="font-headline-xl text-headline-xl text-primary">94%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 mt-4">
+<div class="bg-tertiary-fixed-dim h-2 rounded-full" style="width: 94%"></div>
+</div>
+</div>
+<div class="bento-card flex flex-col justify-between bg-primary relative overflow-hidden group">
+<div class="z-10">
+<p class="font-label-md text-on-primary opacity-70 uppercase tracking-wider mb-1">Pending Feedback</p>
+<span class="font-headline-xl text-headline-xl text-on-primary">128</span>
+</div>
+<button class="z-10 w-full mt-4 bg-on-primary text-primary font-label-lg py-2 rounded-lg hover:bg-secondary-container transition-colors">
+                        Review Now
+                    </button>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-9xl text-on-primary" style="font-variation-settings: 'FILL' 1;">forum</span>
+</div>
+</div>
+</section>
+<!-- Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Bar Chart: Star Distribution -->
+<div class="bento-card lg:col-span-2">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Star Distribution</h3>
+<p class="font-body-md text-outline">Breakdown of customer ratings across all branches</p>
+</div>
+<select class="bg-surface-container-low border-none rounded-lg text-label-lg text-primary focus:ring-primary-container px-4">
+<option>Last 30 Days</option>
+<option>Last 7 Days</option>
+<option>Today</option>
+</select>
+</div>
+<div class="space-y-6">
+<!-- 5 Stars -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-lg">
+<span class="flex items-center gap-1">5 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
+<span class="text-primary font-bold">8,421 (67.4%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full transition-all duration-1000" style="width: 67.4%"></div>
+</div>
+</div>
+<!-- 4 Stars -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-lg">
+<span class="flex items-center gap-1">4 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
+<span class="text-primary font-bold">2,105 (16.8%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+<div class="bg-secondary-fixed h-full rounded-full transition-all duration-1000" style="width: 16.8%"></div>
+</div>
+</div>
+<!-- 3 Stars -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-lg">
+<span class="flex items-center gap-1">3 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
+<span class="text-primary font-bold">1,032 (8.2%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full transition-all duration-1000" style="width: 8.2%"></div>
+</div>
+</div>
+<!-- 2 Stars -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-lg">
+<span class="flex items-center gap-1">2 Stars <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
+<span class="text-primary font-bold">540 (4.3%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+<div class="bg-orange-200 h-full rounded-full transition-all duration-1000" style="width: 4.3%"></div>
+</div>
+</div>
+<!-- 1 Stars -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-lg">
+<span class="flex items-center gap-1">1 Star <span class="material-symbols-outlined text-[16px] text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span></span>
+<span class="text-primary font-bold">384 (3.3%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+<div class="bg-error h-full rounded-full transition-all duration-1000" style="width: 3.3%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pie Chart/Radial: Emoji Evaluation -->
+<div class="bento-card">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Service Mood</h3>
+<p class="font-body-md text-outline mb-8">Sentiment analysis from emoticons</p>
+<div class="relative flex justify-center items-center py-4">
+<!-- Custom CSS Pie Visualization -->
+<div class="w-48 h-48 rounded-full border-8 border-surface-container-high relative overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0" style="background: conic-gradient(#2dbcfe 0% 75%, #6bfe9c 75% 90%, #ba1a1a 90% 100%);"></div>
+<div class="w-36 h-36 bg-white rounded-full z-10 flex flex-col items-center justify-center shadow-inner">
+<span class="text-3xl">🚀</span>
+<span class="font-bold text-primary">Overall</span>
+<span class="text-sm text-outline">Excellent</span>
+</div>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex items-center justify-between p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-secondary-container"></div>
+<span class="font-label-lg text-on-surface">Very Satisfied</span>
+</div>
+<span class="font-bold text-primary">75%</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></div>
+<span class="font-label-lg text-on-surface">Satisfied</span>
+</div>
+<span class="font-bold text-primary">15%</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<span class="font-label-lg text-on-surface">Unsatisfied</span>
+</div>
+<span class="font-bold text-primary">10%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Customer Entries -->
+<section class="bento-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Quick Overview: Recent Entries</h3>
+<button class="text-secondary font-label-lg hover:underline">View All Entries</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-outline-variant">
+<th class="text-left py-4 font-label-lg text-outline">Customer Name</th>
+<th class="text-left py-4 font-label-lg text-outline">ID Pelanggan</th>
+<th class="text-left py-4 font-label-lg text-outline">Rating</th>
+<th class="text-left py-4 font-label-lg text-outline">Service Category</th>
+<th class="text-left py-4 font-label-lg text-outline">Timestamp</th>
+<th class="text-right py-4 font-label-lg text-outline">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed-variant text-xs">AS</div>
+<span class="font-label-lg">Andi Saputra</span>
+</div>
+</td>
+<td class="py-4 text-body-md font-mono text-outline">53421008922</td>
+<td class="py-4">
+<div class="flex text-amber-400 scale-75 origin-left">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="py-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[12px] font-bold">New Connection</span>
+</td>
+<td class="py-4 text-body-md text-outline">2 mins ago</td>
+<td class="py-4 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary p-1">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center font-bold text-on-secondary-fixed-variant text-xs">MR</div>
+<span class="font-label-lg">Maya Rezky</span>
+</div>
+</td>
+<td class="py-4 text-body-md font-mono text-outline">53421009101</td>
+<td class="py-4">
+<div class="flex text-amber-400 scale-75 origin-left">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+</td>
+<td class="py-4">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[12px] font-bold">Bill Payment</span>
+</td>
+<td class="py-4 text-body-md text-outline">15 mins ago</td>
+<td class="py-4 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary p-1">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center font-bold text-on-error-container text-xs">BN</div>
+<span class="font-label-lg">Budi Nugraha</span>
+</div>
+</td>
+<td class="py-4 text-body-md font-mono text-outline">53421007781</td>
+<td class="py-4">
+<div class="flex text-amber-400 scale-75 origin-left">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+</td>
+<td class="py-4">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[12px] font-bold">Complaint</span>
+</td>
+<td class="py-4 text-body-md text-outline">1 hour ago</td>
+<td class="py-4 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary p-1">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+<!-- Floating Action Button Contextual Support (Hidden on Dashboard but mapped structure) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary shadow-lg rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-3xl">add</span>
+<span class="absolute right-16 bg-primary px-3 py-1.5 rounded-lg text-sm font-label-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Input Manual Rating</span>
+</button>
+<script>
+        // Micro-interaction for sidebar tabs
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => {
+                    l.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+                    l.classList.add('text-on-primary-fixed-variant', 'opacity-70');
+                });
+                link.classList.add('bg-secondary-container', 'text-on-secondary-container');
+                link.classList.remove('text-on-primary-fixed-variant', 'opacity-70');
+            });
+        });
+
+        // Atmospheric effect: gentle pulse on Satisfaction card
+        const satisfactionIndex = document.querySelector('.bg-tertiary-fixed-dim');
+        if(satisfactionIndex) {
+            setInterval(() => {
+                satisfactionIndex.classList.add('brightness-110');
+                setTimeout(() => satisfactionIndex.classList.remove('brightness-110'), 1000);
+            }, 3000);
+        }
+    </script>
+</body></html>

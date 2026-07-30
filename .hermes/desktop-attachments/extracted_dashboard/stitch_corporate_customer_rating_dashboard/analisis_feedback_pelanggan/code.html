@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Feedback Analysis - PLN ULP KAREBOSI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-container { position: relative; height: 300px; width: 100%; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#6bfe9c",
+                      "on-tertiary-fixed-variant": "#005228",
+                      "surface-bright": "#f7f9fb",
+                      "on-surface-variant": "#43474f",
+                      "outline": "#737780",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#00b35d",
+                      "secondary": "#00658d",
+                      "on-tertiary-fixed": "#00210c",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef0",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#3a5f94",
+                      "on-primary-container": "#799dd6",
+                      "background": "#f7f9fb",
+                      "secondary-container": "#2dbcfe",
+                      "primary-fixed": "#d5e3ff",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-secondary-fixed": "#001e2d",
+                      "on-background": "#191c1e",
+                      "on-secondary-container": "#004866",
+                      "surface-container-low": "#f2f4f6",
+                      "surface-container-high": "#e6e8ea",
+                      "outline-variant": "#c3c6d1",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2d3133",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#1f477b",
+                      "on-secondary-fixed-variant": "#004c6b",
+                      "error": "#ba1a1a",
+                      "tertiary-container": "#003c1b",
+                      "primary-fixed-dim": "#a7c8ff",
+                      "tertiary": "#00240e",
+                      "inverse-primary": "#a7c8ff",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#4ae183",
+                      "secondary-fixed": "#c6e7ff",
+                      "surface-variant": "#e0e3e5",
+                      "primary-container": "#003366",
+                      "on-primary-fixed": "#001b3c",
+                      "on-surface": "#191c1e",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#001e40",
+                      "secondary-fixed-dim": "#82cfff",
+                      "surface-dim": "#d8dadc",
+                      "surface": "#f7f9fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "sidebar-width": "260px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- SideNavBar -->
+<aside class="fixed h-full w-[260px] left-0 top-0 bg-primary flex flex-col py-4 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">PLN ULP KAREBOSI</h1>
+<p class="text-[10px] tracking-widest text-secondary-container font-bold opacity-80 uppercase">ADMIN PANEL</p>
+</div>
+<nav class="flex-grow">
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3 group-active:scale-90">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container rounded-lg mx-2 my-1 flex items-center px-4 py-3 shadow-sm" href="#">
+<span class="material-symbols-outlined mr-3">chat</span>
+<span class="font-label-lg text-label-lg">Feedback</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3 group-active:scale-90">analytics</span>
+<span class="font-label-lg text-label-lg">Analisis</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3 group-active:scale-90">download</span>
+<span class="font-label-lg text-label-lg">Ekspor Excel</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 flex items-center px-4 py-3 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:rotate-12 transition-transform">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-8 ml-[260px] w-[calc(100%-260px)]">
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md focus:ring-2 focus:ring-secondary-container w-64 transition-all" placeholder="Cari feedback..." type="text"/>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary ml-4">Feedback Analysis</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-lg text-on-surface leading-none">Administrator</p>
+<p class="text-[11px] text-on-surface-variant">Super User</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-secondary-container p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a corporate administrator in a modern office setting. The lighting is crisp and bright, reflecting a high-end enterprise environment. The subject is wearing a sharp charcoal suit with a neutral expression, conveying reliability and authority. The background shows a soft-focus architectural interior with cool blue tones and glass partitions." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqQCHPj3o_13BnYmSF_bydE0IOIZvzxtN--zC0YanaTpgfQaoIgNllfTCTjkNV_jerMflGlGgetxqCTQHKzS1yTrfVXILcsI_LraKJ9wdOP6BmnYMhrJnahr1yZ8itJhNBamBHJECPBS11YX0IRyZ0si_nNZzIY0qvU10DO9z3JYr5uiCuRTunhoe15PLau_MmChCKk_ntUoiDd4A-IEG9UxRwQD_8JQ5AoQiko_wpRPuVNNLrptKy8UrlIpOpZXbgKuSLe5WmqA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] p-8 max-w-[1600px]">
+<!-- Filters Area -->
+<section class="mb-8 flex flex-wrap items-end gap-4">
+<div class="flex-grow lg:flex-grow-0">
+<label class="block text-label-md text-on-surface-variant mb-2 ml-1">Rentang Waktu</label>
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">calendar_today</span>
+<select class="bg-transparent border-none text-body-md focus:ring-0 cursor-pointer pr-8">
+<option>30 Hari Terakhir</option>
+<option>7 Hari Terakhir</option>
+<option>Bulan Ini</option>
+<option>Kustom...</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2 ml-1">Jenis Layanan</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:ring-secondary-container">
+<option>Semua Layanan</option>
+<option>Penyambungan Baru</option>
+<option>Gangguan Teknis</option>
+<option>Tagihan &amp; Pembayaran</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2 ml-1">Nilai Rating</label>
+<div class="flex gap-2 bg-surface-container-low p-1 rounded-lg">
+<button class="px-4 py-1.5 rounded-md bg-surface-container-lowest shadow-sm text-label-lg text-primary">Semua</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-container-lowest text-label-lg text-on-surface-variant transition-colors">Positive</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-container-lowest text-label-lg text-on-surface-variant transition-colors">Neutral</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-container-lowest text-label-lg text-on-surface-variant transition-colors">Critical</button>
+</div>
+</div>
+<button class="ml-auto bg-secondary text-on-secondary px-6 py-2.5 rounded-lg font-label-lg flex items-center gap-2 hover:bg-on-secondary-container transition-all active:scale-95 shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined">filter_list</span>
+                Terapkan Filter
+            </button>
+</section>
+<!-- Insights Bento Grid -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+<!-- Time Series Chart -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Tren Rating Kepuasan</h3>
+<p class="text-body-md text-on-surface-variant">Rata-rata rating harian selama 30 hari terakhir</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-label-md text-on-surface-variant">Rating Bintang</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-label-md text-on-surface-variant">Emoji Sentimen</span>
+</div>
+</div>
+</div>
+<div class="chart-container flex items-end justify-between gap-2 pt-4">
+<!-- Simulated CSS Chart Bars for visualization -->
+<div class="flex-grow flex items-end justify-between h-48 px-2 relative">
+<div class="absolute inset-0 border-b border-outline-variant flex flex-col justify-between opacity-20 pointer-events-none">
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+</div>
+<div class="w-full h-full flex items-end justify-around gap-1 group">
+<!-- Loop simulation of 30 days -->
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[60%] hover:bg-secondary transition-colors cursor-help" title="Day 1: 4.2"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[65%] hover:bg-secondary transition-colors" title="Day 2: 4.5"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[58%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/40 rounded-t-sm h-[72%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[80%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[75%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/60 rounded-t-sm h-[85%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[68%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[70%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/40 rounded-t-sm h-[78%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[60%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[65%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[58%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/40 rounded-t-sm h-[72%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/80 rounded-t-sm h-[92%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[75%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/60 rounded-t-sm h-[85%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[68%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/20 rounded-t-sm h-[70%] hover:bg-secondary transition-colors"></div>
+<div class="w-3 bg-secondary/40 rounded-t-sm h-[78%] hover:bg-secondary transition-colors"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-2 text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
+<span>1 Okt</span>
+<span>10 Okt</span>
+<span>20 Okt</span>
+<span>30 Okt</span>
+</div>
+</div>
+<!-- Sentiment Comparison -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Emoji vs Bintang</h3>
+<div class="space-y-8">
+<!-- Emoji breakdown -->
+<div class="flex items-center gap-6">
+<div class="text-4xl">😊</div>
+<div class="flex-grow">
+<div class="flex justify-between mb-2">
+<span class="text-label-lg">Puas (Emoji)</span>
+<span class="text-label-lg font-bold">78%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-tertiary-fixed-dim h-full w-[78%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-4xl text-yellow-500">
+<span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between mb-2">
+<span class="text-label-lg">Puas (Bintang)</span>
+<span class="text-label-lg font-bold">62%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full w-[62%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-low rounded-lg border border-dashed border-outline-variant">
+<p class="text-body-md italic text-on-surface-variant">
+                            "Insight: Pengguna cenderung memberikan rating emoji lebih positif dibandingkan rating bintang numerik untuk layanan yang sama."
+                        </p>
+</div>
+</div>
+</div>
+<!-- Heatmap / Table Area -->
+<div class="col-span-12 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Analisis Per Area Layanan</h3>
+<p class="text-body-md text-on-surface-variant">Perbandingan performa berdasarkan kategori layanan</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">sort</span></button>
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider">Area Layanan</th>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider">Volume Feedback</th>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider">Avg. Rating</th>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider">Sentimen Dominan</th>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-lg text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- High Rated Row -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-tertiary-fixed/20 rounded-lg flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<p class="font-label-lg text-on-surface">Penyambungan Baru</p>
+<p class="text-[12px] text-on-surface-variant">Layanan Administrasi</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-body-md">1,240 Transaksi</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1">
+<span class="font-bold text-primary">4.8</span>
+<span class="material-symbols-outlined text-secondary-container text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-tertiary-fixed/30 text-on-tertiary-fixed-variant text-[11px] font-bold rounded-full uppercase">Sangat Puas</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+<span class="text-body-md text-on-tertiary-container">Optimal</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary font-label-lg hover:underline opacity-0 group-hover:opacity-100 transition-opacity">Deep Dive</button>
+</td>
+</tr>
+<!-- Low Rated Row -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error-container/40 rounded-lg flex items-center justify-center text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<p class="font-label-lg text-on-surface">Gangguan Teknis</p>
+<p class="text-[12px] text-on-surface-variant">Layanan Lapangan</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-body-md">850 Laporan</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1">
+<span class="font-bold text-primary">2.3</span>
+<span class="material-symbols-outlined text-secondary-container text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-error-container/50 text-error text-[11px] font-bold rounded-full uppercase">Kritis</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-body-md text-error">Butuh Atensi</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary font-label-lg hover:underline opacity-0 group-hover:opacity-100 transition-opacity">Deep Dive</button>
+</td>
+</tr>
+<!-- Mid Rated Row -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-fixed/30 rounded-lg flex items-center justify-center text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="font-label-lg text-on-surface">Pembayaran Online</p>
+<p class="text-[12px] text-on-surface-variant">Digital Channel</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-body-md">2,410 Transaksi</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1">
+<span class="font-bold text-primary">3.9</span>
+<span class="material-symbols-outlined text-secondary-container text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-secondary-fixed/50 text-on-secondary-fixed-variant text-[11px] font-bold rounded-full uppercase">Netral</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="text-body-md text-on-surface-variant">Stabil</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary font-label-lg hover:underline opacity-0 group-hover:opacity-100 transition-opacity">Deep Dive</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Real-time Feedback Ticker / Cards -->
+<div class="mt-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Komentar Terbaru</h3>
+<a class="text-secondary font-label-lg flex items-center gap-1 hover:gap-2 transition-all" href="#">Lihat Semua <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="glass-card p-5 rounded-xl shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-error/5 -rotate-45 translate-x-8 -translate-y-8 group-hover:bg-error/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young woman with a friendly smile, photographed in soft, natural daylight. The image has a clean, professional look suitable for a customer service profile, with a lightly blurred urban park background in soft green and earth tones. The focus is sharp on her eyes, radiating a positive and approachable energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcbz7knlvSulNEBZSPYAXPn2dRuE7ldsXWCvLNVESnTj3DmTEWlpZfxq2aT0xTOE8xc6dn21qZ3an0GArAQ4dTwUKMqcgCKrIgl2NRE3f-Fs82zLsEYUEnWUfchzncan97cLO1Crw0b7Up0ybm9ObjUHPhB7IusgwFZbvxylg5SyVv33pIWvP1-lfiqDjBruolPfQC5ISmagKX7kvWKFoHn5DNrMfShn8y1jhfd3O1i-newnEO8wn4j1gdbxPQn7n7c2CIsDsWTg"/>
+</div>
+<div>
+<p class="text-label-lg">Sarah Wijaya</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Layanan Gangguan</p>
+</div>
+</div>
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-body-md text-on-surface mb-4 line-clamp-3">
+                        "Lapor mati lampu lewat aplikasi tapi responnya lambat sekali. Baru ada teknisi datang setelah 4 jam menunggu tanpa kabar..."
+                    </p>
+<div class="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
+<span>14 menit yang lalu</span>
+<div class="flex gap-2">
+<button class="hover:text-primary transition-colors">Abaikan</button>
+<button class="bg-primary text-on-primary px-3 py-1 rounded-md hover:bg-on-primary-fixed-variant">Balas</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-5 rounded-xl shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-tertiary-fixed/5 -rotate-45 translate-x-8 -translate-y-8 group-hover:bg-tertiary-fixed/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up professional headshot of a middle-aged man with short hair and glasses. He is wearing a light blue oxford shirt, looking directly into the camera with a confident, satisfied expression. The background is a clean white studio wall with soft shadow gradients, emphasizing clarity and transparency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4TONncA54n5oXHXmqZEGwy1B-CjCZI2nsxrcZAuGtlDyg3Ar-rmYisYTx64wcxaTbvSKo3uL-gsr1XJkceSsnhWajbz1QoaSEyCIWFU4vgwnr40O0WXAoghZ6bTtXf2WSheLPirIsC-C3UI7WXzTshm2cHSwR3EyQWj8HNV8xCs6Ea8c_YyR6nJ-mEQ5IHeexehdJfqYC6JbshY1yv-QUr0bPjuJUiaErcjQ5Beogx_0MIzNPmm2MPN6adPnArb9Me6W10Vbx2Q"/>
+</div>
+<div>
+<p class="text-label-lg">Budi Santoso</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Penyambungan Baru</p>
+</div>
+</div>
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-body-md text-on-surface mb-4 line-clamp-3">
+                        "Proses pengajuan meteran baru ternyata sudah sangat mudah lewat PLN Mobile. Petugas lapangan juga ramah dan kerja cepat. Mantap!"
+                    </p>
+<div class="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
+<span>2 jam yang lalu</span>
+<div class="flex gap-2">
+<button class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed-variant px-3 py-1 rounded-md">Publikasikan</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-5 rounded-xl shadow-sm relative overflow-hidden group border-l-4 border-l-secondary-container">
+<div class="absolute top-0 right-0 w-16 h-16 bg-secondary-container/5 -rotate-45 translate-x-8 -translate-y-8 group-hover:bg-secondary-container/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a professional woman of South Asian descent in a modern workplace. She is smiling warmly, wearing business casual attire. The office environment behind her is airy and bright, with large windows and plants, creating a welcoming and progressive atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxkAE0wdKO54qcyWnP5IIpoTn4GUEsgyQwgFLXeGFTVO4XfVmB0p2_3YoRh_cpedTgy9iFJ2tblphc-6UpbAkP14Ppt2wBxI0UF0FeFkWP6S-PtFjU7cQY9PEdb-DSRK6QpqwavHNT5ec3ZW9LOoziYNy87OU-2mUTuzY7-VV9eEWcgIDmeUeSFNS4qvoucFDpBRhFrTNfO50ab7oLMazB-9JSldsfH3vGC6xywwQBIiBVOA3n5WJU9Qoa2sWkCFhC6Nuscb_qcg"/>
+</div>
+<div>
+<p class="text-label-lg">Dewi Lestari</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Tagihan</p>
+</div>
+</div>
+<div class="text-2xl">😐</div>
+</div>
+<p class="text-body-md text-on-surface mb-4 line-clamp-3">
+                        "Tagihan bulan ini kok tiba-tiba melonjak ya padahal pemakaian sama saja. Mohon bantuannya untuk pengecekan meteran."
+                    </p>
+<div class="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
+<span>5 jam yang lalu</span>
+<div class="flex gap-2">
+<button class="bg-surface-container-high px-3 py-1 rounded-md hover:bg-outline-variant">Eskalasi</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Suppressed based on context: Details/Analysis page) -->
+<!-- Not rendering FAB for this focused analysis view -->
+<script>
+        // Micro-interactions and simple state management
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.classList.add('scale-95');
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.classList.remove('scale-95');
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.classList.remove('scale-95');
+            });
+        });
+
+        // Simple dashboard notification animation
+        const notificationDot = document.querySelector('.absolute.bg-error');
+        if (notificationDot) {
+            setInterval(() => {
+                notificationDot.classList.toggle('opacity-0');
+            }, 2000);
+        }
+    </script>
+</body></html>

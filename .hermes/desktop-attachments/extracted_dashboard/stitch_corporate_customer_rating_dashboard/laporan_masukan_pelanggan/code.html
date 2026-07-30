@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Reports &amp; Feedback - PLN ULP KAREBOSI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#6bfe9c",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "surface-bright": "#f7f9fb",
+                    "on-surface-variant": "#43474f",
+                    "outline": "#737780",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#00b35d",
+                    "secondary": "#00658d",
+                    "on-tertiary-fixed": "#00210c",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#3a5f94",
+                    "on-primary-container": "#799dd6",
+                    "background": "#f7f9fb",
+                    "secondary-container": "#2dbcfe",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary-fixed": "#001e2d",
+                    "on-background": "#191c1e",
+                    "on-secondary-container": "#004866",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-high": "#e6e8ea",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "on-secondary-fixed-variant": "#004c6b",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#003c1b",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "tertiary": "#00240e",
+                    "inverse-primary": "#a7c8ff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#4ae183",
+                    "secondary-fixed": "#c6e7ff",
+                    "surface-variant": "#e0e3e5",
+                    "primary-container": "#003366",
+                    "on-primary-fixed": "#001b3c",
+                    "on-surface": "#191c1e",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#001e40",
+                    "secondary-fixed-dim": "#82cfff",
+                    "surface-dim": "#d8dadc",
+                    "surface": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        /* Custom Table Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3c6d1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #737780; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Component -->
+<aside class="fixed h-full w-[260px] left-0 top-0 bg-primary flex flex-col h-full py-4 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">PLN ULP KAREBOSI</h1>
+<p class="text-[10px] tracking-widest text-on-primary-fixed-variant opacity-60 uppercase font-bold">ADMIN PANEL</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<!-- Active Tab Mapping: Feedback -->
+<a class="bg-secondary-container text-on-secondary-container rounded-lg mx-2 my-1 flex items-center px-4 py-3 group scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-label-lg text-label-lg">Feedback</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-lg text-label-lg">Analisis</span>
+</a>
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">download</span>
+<span class="font-label-lg text-label-lg">Ekspor Excel</span>
+</a>
+</nav>
+<div class="mt-auto">
+<a class="text-on-primary-fixed-variant opacity-70 hover:opacity-100 mx-2 my-1 flex items-center px-4 py-3 hover:bg-error-container hover:text-on-error-container transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar Component -->
+<header class="w-full h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-8 ml-[260px] max-w-[calc(100%-260px)]">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-md focus:outline-none focus:ring-2 focus:ring-secondary transition-all" placeholder="Cari laporan atau deskripsi..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-y-0 space-x-6">
+<div class="flex items-center space-x-2">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center space-x-3">
+<div class="text-right">
+<p class="font-label-lg text-label-lg text-on-surface leading-tight">Administrator</p>
+<p class="text-[11px] text-on-surface-variant">Admin ULP Karebosi</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-secondary-container object-cover" data-alt="Professional corporate headshot of a middle-aged male administrator in a clean office setting, featuring soft rim lighting, a professional navy blue suit, and a friendly but authoritative expression. The background is a slightly blurred modern office with soft white and light grey tones, maintaining a high-end light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxBLjg3XU_eca8uuCW47z9llx6HPoYqecF72rl6LbDkfdrrfUASwVt8f5j_GVPl0kQNJxloRDjmOdDdz-ryCRTknxX-QTC_tJIOHFCre01zAvEjaeM8xIFemc4M2ihNrhDsCukMvuRakTHM1c8Rbcdk-Pde_bmGCtgBTxhDDNv-TqPUXYnhOPMqNaD7MScZA9TWgxEBxcndbXx1JQJ_ymXd0S91g4SZDdtVpueJiVfDCXuj7e19o6dT2WhOMcq_vFqmfPDydxlIA"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] p-8 min-h-[calc(100vh-64px)]">
+<!-- Dashboard Header & Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Feedback Pelanggan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Kelola dan analisis respon balik pelanggan untuk peningkatan layanan.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center px-4 py-2 bg-surface-container-lowest border border-outline-variant text-primary rounded-lg font-label-lg text-label-lg hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined mr-2">filter_alt</span>
+                    Filter Lanjut
+                </button>
+<button class="flex items-center px-5 py-2.5 bg-secondary text-on-primary rounded-lg font-label-lg text-label-lg shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined mr-2">download_for_offline</span>
+                    Ekspor Excel
+                </button>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
+<label class="block font-label-md text-label-md text-outline mb-2">Periode Tanggal</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">calendar_today</span>
+<input class="w-full bg-transparent border-none p-0 text-body-md focus:ring-0 cursor-pointer" type="text" value="01 Jan 2024 - 31 Jan 2024"/>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
+<label class="block font-label-md text-label-md text-outline mb-2">Minimum Rating</label>
+<select class="w-full bg-transparent border-none p-0 text-body-md focus:ring-0 cursor-pointer">
+<option>Semua Rating</option>
+<option>⭐️ 5 Bintang</option>
+<option>⭐️ 4+ Bintang</option>
+<option>⭐️ 3+ Bintang</option>
+<option>⭐️ 2+ Bintang</option>
+</select>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
+<label class="block font-label-md text-label-md text-outline mb-2">Status Laporan</label>
+<select class="w-full bg-transparent border-none p-0 text-body-md focus:ring-0 cursor-pointer">
+<option>Semua Status</option>
+<option>Selesai</option>
+<option>Proses</option>
+<option>Baru</option>
+</select>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm flex items-center justify-between">
+<div>
+<label class="block font-label-md text-label-md text-outline mb-1">Total Laporan</label>
+<span class="font-headline-md text-headline-md text-primary">1,284</span>
+</div>
+<div class="bg-secondary-container/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+</div>
+</div>
+</div>
+<!-- Data Table Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Tanggal &amp; Waktu</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Rating</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant">Emoji</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant w-1/3">Deskripsi / Alasan</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-center">Status</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<p class="font-label-lg text-label-lg text-on-surface">12 Mei 2024</p>
+<p class="text-body-md text-on-surface-variant">14:20 WIB</p>
+</td>
+<td class="px-6 py-4">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-6 py-4 text-2xl">😊</td>
+<td class="px-6 py-4">
+<p class="text-body-md text-on-surface line-clamp-2">"Pelayanan sangat cepat dan teknisi ramah sekali saat memperbaiki meteran listrik di rumah saya. Terima kasih PLN Karebosi!"</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[12px] font-bold">SELESAI</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<p class="font-label-lg text-label-lg text-on-surface">12 Mei 2024</p>
+<p class="text-body-md text-on-surface-variant">10:45 WIB</p>
+</td>
+<td class="px-6 py-4">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+</td>
+<td class="px-6 py-4 text-2xl">☹️</td>
+<td class="px-6 py-4">
+<p class="text-body-md text-on-surface line-clamp-2">"Antrian di kantor ULP sangat panjang dan panas. Mohon AC diperbaiki agar pelanggan lebih nyaman saat menunggu."</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[12px] font-bold">PROSES</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<p class="font-label-lg text-label-lg text-on-surface">11 Mei 2024</p>
+<p class="text-body-md text-on-surface-variant">16:15 WIB</p>
+</td>
+<td class="px-6 py-4">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+</td>
+<td class="px-6 py-4 text-2xl">🤔</td>
+<td class="px-6 py-4">
+<p class="text-body-md text-on-surface line-clamp-2">"Aplikasi PLN Mobile kadang sulit diakses untuk bayar tagihan. Selebihnya sudah bagus."</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[12px] font-bold">BARU</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<p class="font-label-lg text-label-lg text-on-surface">11 Mei 2024</p>
+<p class="text-body-md text-on-surface-variant">09:05 WIB</p>
+</td>
+<td class="px-6 py-4">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-6 py-4 text-2xl">😍</td>
+<td class="px-6 py-4">
+<p class="text-body-md text-on-surface line-clamp-2">"Terima kasih atas bantuan pasang baru yang sangat cepat, hanya butuh 2 hari saja sudah menyala."</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[12px] font-bold">SELESAI</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-body-md text-on-surface-variant">Menampilkan 1 - 4 dari 1,284 feedback</p>
+<div class="flex items-center gap-1">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">first_page</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-1 mx-2">
+<button class="w-8 h-8 flex items-center justify-center bg-secondary text-on-primary rounded-lg text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container-highest rounded-lg text-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container-highest rounded-lg text-label-md">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-label-md">...</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container-highest rounded-lg text-label-md">32</button>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all">
+<span class="material-symbols-outlined">last_page</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('bg-surface-container-low');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('bg-surface-container-low');
+            });
+        });
+
+        // Search highlight simulation
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            console.log('Searching for:', e.target.value);
+            // Future logic for filtering table rows
+        });
+    </script>
+</body></html>

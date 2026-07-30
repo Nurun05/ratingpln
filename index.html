@@ -43,18 +43,21 @@
                 </div>
 
                 <div id="descriptionSection" class="description-section">
-                    <div class="form-group" style="margin-bottom: 14px;">
+                    <div class="form-group" style="margin-bottom: var(--space-12);">
                         <label for="namaPelanggan" class="form-label">
                             Nama Anda <span class="required-mark">*wajib diisi</span>
                         </label>
-                        <input type="text" id="namaPelanggan" class="custom-textarea" style="height: 38px; padding: 8px 12px; resize: none; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: var(--font-sm); outline: none; transition: border-color 0.15s ease;" placeholder="Nama Anda (contoh: Budi)" required>
+                        <input type="text" id="namaPelanggan" class="custom-textarea" placeholder="Nama Anda (contoh: Budi)" maxlength="50" required>
                     </div>
 
                     <div class="form-group">
                         <label for="deskripsiRating" class="form-label">
                             Saran & Masukan Pelayanan <span class="required-mark">*wajib diisi</span>
                         </label>
-                        <textarea id="deskripsiRating" class="custom-textarea" rows="3" placeholder="Silakan tulis ulasan atau keluhan Anda di sini untuk perbaikan pelayanan loket..." required></textarea>
+                        <textarea id="deskripsiRating" class="custom-textarea" rows="3" placeholder="Silakan tulis ulasan atau keluhan Anda di sini untuk perbaikan pelayanan loket..." maxlength="500" required></textarea>
+                        <div class="text-right" style="margin-top: 4px;">
+                            <span id="charCount" class="muted" style="font-size: 0.7rem;">0 / 500 karakter</span>
+                        </div>
                         <div id="validationErrorMsg" class="validation-error"></div>
                     </div>
 

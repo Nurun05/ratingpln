@@ -301,7 +301,7 @@ function renderRecentComments() {
                     <span class="text-amber-400 text-xs">${'★'.repeat(item.rating_bintang || 0)}</span>
                     <span class="text-gray-300 text-xs">${'★'.repeat(5 - (item.rating_bintang || 0))}</span>
                 </div>
-                <p class="text-xs md:text-sm text-gray-600 italic line-clamp-3">"${esc(item.deskripsi || '-')}"</p>
+                <p class="text-xs md:text-sm text-gray-600 italic break-words line-clamp-3">"${esc(item.deskripsi || '-')}"</p>
             </div>
         </div>`;
     }).join('');

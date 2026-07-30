@@ -153,6 +153,11 @@ body {
     background: #f8fafc;
     transition: border-color 0.2s;
 }
+
+input.custom-textarea {
+    height: 44px;
+    padding: 0 var(--space-12);
+}
 .custom-textarea:focus {
     outline: none; background: #fff;
     border-color: var(--pln-blue);
