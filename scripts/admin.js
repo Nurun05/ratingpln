@@ -571,13 +571,53 @@ function switchTab(name) {
 async function deleteRatingItem(id) {
     // Generate 3 digit random code for confirmation
     const randomCode = Math.floor(100 + Math.random() * 900);
-    const inputCode = prompt(`⚠️ KONFIRMASI PENGHAPUSAN ULASAN\n\nUntuk mengonfirmasi penghapusan ulasan ini dari Supabase & Google Sheets, silakan masukkan 3 digit angka konfirmasi berikut:\n\n👉 [ ${randomCode} ]`);
 
-    if (inputCode === null) return; // Disetujui batal oleh admin
+    // Jika SweetAlert2 tersedia, gunakan dialog modal yang indah & sesuai color palette PLN
+    if (typeof Swal !== 'undefined') {
+        const { value: inputCode, isConfirmed } = await Swal.fire({
+            title: 'Konfirmasi Penghapusan',
+            html: `
+                <div style="text-align:left; font-size:0.875rem; color:#4b5563; margin-bottom:12px;">
+                    Apakah Anda yakin ingin menghapus data ulasan ini dari <b>Supabase</b> & <b>Google Sheets</b>?
+                </div>
+                <div style="background-color:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; text-align:center; margin-bottom:12px;">
+                    <p style="font-size:0.75rem; color:#dc2626; font-weight:600; margin:0 0 6px 0; letter-spacing:0.5px;">MASUKKAN 3-DIGIT KODE KONFIRMASI:</p>
+                    <div style="display:inline-block; background-color:#dc2626; color:#ffffff; font-family:monospace; font-size:1.35rem; font-weight:bold; padding:4px 18px; border-radius:6px; letter-spacing:4px; box-shadow: 0 2px 4px rgba(220,38,38,0.2);">
+                        ${randomCode}
+                    </div>
+                </div>
+            `,
+            input: 'text',
+            inputPlaceholder: 'Ketik 3 digit angka...',
+            inputAttributes: {
+                maxlength: '3',
+                autocapitalize: 'off',
+                autocorrect: 'off',
+                style: 'text-align: center; font-weight: bold; letter-spacing: 4px; font-size: 1.2rem; color: #003d6b;'
+            },
+            showCancelButton: true,
+            confirmButtonText: '<i class="fa-solid fa-trash-can" style="margin-right:6px;"></i> Hapus Permanen',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#64748b',
+            focusConfirm: false,
+            preConfirm: (val) => {
+                if (!val || val.trim() !== String(randomCode)) {
+                    Swal.showValidationMessage('❌ Kode konfirmasi 3-digit salah! Silakan periksa kembali.');
+                    return false;
+                }
+                return val.trim();
+            }
+        });
 
-    if (inputCode.trim() !== String(randomCode)) {
-        alert('❌ Kode konfirmasi salah! Penghapusan ulasan dibatalkan.');
-        return;
+        if (!isConfirmed || !inputCode) return;
+    } else {
+        // Fallback jika Swal tidak tersedia
+        const inputCode = prompt(`⚠️ KONFIRMASI PENGHAPUSAN ULASAN\n\nUntuk mengonfirmasi penghapusan ulasan ini dari Supabase & Google Sheets, silakan masukkan 3 digit angka konfirmasi berikut:\n\n👉 [ ${randomCode} ]`);
+        if (inputCode === null || inputCode.trim() !== String(randomCode)) {
+            if (inputCode !== null) alert('❌ Kode konfirmasi salah! Penghapusan ulasan dibatalkan.');
+            return;
+        }
     }
 
     if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured() && supabaseClient) {
@@ -585,7 +625,16 @@ async function deleteRatingItem(id) {
             const { error } = await supabaseClient.from('ratings').delete().eq('id', id);
             if (error) throw error;
         } catch (e) {
-            alert('Gagal hapus dari Supabase: ' + e.message);
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Hapus',
+                    text: 'Gagal hapus dari Supabase: ' + e.message,
+                    confirmButtonColor: '#003d6b'
+                });
+            } else {
+                alert('Gagal hapus dari Supabase: ' + e.message);
+            }
             return;
         }
     }
@@ -596,6 +645,17 @@ async function deleteRatingItem(id) {
     rawRatingsData = rawRatingsData.filter(item => item.id !== id);
     localStorage.setItem('pln_ratings_demo', JSON.stringify(rawRatingsData));
     applyFilters();
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Dihapus',
+            text: 'Data ulasan telah berhasil dihapus dari database & Google Sheets.',
+            timer: 2000,
+            showConfirmButton: false,
+            iconColor: '#10b981'
+        });
+    }
 }
 
 function syncDeleteToGoogleSheets(id) {
