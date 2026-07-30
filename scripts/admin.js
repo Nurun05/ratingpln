@@ -169,6 +169,9 @@ function renderAll() {
     renderEmojiDonut();
     renderTable();
     renderRecentComments();
+    if (document.getElementById('tab-analytics') && !document.getElementById('tab-analytics').classList.contains('hidden')) {
+        renderTrendChart();
+    }
 }
 
 // ── Metrics ────────────────────────────────────────
@@ -323,6 +326,138 @@ function setupEventListeners() {
 }
 
 // ── Export XLSX ─────────────────────────────────────
+let myTrendChart = null;
+
+function renderTrendChart() {
+    const ctx = document.getElementById('trendChart');
+    if (!ctx || typeof Chart === 'undefined') return;
+
+    const filterType = document.getElementById('chartTimeFilter')?.value || 'daily';
+    
+    // Group data berdasarkan filter
+    const grouped = {};
+    activeFilteredData.forEach(item => {
+        if (!item.created_at) return;
+        const d = new Date(item.created_at);
+        let key = '';
+
+        if (filterType === 'daily') {
+            key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        } else if (filterType === 'weekly') {
+            const firstDay = new Date(d.setDate(d.getDate() - d.getDay()));
+            key = `Minggu ke-${Math.ceil(firstDay.getDate() / 7)} ${firstDay.toLocaleString('id-ID', { month: 'short' })}`;
+        } else if (filterType === 'monthly') {
+            key = `${d.toLocaleString('id-ID', { month: 'short' })} ${d.getFullYear()}`;
+        }
+
+        if (!grouped[key]) {
+            grouped[key] = { count: 0, totalStar: 0, sangatBaik: 0, buruk: 0 };
+        }
+        grouped[key].count++;
+        grouped[key].totalStar += (item.rating_bintang || 0);
+        if (item.penilaian_pelayanan === 'Sangat Baik') grouped[key].sangatBaik++;
+        if (item.penilaian_pelayanan === 'Buruk') grouped[key].buruk++;
+    });
+
+    // Urutkan key secara kronologis
+    const sortedKeys = Object.keys(grouped).sort();
+    
+    const labels = sortedKeys;
+    const avgStars = sortedKeys.map(k => (grouped[k].totalStar / grouped[k].count).toFixed(1));
+    const totals = sortedKeys.map(k => grouped[k].count);
+    const satisfaction = sortedKeys.map(k => Math.round((grouped[k].sangatBaik / grouped[k].count) * 100));
+
+    if (myTrendChart) {
+        myTrendChart.destroy();
+    }
+
+    myTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Rata-rata Bintang',
+                    data: avgStars,
+                    borderColor: '#FFC700', // PLN Yellow
+                    backgroundColor: 'rgba(255, 199, 0, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    yAxisID: 'y',
+                    fill: true
+                },
+                {
+                    label: '% Kepuasan (Sangat Baik)',
+                    data: satisfaction,
+                    borderColor: '#065f46', // Emerald
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { usePointStyle: true, boxWidth: 8, font: { family: 'Inter', size: 12 } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#1f2937',
+                    bodyColor: '#4b5563',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    padding: 10,
+                    boxPadding: 4,
+                    callbacks: {
+                        afterBody: function(context) {
+                            const index = context[0].dataIndex;
+                            const key = labels[index];
+                            return `\nTotal Ulasan: ${totals[index]}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false, drawBorder: false },
+                    ticks: { font: { family: 'Inter', size: 11 }, color: '#9ca3af' }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    min: 0,
+                    max: 5,
+                    title: { display: true, text: 'Bintang', color: '#9ca3af', font: { size: 11 } },
+                    grid: { borderDash: [4, 4], color: '#f3f4f6' },
+                    ticks: { font: { family: 'Inter', size: 11 }, color: '#9ca3af', stepSize: 1 }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    min: 0,
+                    max: 100,
+                    title: { display: true, text: 'Kepuasan (%)', color: '#9ca3af', font: { size: 11 } },
+                    grid: { drawOnChartArea: false },
+                    ticks: { font: { family: 'Inter', size: 11 }, color: '#9ca3af', callback: v => v + '%' }
+                }
+            }
+        }
+    });
+}
+
+// ── Export XLSX ─────────────────────────────────────
 function exportToXLSX() {
     if (activeFilteredData.length === 0) {
         alert('Tidak ada data untuk diekspor.');
@@ -426,9 +561,9 @@ function switchTab(name) {
     const title = document.getElementById('pageTitle');
     if (title) title.textContent = titles[name] || '';
 
-    // Jangan langsung download — tampilkan tab dulu
-    if (name === 'ekspor') {
-        // biarkan tab ekspor muncul, download dilakukan manual lewat tombol
+    // Khusus untuk tab analytics, render chart saat tab dibuka
+    if (name === 'analytics') {
+        setTimeout(() => renderTrendChart(), 50);
     }
 }
 
