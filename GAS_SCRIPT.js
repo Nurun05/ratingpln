@@ -39,6 +39,7 @@ function doPost(e) {
       var rowData = [
         item.id || "-",
         fullDateStr,
+        item.nama_pelangan || item.nama_pelanggan || "Anonim",
         item.unit_pelayanan || "PLN ULP Karebosi",
         item.rating_bintang || 0,
         item.keterangan_rating || "-",
@@ -82,12 +83,13 @@ function doPost(e) {
   }
 }
 
-// Menambahkan header template standar sesuai desain referensi
+// Menambahkan header template standar dengan styling Corporate Blue
 function appendHeaders(sheet) {
   var headers = [
     "No.", 
     "ID", 
     "Tanggal", 
+    "Nama",
     "Unit", 
     "Bintang", 
     "Keterangan", 
@@ -96,11 +98,15 @@ function appendHeaders(sheet) {
   ];
   sheet.appendRow(headers);
   
-  // Format header (Tebal, Teks Putih, & Latar Belakang Biru Corporate)
+  // Format header (Biru Korporat, Teks Putih Tebal, Rata Tengah, Tinggi Baris 32px)
   var range = sheet.getRange(1, 1, 1, headers.length);
   range.setFontWeight("bold");
   range.setFontColor("#ffffff");
-  range.setBackground("#41719c");
+  range.setBackground("#3b689c");
+  range.setHorizontalAlignment("center");
+  range.setVerticalAlignment("middle");
+  
+  sheet.setRowHeight(1, 32);
   sheet.setFrozenRows(1);
 }
 
